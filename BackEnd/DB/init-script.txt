@@ -4,7 +4,7 @@
 
 CREATE TABLE user_type (
     usertype_id serial PRIMARY KEY,
-    name VARCHAR (50) UNIQUE NOT NULL,
+    name VARCHAR (50) UNIQUE NOT NULL
 )
 
 CREATE TABLE users (
@@ -15,7 +15,7 @@ CREATE TABLE users (
     password VARCHAR (50) NOT NULL,
     birthday TIMEMSTAMP NOT NULL,
     vaccines INT,
-    created_on TIMESTAMP NOT NULL
+    created_on TIMESTAMP NOT NULL,
     CONSTRAINT fk_usertype
         FOREIGN KEY(usertype_id)
         REFERENCES user_type(usertype_id)
@@ -25,7 +25,7 @@ CREATE TABLE users (
 CREATE TABLE reservations (
     reservation_id serial PRIMARY KEY,
     active BOOLEAN NOT NULL,
-    created_on TIMESTAMP NOT NULL
+    created_on TIMESTAMP NOT NULL,
     CONSTRAINT fk_user
         FOREIGN KEY(user_id)
         REFERENCES users(user_id)
@@ -34,7 +34,7 @@ CREATE TABLE reservations (
 
 CREATE TABLE payments (
     payment_id serial PRIMARY KEY,
-    amount NUMERIC(8,2) NOT NULL
+    amount NUMERIC(8,2) NOT NULL,
     merchant VARCHAR (50),
     status VARCHAR (50) NOT NULL,
     transaction_number INT,
@@ -45,3 +45,46 @@ CREATE TABLE payments (
         ON DELETE SET NULL
 )
 
+CREATE TABLE salas (
+    sala_id serial PRIMARY KEY,
+    amount_seats NUMERIC(8,2) NOT NULL,
+    name VARCHAR (50) UNIQUE NOT NULL
+)
+
+CREATE TABLE seats (
+    seat_id serial PRIMARY KEY,
+    row CHAR NOT NULL,
+    number INT NOT NULL,
+    vip BOOLEAN NOT NULL,
+    CONSTRAINT fk_sala
+        FOREIGN KEY(sala_id)
+        REFERENCES salas(sala_id)
+        ON DELETE SET NULL
+)
+
+CREATE TABLE movies (
+    movie_id serial PRIMARY KEY,
+    title VARCHAR (70) NOT NULL,
+    cast VARCHAR (1000) NOT NULL,
+    description VARCHAR (2000) NOT NULL,
+    director VARCHAR (100) NOT NULL,
+    duration NUMERIC(8,2) NOT NULL,
+    minimum_age INT NOT NULL,
+)
+
+CREATE TABLE chart (
+    chart_id serial PRIMARY KEY,
+    start_time TIMESTAMP NOT NULL,
+    price_general NUMERIC(8,2),
+    price_children NUMERIC(8,2),
+    price_elderly NUMERIC(8,2),
+    CONSTRAINT fk_sala
+        FOREIGN KEY(sala_id)
+        REFERENCES salas(sala_id)
+        ON DELETE SET NULL,
+    CONSTRAINT fk_movie
+        FOREIGN KEY(movie_id)
+        REFERENCES movies(movie_id)
+        ON DELETE SET NULL,
+
+)
