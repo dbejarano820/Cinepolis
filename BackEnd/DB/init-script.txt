@@ -1,4 +1,4 @@
-#Script para la base de datos POSTGRESQL
+#Script para la base de datos
 
 
 
@@ -55,7 +55,6 @@ CREATE TABLE seats (
     seat_id serial PRIMARY KEY,
     row CHAR NOT NULL,
     number INT NOT NULL,
-    vip BOOLEAN NOT NULL,
     CONSTRAINT fk_sala
         FOREIGN KEY(sala_id)
         REFERENCES salas(sala_id)
@@ -86,5 +85,39 @@ CREATE TABLE chart (
         FOREIGN KEY(movie_id)
         REFERENCES movies(movie_id)
         ON DELETE SET NULL,
-
 )
+
+CREATE TABLE seats_reserved (
+    seats_reserved_id serial PRIMARY KEY,
+    CONSTRAINT fk_seat
+        FOREIGN KEY(seat_id)
+        REFERENCES seats(seat_id)
+        ON DELETE SET NULL,
+    CONSTRAINT fk_chart
+        FOREIGN KEY(chart_id)
+        REFERENCES chart(chart_id)
+        ON DELETE SET NULL,
+    CONSTRAINT fk_reservation
+        FOREIGN KEY(reservation_id)
+        REFERENCES reservations(reservation_id)
+        ON DELETE SET NULL
+)
+
+CREATE TABLE food (
+    food_id serial PRIMARY KEY,
+    name VARCHAR (70) NOT NULL,
+    price NUMERIC(8,2) NOT NULL,
+)
+
+CREATE TABLE food_reserved (
+    food_reserved_id serial PRIMARY KEY,
+    CONSTRAINT fk_food
+        FOREIGN KEY(food_id)
+        REFERENCES food(food_id)
+        ON DELETE SET NULL,
+    CONSTRAINT fk_reservation
+        FOREIGN KEY(reservation_id)
+        REFERENCES reservations(reservation_id)
+        ON DELETE SET NULL
+)
+
