@@ -1,1 +1,0 @@
-Comandos para el docker container de la base de datos

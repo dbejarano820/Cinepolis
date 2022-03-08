@@ -1,0 +1,16 @@
+//CREATE IMAGE FROM DOCKER CONTAINER 
+//IDEA IS TO COPY WORKING DIRECTORIES AND TRANSFER IMAGE 
+docker run -d -p 5432:5432 --platform=linux/amd64 -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres --name test_cinepolis_db postgres
+
+sudo docker commit container_id cinepolis_db_image     //container_id = 82fa1fb2324a
+
+sudo docker save cinepolis_db_image > cinepolis_db_image.tar
+
+scp -P 22 cinepolis_db_image.tar root@94.74.72.199:/proy
+
+//ON ELASTIC CLOUD SERVER
+
+sudo docker load < cinepolis_db_image.tar
+
+docker run -d --name cinepolis_db -p 5432:5432 cinepolis_db_image
+
