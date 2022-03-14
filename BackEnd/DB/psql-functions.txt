@@ -1,0 +1,12 @@
+
+//
+CREATE OR REPLACE FUNCTION current_cartelera()
+RETURNS TABLE(chart_id int, movie_title varchar, movie_image varchar, minimum_age int, start_time timestamp, sala_name varchar)
+LANGUAGE SQL
+AS $$
+      SELECT chart_id, movies.title, movies.image, minimum_age, start_time, salas.name 
+      FROM chart
+      INNER JOIN movies ON movies.movie_id = chart.movie_id
+      INNER JOIN salas ON salas.sala_id = chart.sala_id
+      WHERE start_time between now() and now() + interval '1 week';
+$$;
