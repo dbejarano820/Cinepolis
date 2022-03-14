@@ -10,3 +10,218 @@ AS $$
       INNER JOIN salas ON salas.sala_id = chart.sala_id
       WHERE start_time between now() and now() + interval '1 week';
 $$;
+
+////
+CREATE OR REPLACE FUNCTION get_seat_id(_row char, _number integer)
+RETURNS INTEGER
+LANGUAGE SQL
+AS $$
+      SELECT seat_id FROM seats
+      WHERE row = _row AND number = _number;
+$$;
+
+////
+CREATE OR REPLACE FUNCTION get_sala_id(_name text)
+RETURNS INTEGER
+LANGUAGE SQL
+AS $$
+      SELECT sala_id FROM salas
+      WHERE name = _name;
+$$;
+
+/////
+CREATE OR REPLACE FUNCTION get_movie_id(_title varchar)
+RETURNS INTEGER
+LANGUAGE SQL
+AS $$
+      SELECT movie_id FROM movies
+      WHERE title = _title;
+$$;
+
+////
+CREATE OR REPLACE FUNCTION get_user_id(_email varchar)
+RETURNS INTEGER
+LANGUAGE SQL
+AS $$
+      SELECT user_id FROM users
+      WHERE email = _email;
+$$;
+
+////
+CREATE OR REPLACE FUNCTION get_chart_id(_movie integer, _sala integer, _starttime timestamp)
+RETURNS INTEGER
+LANGUAGE SQL
+AS $$
+      SELECT chart_id FROM chart
+      WHERE sala_id = _sala AND movie_id = _movie AND start_time = _starttime;
+$$;
+
+///
+CREATE OR REPLACE FUNCTION create_reservation(_email varchar) RETURNS VOID
+LANGUAGE plpgsql
+AS $$
+DECLARE 
+   _userid integer;
+BEGIN
+      SELECT get_user_id(_email) INTO _userid;
+
+      INSERT INTO reservations(user_id, active, created_on)
+      VALUES (_userid, true, now());
+END
+$$;
+
+///
+CREATE OR REPLACE FUNCTION get_active_reservation_id(_userid integer)
+RETURNS INTEGER
+LANGUAGE SQL
+AS $$
+      SELECT reservation_id FROM reservations
+      WHERE user_id = _userid AND active = true;
+$$;
+
+///
+CREATE OR REPLACE FUNCTION get_food_id(_food text)
+RETURNS INTEGER
+LANGUAGE SQL
+AS $$
+      SELECT food_id FROM food
+      WHERE name = _food;
+$$;
+
+///
+CREATE OR REPLACE FUNCTION deactive_reservation(_email varchar) RETURNS VOID
+LANGUAGE plpgsql
+AS $$
+DECLARE
+   _userid integer;
+   _reservationid integer;
+BEGIN
+      SELECT get_user_id(_email) INTO _userid;
+      SELECT get_active_reservation_id(_userid) INTO _reservationid;
+
+      UPDATE reservations SET active = false
+      WHERE reservation_id = _reservationid;
+END
+$$;
+
+////
+CREATE OR REPLACE FUNCTION reserve_seat(_email varchar, _row char, _number integer, _type varchar, _movie varchar, _starttime timestamp, _salaname text) RETURNS VOID
+LANGUAGE plpgsql
+AS $$
+DECLARE
+   _userid integer;
+   _reservationid integer;
+   _salaid integer;
+   _seatid integer;
+   _movieid integer;
+   _chartid integer;
+
+BEGIN
+      SELECT get_user_id(_email) INTO _userid;
+      SELECT get_active_reservation_id(_userid) INTO _reservationid;
+
+      SELECT get_movie_id(_movie) INTO _movieid;
+      SELECT get_sala_id(_salaname) INTO _salaid;
+      SELECT get_seat_id(_row, _number) INTO _seatid;
+
+      SELECT get_chart_id(_movieid, _salaid, _starttime) INTO _chartid;
+
+      INSERT INTO seats_reserved(seat_id, chart_id, reservation_id, type)
+      VALUES (_seatid, _chartid, _reservationid, _type);
+END
+$$;
+
+/////
+CREATE OR REPLACE FUNCTION reserve_food(_email varchar, _food varchar) RETURNS VOID
+LANGUAGE plpgsql
+AS $$
+DECLARE
+   _userid integer;
+   _reservationid integer;
+   _foodid integer;
+
+BEGIN
+      SELECT get_user_id(_email) INTO _userid;
+      SELECT get_active_reservation_id(_userid) INTO _reservationid;
+
+      SELECT get_food_id(_food) INTO _foodid;
+
+      INSERT INTO food_reserved(food_id, reservation_id)
+      VALUES (_foodid, _reservationid);
+END
+$$;
+
+///
+CREATE OR REPLACE FUNCTION active_reservations(_user text)
+RETURNS TABLE(chart_id int, movie_title varchar, movie_image varchar, minimum_age int, start_time timestamp, sala_name varchar)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+   _userid integer;
+BEGIN
+      SELECT get_user_id(_user) INTO _userid;
+
+
+      SELECT reservations.created_on, seats.row, seats.number, salas.name, movies.title, chart.start_time, food.name
+      FROM reservations
+      INNER JOIN seats_reserved ON seats_reserved.reservation_id = reservations.reservation_id
+      INNER JOIN seats ON seats.seat_id = seats_reserved.seat_id
+      INNER JOIN sala ON salas.sala_id = seats.sala_id
+      INNER JOIN chart ON chart.chart_id = seats_reserved.chart_id
+      INNER JOIN movies ON movies.movie_id = chart.movie_id
+      INNER JOIN food_reserved ON food_reserved.reservation_id = reservations.reservation_id
+      INNER JOIN food ON food.food_id = food_reserved.food_id
+      WHERE reservations.created_on > now();
+END
+$$;
+
+///
+CREATE OR REPLACE FUNCTION all_reservations(_user text)
+RETURNS TABLE(chart_id int, movie_title varchar, movie_image varchar, minimum_age int, start_time timestamp, sala_name varchar)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+   _userid integer;
+BEGIN
+      SELECT get_user_id(_user) INTO _userid;
+
+      SELECT reservations.created_on, seats.row, seats.number, salas.name, movies.title, chart.start_time, food.name
+      FROM reservations
+      INNER JOIN seats_reserved ON seats_reserved.reservation_id = reservations.reservation_id
+      INNER JOIN seats ON seats.seat_id = seats_reserved.seat_id
+      INNER JOIN sala ON salas.sala_id = seats.sala_id
+      INNER JOIN chart ON chart.chart_id = seats_reserved.chart_id
+      INNER JOIN movies ON movies.movie_id = chart.movie_id
+      INNER JOIN food_reserved ON food_reserved.reservation_id = reservations.reservation_id
+      INNER JOIN food ON food.food_id = food_reserved.food_id;
+END
+$$;
+
+
+///
+CREATE OR REPLACE FUNCTION available_seats(_sala text, _movie text, _time timestamp)
+RETURNS TABLE(seat_row char, seat_number integer)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+   _salaid integer;
+   _movieid integer;
+   _chartid integer;
+BEGIN
+      SELECT get_sala_id(_sala) INTO _salaid;
+      SELECT get_movie_id(_movie) INTO _movieid;
+      SELECT get_chart_id(_movieid, _salaid, _time) INTO _chartid;
+
+      SELECT seats.row, seats.number
+      FROM seats_reserved
+      INNER JOIN chart ON seats_reserved.chart_id = _chartid
+      INNER JOIN seats ON seats.seat_id = seats_reserved.seat_id;
+END
+$$;
+
+
+
+
+
+
+
