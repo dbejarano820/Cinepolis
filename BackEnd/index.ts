@@ -13,4 +13,6 @@ server.on('listening', () => {
     const bind = (typeof addr === 'string') ? `pipe ${addr}` : `port ${addr.port}`;
 });
 
+console.log("Listening on 5000")
+
 module.exports = App;

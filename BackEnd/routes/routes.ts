@@ -1,6 +1,5 @@
 import * as express from "express";
-import {itemrouter} from './itemrouter';
-import {userrouter} from './userrouter'
+import {movierouter} from './movierouter';
 
 class Routes {
 
@@ -19,8 +18,8 @@ class Routes {
     }
 
     private routes(): void {
-        this.express.use('/item', itemrouter);
-        this.express.use('/user', userrouter);
+        this.express.use('/movies', movierouter);
+        //this.express.use('/user', userrouter);
     }
 }
 
