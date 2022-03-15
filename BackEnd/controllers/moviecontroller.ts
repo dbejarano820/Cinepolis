@@ -8,7 +8,6 @@ export default class MovieController {
 
     private constructor() {
         this.movie_repo = new movie_data();
-        // this.data_repo = new offer_data();
     }
 
     public static getInstance(): MovieController {
@@ -18,12 +17,35 @@ export default class MovieController {
         return this.instance;
     }
 
-    public async createMovie(info: any): Promise<any> {
-        const response = await this.movie_repo.create(info);
-        return Promise.resolve("Todo gucci")
-    }
-
     public async listMovies(): Promise<QueryResult<any>> {
         return this.movie_repo.list();
     }
+
+    public async getListing(): Promise<QueryResult<any>> {
+        return this.movie_repo.getListing();
+    }
+
+    public async getSeats(info: any): Promise<QueryResult<any>> {
+        return this.movie_repo.getSeats(info);
+    }
+
+    public async createReservation(info: any): Promise<QueryResult<any>> {
+        return this.movie_repo.createReservation(info);
+    }
+
+    public async deactiveReservation(info: any): Promise<QueryResult<any>> {
+        return this.movie_repo.deactiveReservation(info);
+    }
+
+    public async reserveSeat(info: any): Promise<QueryResult<any>> {
+        return this.movie_repo.reserveSeat(info);
+    }
+
+    public async reserveFood(info: any): Promise<QueryResult<any>> {
+        return this.movie_repo.reserveFood(info);
+    }
+
+    public async addChart(info: any): Promise<QueryResult<any>> {
+        return this.movie_repo.addChart(info);
+    }    
 }

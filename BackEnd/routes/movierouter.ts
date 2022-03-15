@@ -3,12 +3,47 @@ import MovieController from '../controllers/moviecontroller';
 
 const app = express.Router();
 
+app.get("/list", (req, res, next) => {              
+    MovieController.getInstance().listMovies()
+        .then((data) => {       
+            //data.rows brings the dataset array with all objects inside.   
+            res.json(data.rows);
+        })
+        .catch((err) => {
+            res.json(err)
+            return "";
+        });
+});
 
-app.put("/create", (req, res, next) => {                   //requerimiento de cargar prenda
-    console.log(req.body)
-    MovieController.getInstance().createMovie(req.body)
-        .then((data) => {
-            res.json(data);
+app.get("/cartelera", (req, res, next) => { 
+    MovieController.getInstance().getListing()
+        .then((data) => {       
+            //data.rows brings the dataset array with all objects inside.   
+            res.json(data.rows);
+        })
+        .catch((err) => {
+            res.json(err)
+            return "";
+        });
+});
+
+app.get("/asientos", (req, res, next) => { 
+    MovieController.getInstance().getSeats(req.body)
+        .then((data) => {       
+            //data.rows brings the dataset array with all objects inside.   
+            res.json(data.rows);
+        })
+        .catch((err) => {
+            res.json(err)
+            return "";
+        });
+});
+
+app.put("/reservacion", (req, res, next) => { 
+    MovieController.getInstance().createReservation(req.body)
+        .then((data) => {       
+            //data.rows brings the dataset array with all objects inside.   
+            res.json(data.rows);
         })
         .catch((err) => {
             res.json(err)
@@ -17,16 +52,43 @@ app.put("/create", (req, res, next) => {                   //requerimiento de ca
 });
 
 
-app.get("/list", (req, res, next) => {                   //no es un requerimiento filtar prendas
-    MovieController.getInstance().listMovies()
+//
+app.put("/reservarAsiento", (req, res, next) => { 
+    MovieController.getInstance().reserveSeat(req.body)
         .then((data) => {       
             //data.rows brings the dataset array with all objects inside.   
             res.json(data.rows);
         })
         .catch((err) => {
             res.json(err)
-            return "Error returning list of movies";
+            return "";
         });
 });
+
+app.put("/reservarComida", (req, res, next) => { 
+    MovieController.getInstance().reserveFood(req.body)
+        .then((data) => {       
+            //data.rows brings the dataset array with all objects inside.   
+            res.json(data.rows);
+        })
+        .catch((err) => {
+            res.json(err)
+            return "";
+        });
+});
+
+app.put("/addCartelera", (req, res, next) => { 
+    MovieController.getInstance().addChart(req.body)
+        .then((data) => {       
+            //data.rows brings the dataset array with all objects inside.   
+            res.json(data.rows);
+        })
+        .catch((err) => {
+            res.json(err)
+            return "";
+        });
+});
+
+
 
 export { app as movierouter }
