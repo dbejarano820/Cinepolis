@@ -161,7 +161,7 @@ DECLARE
 BEGIN
       SELECT get_user_id(_user) INTO _userid;
 
-
+      RETURN QUERY
       SELECT reservations.created_on, seats.row, seats.number, salas.name, movies.title, chart.start_time, food.name
       FROM reservations
       INNER JOIN seats_reserved ON seats_reserved.reservation_id = reservations.reservation_id
@@ -185,6 +185,7 @@ DECLARE
 BEGIN
       SELECT get_user_id(_user) INTO _userid;
 
+      RETURN QUERY
       SELECT reservations.created_on, seats.row, seats.number, salas.name, movies.title, chart.start_time, food.name
       FROM reservations
       INNER JOIN seats_reserved ON seats_reserved.reservation_id = reservations.reservation_id
@@ -198,12 +199,14 @@ END
 $$;
 
 
+
 ///
 CREATE OR REPLACE FUNCTION available_seats(_sala text, _movie text, _time timestamp)
 RETURNS TABLE(seat_row char, seat_number integer)
 LANGUAGE plpgsql
 AS $$
 DECLARE
+   ref refcursor;
    _salaid integer;
    _movieid integer;
    _chartid integer;
@@ -212,6 +215,7 @@ BEGIN
       SELECT get_movie_id(_movie) INTO _movieid;
       SELECT get_chart_id(_movieid, _salaid, _time) INTO _chartid;
 
+      RETURN QUERY
       SELECT seats.row, seats.number
       FROM seats_reserved
       INNER JOIN chart ON seats_reserved.chart_id = _chartid

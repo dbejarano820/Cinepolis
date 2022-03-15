@@ -44,3 +44,15 @@ VALUES ('A', 1, 1), ('A', 2, 1),('A', 3, 1),('A', 4, 1),('A', 5, 1),('A', 6, 1),
 ('J', 1, 3), ('J', 2, 3),('J', 3, 3),('J', 4, 3),('J', 5, 3),('J', 6, 3),('J', 7, 3),('J', 8, 3),('J', 9, 3),('J', 10, 3);
 
 
+INSERT INTO users(name, lastname, secondlastname, email, password, birthday, vaccines, created_on, usertype_id)
+OVERRIDING SYSTEM VALUE
+VALUES ('Daniel','Bejarano','Alfaro','dbejarano820@gmail.com','password123','2000-11-08', 0, now(), 1);
+
+
+INSERT INTO movies(title, actors, description, director, duration, minimum_age, genre, languages, year, image)
+VALUES('Ready Player One', 'Tye Sheridan, Olivia Cooke, Ben Mendelsohn, T.J. Miller, Simon Pegg, Mark Rylance', 'Steven Spielberg', 'In a dystopian 2045',
+180, 12, 'Science Fiction', 'English, Spanish', 2018,'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimage.tmdb.org%2Ft%2Fp%2Fw1280%2F4DWu2yBNDi7kbwFnj3Fpaq3P2hC.jpg&f=1&nofb=1');
+
+INSERT INTO chart(start_time, movie_id, sala_id, price_general, price_children, price_elderly)
+OVERRIDING SYSTEM VALUE
+VALUES('2022-03-17 15:00:00', 1, 1, 8, 6, 6);
