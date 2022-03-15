@@ -223,6 +223,22 @@ BEGIN
 END
 $$;
 
+/////
+CREATE OR REPLACE FUNCTION add_chart(_sala text, _movie text, _starttime timestamp, _general numeric, _children numeric, _elderly numeric) RETURNS VOID
+LANGUAGE plpgsql
+AS $$
+DECLARE
+   _movieid integer;
+   _salaid integer;
+
+BEGIN
+      SELECT get_movie_id(_movie) INTO _movieid;
+      SELECT get_sala_id(_sala) INTO _salaid;
+
+      INSERT INTO chart(start_time, price_general, price_children, price_elderly, sala_id, movie_id)
+      VALUES (_starttime, _general, _children, _elderly, _salaid, _movieid);
+END
+$$;
 
 
 
