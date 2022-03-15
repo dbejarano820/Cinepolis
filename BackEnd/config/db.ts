@@ -1,19 +1,18 @@
-const Pool = require("pg").Pool;
+import * as pg from 'pg';
 
 
-class ConnectionPool {
+export default class ConnectionPool {
 
-    public db: any;
+    public db: pg.Pool;
 
-    public ConnectionPool() {
-        this.db = new Pool({
+    public constructor() {
+        this.db = new pg.Pool({
             user:'postgres', // default postgres
             host:'94.74.72.199',
             database:'cinepolis_db', 
-            password:'Rodri@123', 
-            port:'5432' //default port
+            password:'postgres', 
+            port:5432 //default port
         });
     }
-}
 
-export default new ConnectionPool().db;
+}

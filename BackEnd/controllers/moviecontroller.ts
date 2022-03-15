@@ -1,9 +1,10 @@
+import { QueryResult } from 'pg';
 import { movie_data } from '../repositories/data_movie';
 
-export class MovieController {
+export default class MovieController {
 
     private static instance: MovieController;
-    private movie_repo: any;
+    private movie_repo: movie_data;
 
     private constructor() {
         this.movie_repo = new movie_data();
@@ -22,7 +23,7 @@ export class MovieController {
         return Promise.resolve("Todo gucci")
     }
 
-    public async listMovies(info: any): Promise<any> {
+    public async listMovies(): Promise<QueryResult<any>> {
         return this.movie_repo.list();
     }
 }

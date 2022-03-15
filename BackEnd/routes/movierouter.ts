@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { MovieController } from '../controllers/moviecontroller';
+import MovieController from '../controllers/moviecontroller';
 
 const app = express.Router();
 
@@ -18,9 +18,10 @@ app.put("/create", (req, res, next) => {                   //requerimiento de ca
 
 
 app.get("/list", (req, res, next) => {                   //no es un requerimiento filtar prendas
-    MovieController.getInstance().listMovies(req.body)
-        .then((data) => {
-            res.json(data);
+    MovieController.getInstance().listMovies()
+        .then((data) => {       
+            //data.rows brings the dataset array with all objects inside.   
+            res.json(data.rows);
         })
         .catch((err) => {
             res.json(err)

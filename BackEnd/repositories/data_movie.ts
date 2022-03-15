@@ -1,8 +1,12 @@
-import db from '../config/db';
+import { Pool } from 'pg';
+import ConnectionPool from '../config/db';
 
 export class movie_data {
 
+    public db : Pool;
+
     public constructor() {   
+        this.db = new ConnectionPool().db;
     }
 
     public create(data: any) {
@@ -10,7 +14,7 @@ export class movie_data {
     }
 
     public list() {
-        return db.query(`SELECT * FROM salas`);
+        return this.db.query(`SELECT * FROM salas`);
     }
 
 }
