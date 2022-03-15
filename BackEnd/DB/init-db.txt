@@ -23,6 +23,7 @@ CREATE TABLE users (
     user_id INT GENERATED ALWAYS AS IDENTITY,
     name VARCHAR (50) NOT NULL,
     lastname VARCHAR (50) NOT NULL,
+    secondlastname VARCHAR (50) NOT NULL,
     email VARCHAR (255) UNIQUE NOT NULL,
     password VARCHAR (50) NOT NULL,
     birthday TIMESTAMP NOT NULL,
@@ -90,6 +91,10 @@ CREATE TABLE movies (
     director VARCHAR (100) NOT NULL,
     duration NUMERIC(8,2) NOT NULL,
     minimum_age INT NOT NULL,
+    genre VARCHAR (50),
+    year INT,
+    languages VARCHAR (200),
+    image VARCHAR(150),
     PRIMARY KEY(movie_id)
 );
 
@@ -136,6 +141,9 @@ CREATE TABLE food (
     food_id INT GENERATED ALWAYS AS IDENTITY,
     name VARCHAR (70) NOT NULL,
     price NUMERIC(8,2) NOT NULL,
+    type VARCHAR(50),
+    image VARCHAR(150),
+    amount_available INT,
     PRIMARY KEY(food_id)
 );
 
