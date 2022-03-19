@@ -9,7 +9,7 @@ const MovieListing = () => {
     const dispatch = useDispatch();
 
     const fetchMovies = async () => {
-        const response = await axios
+        const response : any = await axios
         .get("ruta del backend api para get movies de la DB")
         .catch((err) => {
             console.log("Err", err);

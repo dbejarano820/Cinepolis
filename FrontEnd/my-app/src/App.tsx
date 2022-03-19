@@ -2,6 +2,7 @@ import Header from "./components/sections/head";
 import MovieListing from "./components/movie/MovieListing";
 import MovieDetails from "./components/movie/MovieDetails";
 import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import React from "react";
 // import SidebarwithHeader from "./components/sections/headerr"
    
 function App() {

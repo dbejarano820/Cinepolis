@@ -1,10 +1,10 @@
 import { ActionTypes } from "../constants/action-types"
 
-const intialState = {
+const initialState = {
     movies : [],
 };
 
-export const movieReducer = (state=intialState, {type, payload}) => {
+export const movieReducer = (state=initialState, {type, payload} : any) => {
 
     switch(type) {
         case ActionTypes.SET_MOVIES:
@@ -16,7 +16,7 @@ export const movieReducer = (state=intialState, {type, payload}) => {
 };
 
 
-export const selectedMovieReducer = (state = {}, { type, payload }) => {
+export const selectedMovieReducer = (state = {}, {type, payload} : any) => {
     switch (type) {
         case ActionTypes.SELECTED_MOVIE:
             return { ...state, ...payload};

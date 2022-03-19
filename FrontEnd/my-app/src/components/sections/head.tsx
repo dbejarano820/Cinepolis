@@ -16,8 +16,8 @@ const Header = () => {
             <Heading ml="2" size="md" fontWeight='extrabold' 
             color='blue.500' >Cinepolis</Heading>
             <Spacer></Spacer>
-            <IconButton ml={9} icon={isDark ? <FaSun /> : <FaMoon />} 
-            isRound="true" onClick={toggleColorMode}></IconButton>
+            <IconButton ml={9} icon={isDark ? <FaSun /> : <FaMoon />}
+                        isRound={true} onClick={toggleColorMode} aria-label={""}></IconButton>
             
             </Flex>
             </VStack>
