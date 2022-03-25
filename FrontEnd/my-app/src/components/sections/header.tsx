@@ -9,7 +9,6 @@ import {
   VStack,
   Icon,
   useColorModeValue,
-  Link,
   Drawer,
   DrawerContent,
   Text,
@@ -34,17 +33,20 @@ import {
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
 import { ReactText } from 'react';
+import { useColorMode } from "@chakra-ui/color-mode";
+import { Heading, Spacer } from "@chakra-ui/layout";
+import { FaSun, FaMoon } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 interface LinkItemProps {
   name: string;
   icon: IconType;
+  href : ReactText;
 }
 const LinkItems: Array<LinkItemProps> = [
-  { name: 'Home', icon: FiHome },
-  { name: 'Trending', icon: FiTrendingUp },
-  { name: 'Explore', icon: FiCompass },
-  { name: 'Favourites', icon: FiStar },
-  { name: 'Settings', icon: FiSettings },
+  { name: 'Peliculas', icon: FiHome, href:'/food'},
+  { name: 'Comida', icon: FiTrendingUp , href:"http://localhost:3000/comida"},
+  { name: 'Carrito de Compras', icon: FiCompass , href:"http://localhost:3000/cart"},
 ];
 
 export default function SidebarWithHeader({
@@ -53,6 +55,7 @@ export default function SidebarWithHeader({
   children: ReactNode;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  // If state for dynamic header .. if user signed in is client or admin
   return (
     <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
       <SidebarContent
@@ -97,12 +100,12 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       {...rest}>
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Logo
+          Cinepolis
         </Text>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
+        <NavItem key={link.name} icon={link.icon} _href={link.href}>
           {link.name}
         </NavItem>
       ))}
@@ -113,10 +116,11 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
 interface NavItemProps extends FlexProps {
   icon: IconType;
   children: ReactText;
+  _href : ReactText;
 }
-const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
+const NavItem = ({ icon, children, _href, ...rest }: NavItemProps) => {
   return (
-    <Link href="#" style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
+    <Link to={_href as string} style={{ textDecoration: 'none' }}>
       <Flex
         align="center"
         p="4"
@@ -149,6 +153,8 @@ interface MobileProps extends FlexProps {
   onOpen: () => void;
 }
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
+  const { colorMode, toggleColorMode } = useColorMode(); 
+  const isDark = colorMode === "dark";
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -173,16 +179,12 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         fontSize="2xl"
         fontFamily="monospace"
         fontWeight="bold">
-        Logo
+        Cinepolis
       </Text>
 
       <HStack spacing={{ base: '0', md: '6' }}>
-        <IconButton
-          size="lg"
-          variant="ghost"
-          aria-label="open menu"
-          icon={<FiBell />}
-        />
+      <IconButton ml={9} icon={isDark ? <FaSun /> : <FaMoon />}
+         isRound={true} onClick={toggleColorMode} aria-label={""}></IconButton>
         <Flex alignItems={'center'}>
           <Menu>
             <MenuButton
@@ -201,9 +203,9 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                   alignItems="flex-start"
                   spacing="1px"
                   ml="2">
-                  <Text fontSize="sm">Justina Clark</Text>
+                  <Text fontSize="sm">Daniel Bejarano</Text>
                   <Text fontSize="xs" color="gray.600">
-                    Admin
+                    Cliente
                   </Text>
                 </VStack>
                 <Box display={{ base: 'none', md: 'flex' }}>
@@ -214,9 +216,8 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
             <MenuList
               bg={useColorModeValue('white', 'gray.900')}
               borderColor={useColorModeValue('gray.200', 'gray.700')}>
-              <MenuItem>Profile</MenuItem>
-              <MenuItem>Settings</MenuItem>
-              <MenuItem>Billing</MenuItem>
+              <MenuItem>Perfil</MenuItem>
+              <MenuItem>Reservaciones</MenuItem>
               <MenuDivider />
               <MenuItem>Sign out</MenuItem>
             </MenuList>
