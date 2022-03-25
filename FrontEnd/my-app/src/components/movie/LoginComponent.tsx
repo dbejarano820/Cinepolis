@@ -12,9 +12,25 @@ import {
     Text,
     useColorModeValue,
   } from '@chakra-ui/react';
-import React from 'react';
+import React, { useState } from 'react';
   
   export default function LoginComponent() {
+    const [email, setEmail] = useState("");
+    const handleEmailInput = (e : any) => {
+      setEmail(e.target.value);
+    }
+    const [pass, setPass] = useState("");
+    const handlePassInput = (e : any) => {
+      setPass(e.target.value);
+    }
+
+    const handleSubmit = () => {
+      //check if user exists on database, then user type and re route to corresponding user type home page
+      console.log(email);
+      console.log(pass);
+      
+    }
+
     return (
       <Flex
         minH={'100vh'}
@@ -36,11 +52,11 @@ import React from 'react';
             <Stack spacing={4}>
               <FormControl id="email">
                 <FormLabel>Correo Electrónico</FormLabel>
-                <Input type="email" />
+                <Input value={email} onChange={handleEmailInput} type="email" />
               </FormControl>
               <FormControl id="password">
                 <FormLabel>Contraseña</FormLabel>
-                <Input type="password" />
+                <Input value={pass} onChange={handlePassInput} type="password" />
               </FormControl>
               <Stack spacing={10}>
                 <Stack
@@ -50,6 +66,7 @@ import React from 'react';
                   <Checkbox>Recuérdame</Checkbox>
                 </Stack>
                 <Button
+                onClick={handleSubmit}
                   bg={'blue.400'}
                   color={'white'}
                   _hover={{
