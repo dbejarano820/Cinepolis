@@ -3,8 +3,8 @@ import MovieListing from "./components/movie/MovieListing";
 import MovieDetails from "./components/movie/MovieDetails";
 import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import React from "react";
-import FoodPage from "./pages/Food";
-// import SidebarwithHeader from "./components/sections/headerr"
+import LoginComponent from "./components/user/LoginComponent";
+import SignUpComponent from "./components/user/SignUpComponent";
    
 function App() {
    
@@ -12,10 +12,9 @@ function App() {
   return (
     <div className="App">
       <Router>
-       <SidebarWithHeader children={null}/>
        <Switch>
-          <Route exact path="/" component={MovieListing} />
-          <Route exact path='/food' component={FoodPage}/>
+          <Route exact path="/" component={LoginComponent} />
+          <Route exact path="/signUp" component={SignUpComponent} />
           <Route exact path="/movie/:movieId" component={MovieDetails} />
           <Route>404 Not Found! </Route>
        </Switch>
