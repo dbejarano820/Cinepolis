@@ -3,6 +3,7 @@ import MovieListing from "./components/movie/MovieListing";
 import MovieDetails from "./components/movie/MovieDetails";
 import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import React from "react";
+import SignUpComponent from "./components/movie/SignUpComponent";
 // import SidebarwithHeader from "./components/sections/headerr"
    
 function App() {
@@ -13,7 +14,7 @@ function App() {
       <Router>
        <Header/>
        <Switch>
-          <Route exact path="/" component={MovieListing} />
+          <Route exact path="/signUp" component={SignUpComponent} />
           <Route exact path="/movie/:movieId" component={MovieDetails} />
           <Route>404 Not Found! </Route>
        </Switch>
