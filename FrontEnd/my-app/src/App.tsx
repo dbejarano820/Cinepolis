@@ -1,11 +1,10 @@
-import Header from "./components/sections/head";
+import SidebarWithHeader from "./components/sections/header";
 import MovieListing from "./components/movie/MovieListing";
 import MovieDetails from "./components/movie/MovieDetails";
 import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import React from "react";
-import LoginComponent from "./components/movie/LoginComponent";
-import SignUpComponent from "./components/movie/SignUpComponent";
-// import SidebarwithHeader from "./components/sections/headerr"
+import LoginComponent from "./components/user/LoginComponent";
+import SignUpComponent from "./components/user/SignUpComponent";
    
 function App() {
    
@@ -13,7 +12,6 @@ function App() {
   return (
     <div className="App">
       <Router>
-       <Header/>
        <Switch>
           <Route exact path="/" component={LoginComponent} />
           <Route exact path="/signUp" component={SignUpComponent} />

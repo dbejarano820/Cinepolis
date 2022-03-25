@@ -20,6 +20,8 @@ export const selectedMovieReducer = (state = {}, {type, payload} : any) => {
     switch (type) {
         case ActionTypes.SELECTED_MOVIE:
             return { ...state, ...payload};
+        case ActionTypes.REMOVE_SELECTED_MOVIE:
+            return {};
         default:
             return state;
     }

@@ -3,7 +3,10 @@ import React, { useEffect } from "react";
 import {useParams} from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { selectedMovie } from "../../redux/actions/movieActions";
+import { 
+    selectedMovie,
+    removeSelectedMovie,
+} from "../../redux/actions/movieActions";
 
 const MovieDetails = () => {
     const movieTitle : any = useParams();
@@ -23,6 +26,9 @@ const MovieDetails = () => {
 
     useEffect(() => {
         if (movieTitle && movieTitle !== "") fetchMovieDetail(); 
+        return() => {
+            dispatch(removeSelectedMovie());
+        }
     }, [movieTitle])
 
 
