@@ -44,9 +44,9 @@ interface LinkItemProps {
   href : ReactText;
 }
 const LinkItems: Array<LinkItemProps> = [
-  { name: 'Peliculas', icon: FiHome, href:'/food'},
-  { name: 'Comida', icon: FiTrendingUp , href:"http://localhost:3000/comida"},
-  { name: 'Carrito de Compras', icon: FiCompass , href:"http://localhost:3000/cart"},
+  { name: 'Peliculas', icon: FiHome, href:'/movies'},
+  { name: 'Comida', icon: FiTrendingUp , href:"/food"},
+  { name: 'Carrito de Compras', icon: FiCompass , href:"/"},
 ];
 
 export default function SidebarWithHeader({
@@ -219,7 +219,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
               <MenuItem>Perfil</MenuItem>
               <MenuItem>Reservaciones</MenuItem>
               <MenuDivider />
-              <MenuItem>Sign out</MenuItem>
+              <MenuItem   onClick={()=>{console.log("sign me outtt")}}  >Sign out</MenuItem>
             </MenuList>
           </Menu>
         </Flex>

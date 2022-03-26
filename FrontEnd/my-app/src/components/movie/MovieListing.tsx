@@ -10,10 +10,11 @@ const MovieListing = () => {
 
     const fetchMovies = async () => {
         const response : any = await axios
-        .get("ruta del backend api para get movies de la DB")
+        .get("http://localhost:5001/api/movies/list")
         .catch((err) => {
             console.log("Err", err);
         });
+        console.log(response.data)
         dispatch(setMovies(response.data))   //lo mandamos al store de redux, ahora cualquier componente puede acceder a allMovies
     };
 
@@ -22,10 +23,7 @@ const MovieListing = () => {
     }, []);
 
     return(
-    <div className="ui grid container">
         <MovieComponent />
-        <h1>MovieListing</h1>
-    </div>
     );
 };
 

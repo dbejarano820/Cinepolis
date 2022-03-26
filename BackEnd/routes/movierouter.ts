@@ -3,7 +3,7 @@ import MovieController from '../controllers/moviecontroller';
 
 const app = express.Router();
 
-app.get("/list", (req, res, next) => {              
+app.get("/list", (req, res, next) => {            
     MovieController.getInstance().listMovies()
         .then((data) => {       
             //data.rows brings the dataset array with all objects inside.   
@@ -15,8 +15,20 @@ app.get("/list", (req, res, next) => {
         });
 });
 
-app.get("/cartelera", (req, res, next) => { 
-    MovieController.getInstance().getListing()
+app.get("/:movieTitle", (req, res, next) => { 
+    MovieController.getInstance().getMovie(req.params["movieTitle"])
+        .then((data) => {       
+            //data.rows brings the dataset array with all objects inside.   
+            res.json(data.rows);
+        })
+        .catch((err) => {
+            res.json(err)
+            return "";
+        });
+});
+
+app.get("/tandas/:movieTitle", (req, res, next) => { 
+    MovieController.getInstance().getTandas(req.params["movieTitle"])
         .then((data) => {       
             //data.rows brings the dataset array with all objects inside.   
             res.json(data.rows);
