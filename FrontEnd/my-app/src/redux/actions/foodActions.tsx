@@ -13,3 +13,10 @@ export const selectedFood = (food: any) => {
         payload : food
     };
 };
+
+
+export const removeSelectedFood = () => {
+    return {
+        type : ActionTypes.REMOVE_SELECTED_FOOD,
+    };
+};

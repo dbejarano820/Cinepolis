@@ -17,9 +17,9 @@ export class food_data {
         return this.db.query(`SELECT * FROM food`);
     } 
     
-    public find(foodId : any) {
-        const statement = 'SELECT * FROM food where food_id=$1';
-        const values = [foodId];
+    public find(name : any) {
+        const statement = 'SELECT * FROM food where name=$1';
+        const values = [name];
         return this.db.query(statement, values);
     }    
 }

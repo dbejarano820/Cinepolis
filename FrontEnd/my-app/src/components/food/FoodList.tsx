@@ -23,7 +23,7 @@ const FoodList = () => {
     useEffect(() => {
         fetchFoods();
     }, []);
-    console.log("Foods: ", foods);
+    //console.log("Foods: ", foods);
 
     return(
         <>

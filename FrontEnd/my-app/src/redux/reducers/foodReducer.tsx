@@ -19,7 +19,10 @@ export const selectedFoodReducer = (state = {}, {type, payload} : any) => {
     switch (type) {
         case ActionTypes.SELECTED_FOOD:
             return {...state, ...payload};
+        case ActionTypes.REMOVE_SELECTED_FOOD:
+            return {};
         default:
             return state;
     }
 }
+

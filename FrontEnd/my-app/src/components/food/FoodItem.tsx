@@ -21,8 +21,8 @@ export default function FoodItems() {
         
         return (
         <div key={food_id}>
-            <Link to={`/food/${food_id}`}>
-            <GridItem>
+            <Link to={`/food/${name}`}>
+            {/* <GridItem> */}
             <Center py={12}>
             <Box
                 role={'group'}
@@ -76,16 +76,16 @@ export default function FoodItems() {
                 </Stack>
             </Box>
             </Center>
-            </GridItem>
+            {/* </GridItem> */}
             </Link>
         </div>
         )
     })
     return (
         <>
-        <Grid templateColumns='repeat(4, auto)' gap={6}>
+        {/* <Grid templateColumns='repeat(4, auto)' gap={6}> */}
             {renderList}
-        </Grid>
+        {/* </Grid> */}
         </>
     );
 }
