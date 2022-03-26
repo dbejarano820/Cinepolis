@@ -20,4 +20,10 @@ export default class FoodController {
     public async listFoods(): Promise<QueryResult<any>> {
         return this.food_repo.list();
     }
+
+    public async findFood(foodId : any): Promise<QueryResult<any>> {
+        return this.food_repo.find(foodId);
+    }
+
+    
 }

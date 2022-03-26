@@ -15,4 +15,16 @@ app.get("/list", (req, res, next) => {
         });
 });
 
+app.get("/:foodId", (req, res, next) => {              
+    FoodController.getInstance().findFood(req.params.foodId)
+        .then((data) => {       
+            //data.rows brings the dataset array with all objects inside.   
+            res.json(data.rows);
+        })
+        .catch((err) => {
+            res.json(err)
+            return "";
+        });
+});
+
 export { app as foodrouter }

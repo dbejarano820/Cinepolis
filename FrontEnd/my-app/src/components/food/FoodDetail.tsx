@@ -1,15 +1,32 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import {useParams} from 'react-router-dom'
+import { useDispatch, useSelector } from "react-redux";
+import axios from 'axios';
+import { Heading } from "@chakra-ui/react";
+import { selectedFood } from "../../redux/actions/foodActions";
 
 const FoodDetail = () => {
+    const food = useSelector((state : any) => state.food);
+    const foodId : any = useParams();
+    const dispatch = useDispatch();
+    console.log("------ID DEL PRODUCTO:", foodId)
 
-    const foods = useSelector((state) => state);
-    console.log(foods);
+    const fetchProductDetail = async () => {
+        const response : any = await axios
+        .get(`http://localhost:5000/api/food/${foodId}`)
+        .catch((err) => {
+            console.log("Err", err);
+        });
+        dispatch(selectedFood(response.data))
+    }
+
+    useEffect(() => {
+        if (foodId && foodId !== "") fetchProductDetail();
+    }, [foodId]);
+    
 
     return(
-        <div className="ui grid container">
-            <h1>Detalles</h1>      
-        </div>
+        <Heading>Detalles</Heading>      
     );
 };
 

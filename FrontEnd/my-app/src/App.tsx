@@ -19,7 +19,7 @@ function App() {
           <Route exact path="/signUp" component={SignUpComponent} />
           <Route exact path="/movie/:movieId" component={MovieDetails} />
           <Route exact path="/food" component={FoodList} />
-          <Route exact path="/food/foodId" component={FoodDetail} />
+          <Route exact path="/food/:foodId" component={FoodDetail} />
           <Route>404 Not Found! </Route>
        </Switch>
 
