@@ -18,7 +18,8 @@ app.get("/list", (req, res, next) => {
 app.get("/:movieTitle", (req, res, next) => { 
     MovieController.getInstance().getMovie(req.params["movieTitle"])
         .then((data) => {       
-            //data.rows brings the dataset array with all objects inside.   
+            //data.rows brings the dataset array with all objects inside.  
+            console.log(data.rows) 
             res.json(data.rows);
         })
         .catch((err) => {

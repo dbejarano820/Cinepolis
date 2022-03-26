@@ -4,6 +4,16 @@ const initialState = {
     movies : [],
 };
 
+// type Movie = {
+//     title: string;
+//     image: string;
+// }
+
+// const defaultMovie = {
+//     title:'Placeholder',
+//     image: 'loadinggggg'
+// }
+
 export const movieReducer = (state=initialState, {type, payload} : any) => {
 
     switch(type) {
