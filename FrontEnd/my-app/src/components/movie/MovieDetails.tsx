@@ -6,6 +6,7 @@ import { connect, useDispatch, useSelector } from "react-redux";
 import { 
     selectedMovie,
     removeSelectedMovie,
+    removeSetMovies,
 } from "../../redux/actions/movieActions";
 import {
     Box,
@@ -27,21 +28,18 @@ import {
   } from '@chakra-ui/react';
   import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
   import { MdLiveTv, MdLocalShipping } from 'react-icons/md';
-import { setTandas } from "../../redux/actions/tandaActions";
+import { removeSelectedTanda, removeSetTandas, setTandas } from "../../redux/actions/tandaActions";
 import { ActionTypes } from "../../redux/constants/action-types";
-
+import { Link } from "react-router-dom";
 
 const MovieDetails = () => {
-    var movie = useSelector((state: any) => state.movie);
-    console.log("movie: ")
-    console.log(movie['0'])
-
-    var {title, actors, description, director, duration, minimum_age, genre, languages, year, image} = movie;  // destructure object
+    const movie = useSelector((state: any) => state.movie);
+    const tandas = useSelector((state: any) => state.allTandas.tandas)
+    const {title, actors, description, director, duration, minimum_age, genre, languages, year, image} = movie;  // destructure object
     const {movieTitle} : any = useParams();
     const dispatch = useDispatch();
 
-    console.log("title atrib: ")
-    console.log(title)
+    console.log(tandas)
 
     const fetchMovieDetail = async() => {
         const response : any = await axios
@@ -56,6 +54,7 @@ const MovieDetails = () => {
         .catch((err) => {
             console.log("Err: ", err);
         });
+        console.log(response2.data)
         dispatch(setTandas(response2.data));
         
     };
@@ -64,6 +63,7 @@ const MovieDetails = () => {
         if (movieTitle && movieTitle !== "") fetchMovieDetail(); 
         return() => {
             dispatch(removeSelectedMovie());
+            dispatch(removeSetTandas());
         }
     }, [movieTitle]);
 
@@ -99,10 +99,10 @@ const MovieDetails = () => {
                       {title}
                     </Heading>
                     <Text
-               //       color={useColorModeValue('gray.900', 'gray.400')}
+                      color={useColorModeValue('gray.900', 'gray.400')}
                       fontWeight={300}
                       fontSize={'2xl'}>
-                      $350.00 USD
+                      {year}
                     </Text>
                   </Box>
         
@@ -111,51 +111,79 @@ const MovieDetails = () => {
                     direction={'column'}
                     divider={
                       <StackDivider
-               //         borderColor={useColorModeValue('gray.200', 'gray.600')}
+                        borderColor={useColorModeValue('gray.200', 'gray.600')}
                       />
                     }>
                     <VStack spacing={{ base: 4, sm: 6 }}>
                       <Text
-                  //      color={useColorModeValue('gray.500', 'gray.400')}
+                        color={useColorModeValue('gray.500', 'gray.400')}
                         fontSize={'2xl'}
                         fontWeight={'300'}>
-                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                        diam nonumy eirmod tempor invidunt ut labore
+                        {description}
+                      </Text>
+                      <Text
+                        fontSize={{ base: '16px', lg: '18px' }}
+                        color={useColorModeValue('yellow.500', 'yellow.300')}
+                        fontWeight={'500'}
+                        textTransform={'uppercase'}
+                        mb={'4'}>
+                        Actors:
                       </Text>
                       <Text fontSize={'lg'}>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad
-                        aliquid amet at delectus doloribus dolorum expedita hic, ipsum
-                        maxime modi nam officiis porro, quae, quisquam quos
-                        reprehenderit velit? Natus, totam.
+                        {actors}
                       </Text>
                     </VStack>
                     <Box>
                       <Text
                         fontSize={{ base: '16px', lg: '18px' }}
-                  //      color={useColorModeValue('yellow.500', 'yellow.300')}
+                        color={useColorModeValue('yellow.500', 'yellow.300')}
                         fontWeight={'500'}
                         textTransform={'uppercase'}
                         mb={'4'}>
-                        Features
+                        Details
                       </Text>
         
                       <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
                         <List spacing={2}>
-                          <ListItem>Chronograph</ListItem>
-                          <ListItem>Master Chronometer Certified</ListItem>{' '}
-                          <ListItem>Tachymeter</ListItem>
+                        <ListItem>
+                          <Text as={'span'} fontWeight={'bold'}>
+                            Director:
+                          </Text>{' '}
+                          {director}
+                        </ListItem>
+                        <ListItem>
+                          <Text as={'span'} fontWeight={'bold'}>
+                            Minimum Age:
+                          </Text>{' '}
+                          {minimum_age}
+                        </ListItem>
+                        <ListItem>
+                          <Text as={'span'} fontWeight={'bold'}>
+                            Genre:
+                          </Text>{' '}
+                          {genre}
+                        </ListItem>
                         </List>
                         <List spacing={2}>
-                          <ListItem>Anti‑magnetic</ListItem>
-                          <ListItem>Chronometer</ListItem>
-                          <ListItem>Small seconds</ListItem>
+                        <ListItem>
+                          <Text as={'span'} fontWeight={'bold'}>
+                            Duration:
+                          </Text>{' '}
+                          {duration} minutes
+                        </ListItem>
+                        <ListItem>
+                          <Text as={'span'} fontWeight={'bold'}>
+                            Languages:
+                          </Text>{' '}
+                          {languages}
+                        </ListItem>
                         </List>
                       </SimpleGrid>
                     </Box>
-                    <Box>
+                    {/* <Box>
                       <Text
                         fontSize={{ base: '16px', lg: '18px' }}
-                   //     color={useColorModeValue('yellow.500', 'yellow.300')}
+                        color={useColorModeValue('yellow.500', 'yellow.300')}
                         fontWeight={'500'}
                         textTransform={'uppercase'}
                         mb={'4'}>
@@ -207,24 +235,38 @@ const MovieDetails = () => {
                           5 bar (50 metres / 167 feet){' '}
                         </ListItem>
                       </List>
-                    </Box>
+                    </Box> */}
+
                   </Stack>
-        
+              {tandas.map((tanda: { chart_id: any; move_title: any; sala_name: any; start_time: any; }) => {
+                  const {move_title, sala_name, start_time} = tanda
+                  const fecha = new Date(start_time);
+                  return(
+                   <div key={title}>
+                     <Link to={"/signUp"}> 
                   <Button
                     rounded={'none'}
                     w={'full'}
                     mt={8}
                     size={'lg'}
                     py={'7'}
-                 //   bg={useColorModeValue('gray.900', 'gray.50')}
-                 //   color={useColorModeValue('white', 'gray.900')}
+                    bg={useColorModeValue('gray.900', 'gray.50')}
+                    color={useColorModeValue('white', 'gray.900')}
                     textTransform={'uppercase'}
                     _hover={{
                       transform: 'translateY(2px)',
                       boxShadow: 'lg',
                     }}>
-                    Aqui van las tandas
+                       {sala_name}   Fecha: {fecha.getDate()+
+                        "/"+(fecha.getMonth()+1)+
+                        "/"+fecha.getFullYear()+
+                        " "+fecha.getHours()+
+                        ":"+fecha.getMinutes() }
                   </Button>
+                  </Link>
+                  </div>
+                     );
+                  })}
         
                   <Stack direction="row" alignItems="center" justifyContent={'center'}>
                     <MdLocalShipping />

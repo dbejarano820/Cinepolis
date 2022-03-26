@@ -20,7 +20,7 @@ app.get("/:movieTitle", (req, res, next) => {
         .then((data) => {       
             //data.rows brings the dataset array with all objects inside.  
             console.log(data.rows) 
-            res.json(data.rows);
+            res.json(data.rows[0]);
         })
         .catch((err) => {
             res.json(err)
