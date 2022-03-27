@@ -39,6 +39,7 @@ const AddFood = () => {
             .then((response) => {
                 console.log("RESPUESTA DEL PUT: ")
                 console.log(response)
+                window.location.href='/food';
             })
             .catch((err) => {
                 console.log("Err", err);
@@ -48,7 +49,6 @@ const AddFood = () => {
     const handleSubmit = (event : any) => {   
         console.log('You clicked submit.');
         sendData();
-        //Redireccionar
     }
 
     const updateValue = (event : any) => { 

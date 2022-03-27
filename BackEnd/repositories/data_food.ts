@@ -27,7 +27,7 @@ export class food_data {
         const statement = 'INSERT INTO food'+
                           '(name, price, type, amount_available, image, description, deleted) '+
                           'VALUES '+
-                          '($1, $2, $3, $4, $5, $6, FALSE)';
+                          '($1, $2, $3, $4, $5, $6, false)';
         const values = [data.name, data.price, data.type, data.amount_available, data.image, data.description];
         return this.db.query(statement, values);
     } 
