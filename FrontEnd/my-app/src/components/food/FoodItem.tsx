@@ -17,7 +17,7 @@ export default function FoodItems() {
 
     const renderList = foods.map((food : any) => {
 
-        const {food_id, name, price, type, amount_available, image, description} = food;
+        const {food_id, name, price, type, amount_available, image, description, deleted} = food;
         
         return (
         <div key={food_id}>

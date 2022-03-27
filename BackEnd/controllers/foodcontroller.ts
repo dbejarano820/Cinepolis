@@ -25,5 +25,13 @@ export default class FoodController {
         return this.food_repo.find(name);
     }
 
+    public async addFood(data : any): Promise<QueryResult<any>> {  
+        return this.food_repo.addFood(data);
+    }
+
+    public async deleteFood(data : any): Promise<QueryResult<any>> {  
+        return this.food_repo.deleteFood(data);
+    }
     
 }
+

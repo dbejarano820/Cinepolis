@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { setFoods } from "../../redux/actions/foodActions";
 import SidebarWithHeader from "../sections/header";
-import { Heading } from '@chakra-ui/react'
+import { Flex, Heading } from '@chakra-ui/react'
+import RedirectButton from "./ButtonRedirect";
 
 const FoodList = () => {
     
@@ -29,6 +30,15 @@ const FoodList = () => {
         <>
         <SidebarWithHeader>
             <Heading>Lista de alimentos</Heading>
+            {/* -----------------------
+                NO DEBE SALIR SI ES COMPRADOR */}
+            <Flex h="20vh" justifyContent="center" alignItems="center">
+            <RedirectButton color="yellow.400" title="Añadir alimento" onClick={(e : any) => {
+                e.preventDefault();
+                window.location.href='addFood';
+            }}
+            ></RedirectButton>
+            </Flex>
             <FoodItems />   
         </SidebarWithHeader>  
         </>

@@ -27,4 +27,28 @@ app.get("/:name", (req, res, next) => {
         });
 });
 
+app.put("/addFood", (req, res, next) => {          
+    FoodController.getInstance().addFood(req.body)
+        .then((data) => {       
+            //data.rows brings the dataset array with all objects inside.   
+            res.json(data.rows);
+        })
+        .catch((err) => {
+            res.json(err)
+            return "";
+        });
+});
+
+app.put("/deleteFood", (req, res, next) => {          
+    FoodController.getInstance().deleteFood(req.body)
+        .then((data) => {       
+            //data.rows brings the dataset array with all objects inside.   
+            res.json(data.rows);
+        })
+        .catch((err) => {
+            res.json(err)
+            return "";
+        });
+});
+
 export { app as foodrouter }

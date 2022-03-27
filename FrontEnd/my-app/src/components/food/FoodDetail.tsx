@@ -25,6 +25,7 @@ import {
   import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
   import { MdLocalShipping } from 'react-icons/md';
 import SidebarWithHeader from "../sections/header";
+import RedirectButton from "./ButtonRedirect";
 
 const FoodDetail = () => {
     const food = useSelector((state : any) => state.food);
@@ -39,6 +40,19 @@ const FoodDetail = () => {
             console.log("Err", err);
         });
         dispatch(selectedFood(response.data))
+    }
+
+    const deleteFood = () => {
+        const data = {food_id : food_id};
+        axios.put(`http://localhost:5000/api/food/deleteFood`, data)
+            .then((response) => {
+                console.log("RESPUESTA DEL PUT: ")
+                console.log(response)
+            })
+            .catch((err) => {
+                console.log("Err", err);
+            }); 
+        window.location.href='/food';
     }
 
     useEffect(() => {
@@ -118,7 +132,10 @@ const FoodDetail = () => {
                 </Box>
             </Stack>
 
-            <Button
+                {/* ----------------------------------------
+                    SOLO DEBE SALIR CUANDO ES USER COMPRADOR
+                    ------------------------------------- */}
+            {/* <Button
                 rounded={'none'}
                 w={'full'}
                 mt={8}
@@ -132,7 +149,26 @@ const FoodDetail = () => {
                 boxShadow: 'lg',
                 }}>
                 Añadir al carrito
-            </Button>
+            </Button> */}
+
+            <RedirectButton color="yellow.400" title="Editar" onClick={(e : any) => {
+                e.preventDefault();
+                window.location.href='addFood';
+            }}
+            ></RedirectButton>
+            <RedirectButton color="red.400" title="Eliminar" onClick={() => {
+                const data = {food_id : food_id};
+                axios.put(`http://localhost:5000/api/food/deleteFood`, data)
+                    .then((response) => {
+                        console.log("RESPUESTA DEL PUT: ")
+                        console.log(response)
+                        window.location.href='/food';
+                    })
+                    .catch((err) => {
+                        console.log("Err", err);
+                    });
+            }}
+            ></RedirectButton>
             </Stack>
         </SimpleGrid>
         </Container>
