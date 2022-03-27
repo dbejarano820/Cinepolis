@@ -1,5 +1,6 @@
 import * as express from "express";
 import {movierouter} from './movierouter';
+import { userrouter } from "./userrouter";
 
 class Routes {
 
@@ -19,7 +20,7 @@ class Routes {
 
     private routes(): void {
         this.express.use('/movies', movierouter);
-        //this.express.use('/user', userrouter);
+        this.express.use('/users', userrouter);
     }
 }
 
