@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import React from "react";
 import LoginComponent from "./components/user/LoginComponent";
 import SignUpComponent from "./components/user/SignUpComponent";
+// import SidebarwithHeader from "./components/sections/headerr"
    
 function App() {
    
