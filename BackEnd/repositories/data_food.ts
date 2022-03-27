@@ -25,9 +25,9 @@ export class food_data {
     
     public addFood(data : any) { 
         const statement = 'INSERT INTO food'+
-                          '(name, price, type, amount_available, image, description) '+
+                          '(name, price, type, amount_available, image, description, deleted) '+
                           'VALUES '+
-                          '($1, $2, $3, $4, $5, $6)';
+                          '($1, $2, $3, $4, $5, $6, FALSE)';
         const values = [data.name, data.price, data.type, data.amount_available, data.image, data.description];
         return this.db.query(statement, values);
     } 
