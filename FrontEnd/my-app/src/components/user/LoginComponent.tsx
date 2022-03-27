@@ -14,9 +14,15 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { setUser } from '../../redux/actions/userActions';
 
 export default function LoginComponent() {
+  const dispatch = useDispatch();
+
+
+
   const history = useHistory();
   const [email, setEmail] = useState("");
   const handleEmailInput = (e : any) => {
@@ -53,6 +59,7 @@ export default function LoginComponent() {
                   alert("Usuario invalido");
                   break;
              }
+             dispatch(setUser(response.data)); //Con esto podran acceder al usuario que inicio la sesion
           })
           .catch((err)=>{
             console.log("Err ", err);
