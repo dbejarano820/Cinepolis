@@ -4,9 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { removeSelectedFood, setFoods } from "../../redux/actions/foodActions";
 import SidebarWithHeader from "../sections/header";
-import { Flex, Heading } from '@chakra-ui/react'
+import { Box, Center, Flex, Heading, Spacer } from '@chakra-ui/react'
 import RedirectButton from "./ButtonRedirect";
 import { useHistory } from 'react-router-dom';
+import ComboBox from "./ComboBox";
 
 const FoodList = () => {
     
@@ -33,18 +34,21 @@ const FoodList = () => {
     return(
         <>
         <SidebarWithHeader>
-            <Heading>Lista de alimentos</Heading>
+            
             {/* -----------------------
                 NO DEBE SALIR SI ES COMPRADOR */}
-            <Flex h="20vh" justifyContent="center" alignItems="center">
-            <RedirectButton color="yellow.400" title="Añadir alimento" onClick={(e : any) => {
-                e.preventDefault();
-                dispatch(removeSelectedFood())
-                history.push("/addFood");
-            }}
-            ></RedirectButton>
+            <Flex direction="column" gap="20px" >
+              <Heading>Lista de alimentos</Heading>
+              <Center>
+              <RedirectButton color="yellow.400" title="Añadir alimento" onClick={(e : any) => {
+                    e.preventDefault();
+                    dispatch(removeSelectedFood())
+                    history.push("/addFood");
+                }}/>
+              </Center>
+              <FoodItems />  
             </Flex>
-            <FoodItems />   
+             
         </SidebarWithHeader>  
         </>
     );
