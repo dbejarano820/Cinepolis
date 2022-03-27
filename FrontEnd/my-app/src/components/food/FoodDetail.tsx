@@ -153,7 +153,7 @@ const FoodDetail = () => {
 
             <RedirectButton color="yellow.400" title="Editar" onClick={(e : any) => {
                 e.preventDefault();
-                window.location.href='addFood';
+                window.location.href='/addFood';
             }}
             ></RedirectButton>
             <RedirectButton color="red.400" title="Eliminar" onClick={() => {
