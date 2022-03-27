@@ -2,15 +2,17 @@ import React, { useEffect } from "react";
 import FoodItems from './FoodItem'
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { setFoods } from "../../redux/actions/foodActions";
+import { removeSelectedFood, setFoods } from "../../redux/actions/foodActions";
 import SidebarWithHeader from "../sections/header";
 import { Flex, Heading } from '@chakra-ui/react'
 import RedirectButton from "./ButtonRedirect";
+import { useHistory } from 'react-router-dom';
 
 const FoodList = () => {
     
     const foods = useSelector((state) => state);
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const fetchFoods = async () => {
         const response : any = await axios
@@ -22,9 +24,11 @@ const FoodList = () => {
     };
 
     useEffect(() => {
-        fetchFoods();
+        if (foods && foods !== undefined) fetchFoods();
+        return () => {
+            dispatch(removeSelectedFood())
+        }
     }, []);
-    //console.log("Foods: ", foods);
 
     return(
         <>
@@ -35,7 +39,8 @@ const FoodList = () => {
             <Flex h="20vh" justifyContent="center" alignItems="center">
             <RedirectButton color="yellow.400" title="Añadir alimento" onClick={(e : any) => {
                 e.preventDefault();
-                window.location.href='addFood';
+                dispatch(removeSelectedFood())
+                history.push("/addFood");
             }}
             ></RedirectButton>
             </Flex>

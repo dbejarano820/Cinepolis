@@ -27,7 +27,7 @@ app.get("/:name", (req, res, next) => {
         });
 });
 
-app.put("/addFood", (req, res, next) => {          
+app.put("/add", (req, res, next) => {          
     FoodController.getInstance().addFood(req.body)
         .then((data) => {       
             //data.rows brings the dataset array with all objects inside.   
@@ -39,8 +39,20 @@ app.put("/addFood", (req, res, next) => {
         });
 });
 
-app.put("/deleteFood", (req, res, next) => {          
+app.put("/delete", (req, res, next) => {          
     FoodController.getInstance().deleteFood(req.body)
+        .then((data) => {       
+            //data.rows brings the dataset array with all objects inside.   
+            res.json(data.rows);
+        })
+        .catch((err) => {
+            res.json(err)
+            return "";
+        });
+});
+
+app.put("/update/:food_id", (req, res, next) => {          
+    FoodController.getInstance().updateFood(req.params.food_id, req.body)
         .then((data) => {       
             //data.rows brings the dataset array with all objects inside.   
             res.json(data.rows);

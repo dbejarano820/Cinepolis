@@ -22,7 +22,8 @@ function App() {
           <Route exact path="/movie/:movieId" component={MovieDetails} />
           <Route exact path="/food" component={FoodList} />
           <Route exact path="/food/:name" component={FoodDetail} />  
-          <Route exact path="/addFood" component={AddFood} />        
+          <Route exact path="/addFood" component={AddFood} />   
+          <Route exact path="/editFood" component={AddFood} />       
           <Route>404 Not Found! </Route>
        </Switch>
 

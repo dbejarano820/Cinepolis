@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import SidebarWithHeader from "../sections/header";
 import {
-    Flex,
     Box,
     Heading,
     Button,
@@ -10,8 +10,6 @@ import {
     FormControl,
     FormLabel,
     Input,
-    InputGroup,
-    InputLeftElement,
     Textarea,
     Select,
     NumberInput,
@@ -21,8 +19,14 @@ import {
     NumberDecrementStepper,
   } from '@chakra-ui/react';
 import axios from "axios";
+import { removeSelectedFood } from "../../redux/actions/foodActions";
+import { useHistory } from "react-router-dom";
   
 const AddFood = () => {
+    const food = useSelector((state : any) => state.food);
+    const {food_id, name, price, type, amount_available, image, description} = food;
+    const dispatch = useDispatch();
+    const history = useHistory();
 
     var data = {
         name: "Default combo",
@@ -33,22 +37,58 @@ const AddFood = () => {
         description: "Default description"
     }
 
+    Object.keys(food).length !== 0 ? (
+        data = {
+            name: name,
+            price: price, 
+            type: type, 
+            amount_available: amount_available,
+            image: image,
+            description: description
+        }) : (
+        data = {
+            name: "Default combo",
+            price: 1000, 
+            type: "combo", 
+            amount_available: 10,
+            image: "https://images.pexels.com/photos/1619918/pexels-photo-1619918.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+            description: "Default description"
+        })
+
     const sendData = () => {
-        console.log(data) //JSON.stringify(data)
-        axios.put("http://localhost:5000/api/food/addFood", data)
+        // console.log(data) 
+        axios.put("http://localhost:5000/api/food/add", data)
             .then((response) => {
-                console.log("RESPUESTA DEL PUT: ")
-                console.log(response)
-                window.location.href='/food';
+                dispatch(removeSelectedFood());
+                history.push("/food");
             })
             .catch((err) => {
                 console.log("Err", err);
             }); 
     } 
 
+    const updateData = () => {
+        // console.log('DATA DEL UPDATE', food_id, data)
+
+        axios.put(`http://localhost:5000/api/food/update/${food_id}`, data)
+            .then((response) => {
+                dispatch(removeSelectedFood());
+                history.push("/food");
+            })
+            .catch((err) => {
+                console.log("Err", err);
+            }); 
+    }
+
     const handleSubmit = (event : any) => {   
-        console.log('You clicked submit.');
+        // console.log('You clicked submit.');
+        //sacar los valores de los input
         sendData();
+    }
+
+    const handleUpdate = (event : any) => {
+        // console.log('You clicked UPDATE.');
+        updateData();
     }
 
     const updateValue = (event : any) => { 
@@ -80,14 +120,18 @@ const AddFood = () => {
     return(
         <>
         <SidebarWithHeader>
-        <Heading>Nuevo alimento</Heading>
+        <Heading>{Object.keys(food).length !== 0 ? "Editar alimento" : "Nuevo alimento"}</Heading>
             <WrapItem >
             <Box bg="white" borderRadius="lg">
                 <Box m={8} color="#0B0E3F">
                 <VStack spacing={5}>
                     <FormControl id="name">
                     <FormLabel>Nombre</FormLabel>
-                    <Input type="text" onChange={updateValue} borderColor="#E0E1E7"/>
+                    <Input  type="text"
+                            onChange={updateValue}
+                            borderColor="#E0E1E7"
+                            defaultValue={Object.keys(food).length != 0 ? name : ""}
+                            />
                     </FormControl>
 
                     <FormControl id="price">
@@ -97,7 +141,7 @@ const AddFood = () => {
                                     // console.log(data.price)
                                 }} 
                                 borderColor="#E0E1E7" 
-                                defaultValue={3000} 
+                                defaultValue={Object.keys(food).length !== 0 ? price : 3000} 
                                 min={1} 
                                 step={100}>
                         <NumberInputField />
@@ -110,7 +154,9 @@ const AddFood = () => {
 
                     <FormControl id="type">
                     <FormLabel>Tipo</FormLabel>
-                    <Select onChange={updateValue} borderColor="#E0E1E7" placeholder='Seleccione el tipo'>
+                    <Select onChange={updateValue} 
+                        borderColor="#E0E1E7"
+                        defaultValue={Object.keys(food).length !== 0 ? type : 'snack'}>
                         <option value='snack'>snack</option>
                         <option value='bebida'>bebida</option>
                         <option value='combo'>combo</option>
@@ -124,7 +170,7 @@ const AddFood = () => {
                                     // console.log(data.amount_available)
                                 }} 
                                 borderColor="#E0E1E7" 
-                                defaultValue={3} 
+                                defaultValue={Object.keys(food).length !== 0 ? amount_available : 3}
                                 min={1}>
                         <NumberInputField />
                         <NumberInputStepper>
@@ -136,22 +182,26 @@ const AddFood = () => {
 
                     <FormControl id="image">
                     <FormLabel>Link de la imagen</FormLabel>
-                    <Input type="text" onChange={updateValue}/>
+                    <Input type="text" 
+                            onChange={updateValue}
+                            defaultValue={Object.keys(food).length !== 0 ? image : ""}/>
                     </FormControl>
                     
                     <FormControl id="description">
                     <FormLabel>Descripción</FormLabel>
-                    <Textarea onChange={updateValue} borderColor="#E0E1E7" placeholder="Escriba aquí"/>
+                    <Textarea onChange={updateValue} 
+                                borderColor="#E0E1E7" 
+                                defaultValue={Object.keys(food).length !== 0 ? description : ""}
+                                placeholder="Escriba detalles importantes del producto"/>
                     </FormControl>
-                    <FormControl id="name" float="right">
 
-
+                    <FormControl id="button" float="right">
                     <Button
                         variant="solid"
                         bg="#0D74FF"
                         color="white"
-                        onClick={handleSubmit}>
-                        Guardar
+                        onClick={Object.keys(food).length !== 0 ? handleUpdate : handleSubmit}>
+                        {Object.keys(food).length !== 0 ? 'Guardar cambios' : 'Guardar'}
                     </Button>
                     </FormControl>
                 </VStack>

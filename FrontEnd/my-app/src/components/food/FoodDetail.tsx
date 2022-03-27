@@ -22,16 +22,16 @@ import {
     List,
     ListItem,
   } from '@chakra-ui/react';
-  import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
-  import { MdLocalShipping } from 'react-icons/md';
 import SidebarWithHeader from "../sections/header";
 import RedirectButton from "./ButtonRedirect";
+import { useHistory } from 'react-router-dom';
 
 const FoodDetail = () => {
     const food = useSelector((state : any) => state.food);
     const {food_id, price, type, amount_available, image, description} = food;
     const {name} : any = useParams();
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const fetchProductDetail = async () => {
         const response : any = await axios
@@ -42,26 +42,12 @@ const FoodDetail = () => {
         dispatch(selectedFood(response.data))
     }
 
-    const deleteFood = () => {
-        const data = {food_id : food_id};
-        axios.put(`http://localhost:5000/api/food/deleteFood`, data)
-            .then((response) => {
-                console.log("RESPUESTA DEL PUT: ")
-                console.log(response)
-            })
-            .catch((err) => {
-                console.log("Err", err);
-            }); 
-        window.location.href='/food';
-    }
-
     useEffect(() => {
         if (name && name !== "") fetchProductDetail();
-        return () => {
-            dispatch(removeSelectedFood())
-        }
+        // return () => {
+        //     dispatch(removeSelectedFood())
+        // }
     }, [name]);
-    
 
     return(
         <>      
@@ -128,6 +114,12 @@ const FoodDetail = () => {
                     </Text>{' '}
                     {type}
                     </ListItem>
+                    <ListItem>
+                    <Text as={'span'} fontWeight={'bold'}>
+                        Disponible:
+                    </Text>{' '}
+                    {amount_available}
+                    </ListItem>
                 </List>
                 </Box>
             </Stack>
@@ -153,16 +145,14 @@ const FoodDetail = () => {
 
             <RedirectButton color="yellow.400" title="Editar" onClick={(e : any) => {
                 e.preventDefault();
-                window.location.href='/addFood';
+                history.push("/editFood");
             }}
             ></RedirectButton>
             <RedirectButton color="red.400" title="Eliminar" onClick={() => {
                 const data = {food_id : food_id};
-                axios.put(`http://localhost:5000/api/food/deleteFood`, data)
+                axios.put("http://localhost:5000/api/food/delete", data)
                     .then((response) => {
-                        console.log("RESPUESTA DEL PUT: ")
-                        console.log(response)
-                        window.location.href='/food';
+                        history.push("/food");
                     })
                     .catch((err) => {
                         console.log("Err", err);

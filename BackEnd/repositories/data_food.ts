@@ -37,6 +37,12 @@ export class food_data {
         const values = [data.food_id];
         return this.db.query(statement, values);
     }
+
+    public updateFood(food_id : any, data : any) { 
+        const statement = 'UPDATE food SET name=$2, price=$3, type=$4, amount_available=$5, image=$6, description=$7 WHERE food_id=$1';
+        const values = [food_id, data.name, data.price, data.type, data.amount_available, data.image, data.description];
+        return this.db.query(statement, values);
+    }
 }
 
 

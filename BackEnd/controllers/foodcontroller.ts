@@ -32,6 +32,10 @@ export default class FoodController {
     public async deleteFood(data : any): Promise<QueryResult<any>> {  
         return this.food_repo.deleteFood(data);
     }
+
+    public async updateFood(food_id : any, data : any): Promise<QueryResult<any>> {  
+        return this.food_repo.updateFood(food_id, data);
+    }
     
 }
 

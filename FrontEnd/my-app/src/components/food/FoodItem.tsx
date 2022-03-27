@@ -1,4 +1,5 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import {
     Box,
     Center,
@@ -8,9 +9,9 @@ import {
     Stack,
     Image,
   } from '@chakra-ui/react';
-import { RootStateOrAny, useSelector } from 'react-redux';
 import { Grid, GridItem } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
+import { removeSelectedFood } from '../../redux/actions/foodActions';
 
 export default function FoodItems() {
     const foods = useSelector((state : any) => state.allFoods.foods);
