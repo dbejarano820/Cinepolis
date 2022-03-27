@@ -7,7 +7,6 @@ import SidebarWithHeader from "../sections/header";
 import { Box, Center, Flex, Heading, Spacer } from '@chakra-ui/react'
 import RedirectButton from "./ButtonRedirect";
 import { useHistory } from 'react-router-dom';
-import ComboBox from "./ComboBox";
 
 const FoodList = () => {
     

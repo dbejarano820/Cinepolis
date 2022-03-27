@@ -14,7 +14,6 @@ import {
 import { Grid, GridItem } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 import { removeSelectedFood } from '../../redux/actions/foodActions';
-import ComboBox from './ComboBox';
 
 export default function FoodItems() {
     const foods = useSelector((state : any) => state.allFoods.foods);
