@@ -22,7 +22,7 @@ function App() {
           <Route exact path="/signUp" component={SignUpComponent} />
           <Route exact path="/movies" component={MoviesPage} />
           <Route exact path="/movies/:movieTitle" component={MovieDetailsPage} />
-          <Route exact path="/movies/:movie_title/:sala_name/:start_time" component={TandaPage} />
+          <Route exact path="/movies/:movie_title/:sala_name/:start_time/:chart_id" component={TandaPage} />
           <Route exact path="/food" component={FoodList} />
           <Route exact path="/food/foodId" component={FoodDetail} />
           <Route>404 Not Found! </Route>

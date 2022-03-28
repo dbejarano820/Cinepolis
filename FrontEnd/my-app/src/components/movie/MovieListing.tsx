@@ -10,7 +10,7 @@ const MovieListing = () => {
 
     const fetchMovies = async () => {
         const response : any = await axios
-        .get("http://localhost:5001/api/movies/list")
+        .get("http://localhost:5000/api/movies/list")
         .catch((err) => {
             console.log("Err", err);
         });

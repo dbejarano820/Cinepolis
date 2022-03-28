@@ -29,6 +29,10 @@ export default class MovieController {
         return this.movie_repo.getTandasForMovie(info);
     }
 
+    public async getTanda(info: any): Promise<QueryResult<any>> {
+        return this.movie_repo.getTanda(info);
+    }
+
     public async getMovie(info: any): Promise<QueryResult<any>> {
         return this.movie_repo.getMovie(info);
     }

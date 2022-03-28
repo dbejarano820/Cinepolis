@@ -43,14 +43,14 @@ const MovieDetails = () => {
 
     const fetchMovieDetail = async() => {
         const response : any = await axios
-        .get(`http://localhost:5001/api/movies/${movieTitle}`)
+        .get(`http://localhost:5000/api/movies/${movieTitle}`)
         .catch((err) => {
             console.log("Err: ", err);
         });
         dispatch(selectedMovie(response.data));
 
         const response2 : any = await axios
-        .get(`http://localhost:5001/api/movies/tandas/${movieTitle}`)
+        .get(`http://localhost:5000/api/movies/tandas/${movieTitle}`)
         .catch((err) => {
             console.log("Err: ", err);
         });
@@ -179,65 +179,8 @@ const MovieDetails = () => {
                         </List>
                       </SimpleGrid>
                     </Box>
-                    {/* <Box>
-                      <Text
-                        fontSize={{ base: '16px', lg: '18px' }}
-                        color={useColorModeValue('yellow.500', 'yellow.300')}
-                        fontWeight={'500'}
-                        textTransform={'uppercase'}
-                        mb={'4'}>
-                        Product Details
-                      </Text>
-        
-                      <List spacing={2}>
-                        <ListItem>
-                          <Text as={'span'} fontWeight={'bold'}>
-                            Between lugs:
-                          </Text>{' '}
-                          20 mm
-                        </ListItem>
-                        <ListItem>
-                          <Text as={'span'} fontWeight={'bold'}>
-                            Bracelet:
-                          </Text>{' '}
-                          leather strap
-                        </ListItem>
-                        <ListItem>
-                          <Text as={'span'} fontWeight={'bold'}>
-                            Case:
-                          </Text>{' '}
-                          Steel
-                        </ListItem>
-                        <ListItem>
-                          <Text as={'span'} fontWeight={'bold'}>
-                            Case diameter:
-                          </Text>{' '}
-                          42 mm
-                        </ListItem>
-                        <ListItem>
-                          <Text as={'span'} fontWeight={'bold'}>
-                            Dial color:
-                          </Text>{' '}
-                          Black
-                        </ListItem>
-                        <ListItem>
-                          <Text as={'span'} fontWeight={'bold'}>
-                            Crystal:
-                          </Text>{' '}
-                          Domed, scratch‑resistant sapphire crystal with anti‑reflective
-                          treatment inside
-                        </ListItem>
-                        <ListItem>
-                          <Text as={'span'} fontWeight={'bold'}>
-                            Water resistance:
-                          </Text>{' '}
-                          5 bar (50 metres / 167 feet){' '}
-                        </ListItem>
-                      </List>
-                    </Box> */}
-
                   </Stack>
-              {tandas.map((tanda: { chart_id: any; movie_title: any; sala_name: any; start_time: any; }) => {
+              {tandas.map((tanda: { chart_id: any; movie_title: any; sala_name: any; start_time: any;}) => {
                   const {movie_title, sala_name, start_time, chart_id} = tanda
                   const fecha = new Date(start_time);
                   console.log(start_time)
@@ -245,7 +188,7 @@ const MovieDetails = () => {
                   
                   return(
                    <div key={movieTitle}>
-                     <Link to={`/movies/${movie_title}/${sala_name}/${start_time}`}> 
+                     <Link to={`/movies/${movie_title}/${sala_name}/${start_time}/${chart_id}`}> 
                   <Button
                     rounded={'none'}
                     w={'full'}

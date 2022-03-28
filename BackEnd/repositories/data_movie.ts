@@ -37,6 +37,14 @@ export class movie_data {
         return this.db.query(statement, values);
     }
 
+    public getTanda(info: any) {
+        console.log(info)
+        const statement = 'SELECT * FROM chart WHERE chart_id = $1';
+        const values = [info];
+        return this.db.query(statement, values);
+    }
+
+
     public getMovie(info: any) {
         const statement = 'SELECT * FROM movies WHERE title = $1';
         const values = [info];

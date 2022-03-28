@@ -40,6 +40,18 @@ app.get("/tandas/:movieTitle", (req, res, next) => {
         });
 });
 
+app.get("/tanda/:chart_id", (req, res, next) => { 
+    MovieController.getInstance().getTanda(req.params["chart_id"])
+        .then((data) => {       
+            //data.rows brings the dataset array with all objects inside.   
+            res.json(data.rows[0]);
+        })
+        .catch((err) => {
+            res.json(err)
+            return "";
+        });
+});
+
 app.get("/asientos/:sala_name/:movie_name/:start_time", (req, res, next) => { 
     console.log(req.params)
     MovieController.getInstance().getSeats(req.params)
