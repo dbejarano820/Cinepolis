@@ -63,7 +63,6 @@ const MovieDetails = () => {
         if (movieTitle && movieTitle !== "") fetchMovieDetail(); 
         return() => {
             dispatch(removeSelectedMovie());
-            dispatch(removeSetTandas());
         }
     }, [movieTitle]);
 
@@ -238,12 +237,14 @@ const MovieDetails = () => {
                     </Box> */}
 
                   </Stack>
-              {tandas.map((tanda: { chart_id: any; move_title: any; sala_name: any; start_time: any; }) => {
-                  const {move_title, sala_name, start_time} = tanda
+              {tandas.map((tanda: { chart_id: any; movie_title: any; sala_name: any; start_time: any; }) => {
+                  const {movie_title, sala_name, start_time} = tanda
                   const fecha = new Date(start_time);
+                  console.log(start_time)
+                  console.log(fecha)
                   return(
-                   <div key={title}>
-                     <Link to={"/signUp"}> 
+                   <div key={movieTitle}>
+                     <Link to={`/movies/${movie_title}/${sala_name}/${start_time}`}> 
                   <Button
                     rounded={'none'}
                     w={'full'}
@@ -257,7 +258,7 @@ const MovieDetails = () => {
                       transform: 'translateY(2px)',
                       boxShadow: 'lg',
                     }}>
-                       {sala_name}   Fecha: {fecha.getDate()+
+                       {sala_name} : {fecha.getDate()+
                         "/"+(fecha.getMonth()+1)+
                         "/"+fecha.getFullYear()+
                         " "+fecha.getHours()+

@@ -2,6 +2,7 @@ import SidebarWithHeader from "./components/sections/header";
 import MovieListing from "./components/movie/MovieListing";
 import MovieDetails from "./components/movie/MovieDetails";
 import MoviesPage from "./pages/MoviesPage";
+import TandaPage from "./pages/TandaPage";
 import MovieDetailsPage from "./pages/MovieDetailsPage";
 import FoodList from "./components/food/FoodList"
 import FoodDetail from "./components/food/FoodDetail" 
@@ -21,6 +22,7 @@ function App() {
           <Route exact path="/signUp" component={SignUpComponent} />
           <Route exact path="/movies" component={MoviesPage} />
           <Route exact path="/movies/:movieTitle" component={MovieDetailsPage} />
+          <Route exact path="/movies/:movie_title/:sala_name/:start_time" component={TandaPage} />
           <Route exact path="/food" component={FoodList} />
           <Route exact path="/food/foodId" component={FoodDetail} />
           <Route>404 Not Found! </Route>
