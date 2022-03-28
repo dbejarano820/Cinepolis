@@ -1,23 +1,52 @@
 import React, { useEffect } from "react";
-import { Box } from '@chakra-ui/react'
-import ProductSimple from './FoodItem'
-import { useSelector } from "react-redux";
+import FoodItems from './FoodItem'
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { removeSelectedFood, setFoods } from "../../redux/actions/foodActions";
+import SidebarWithHeader from "../sections/header";
+import { Flex, Heading } from '@chakra-ui/react'
+import RedirectButton from "./ButtonRedirect";
+import { useHistory } from 'react-router-dom';
 
 const FoodList = () => {
     
     const foods = useSelector((state) => state);
-    
-    
-    // const fetchFoods = async () => {
-    //     const response = 
-    // }
+    const dispatch = useDispatch();
+    const history = useHistory();
+
+    const fetchFoods = async () => {
+        const response : any = await axios
+        .get("http://localhost:5000/api/food/list")
+        .catch((err) => {
+            console.log("Err", err);
+        });
+        dispatch(setFoods(response.data))   //lo mandamos al store de redux, ahora cualquier componente puede acceder a allMovies
+    };
+
+    useEffect(() => {
+        if (foods && foods !== undefined) fetchFoods();
+        return () => {
+            dispatch(removeSelectedFood())
+        }
+    }, []);
 
     return(
-
-        <div className="ui grid container"> 
-            <h1>Food listing</h1> 
-            <ProductSimple />     
-        </div>
+        <>
+        <SidebarWithHeader>
+            <Heading>Lista de alimentos</Heading>
+            {/* -----------------------
+                NO DEBE SALIR SI ES COMPRADOR */}
+            <Flex h="20vh" justifyContent="center" alignItems="center">
+            <RedirectButton color="yellow.400" title="Añadir alimento" onClick={(e : any) => {
+                e.preventDefault();
+                dispatch(removeSelectedFood())
+                history.push("/addFood");
+            }}
+            ></RedirectButton>
+            </Flex>
+            <FoodItems />   
+        </SidebarWithHeader>  
+        </>
     );
 };
 

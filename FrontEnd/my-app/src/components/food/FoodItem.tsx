@@ -1,4 +1,5 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import {
     Box,
     Center,
@@ -8,14 +9,22 @@ import {
     Stack,
     Image,
   } from '@chakra-ui/react';
-import { RootStateOrAny, useSelector } from 'react-redux';
-  
+import { Grid, GridItem } from '@chakra-ui/react'
+import { Link } from 'react-router-dom'
+import { removeSelectedFood } from '../../redux/actions/foodActions';
 
-  export default function ProductSimple() {
-    const foods = useSelector((state : RootStateOrAny) => state.allFoods.foods);
-    const {name, price, image} = foods[0];
-    return (
-        <Center py={12}>
+export default function FoodItems() {
+    const foods = useSelector((state : any) => state.allFoods.foods);
+
+    const renderList = foods.map((food : any) => {
+
+        const {food_id, name, price, type, amount_available, image, description, deleted} = food;
+        
+        return (
+        <div key={food_id}>
+            <Link to={`/food/${name}`}>
+            {/* <GridItem> */}
+            <Center py={12}>
             <Box
                 role={'group'}
                 p={6}
@@ -57,9 +66,6 @@ import { RootStateOrAny, useSelector } from 'react-redux';
                 />
                 </Box>
                 <Stack pt={10} align={'center'}>
-                {/* <Text color={'gray.500'} fontSize={'sm'} textTransform={'uppercase'}>
-                    Brand
-                </Text> */}
                 <Heading fontSize={'2xl'} fontFamily={'body'} fontWeight={500}>
                     {name}
                 </Heading>
@@ -71,6 +77,17 @@ import { RootStateOrAny, useSelector } from 'react-redux';
                 </Stack>
             </Box>
             </Center>
+            {/* </GridItem> */}
+            </Link>
+        </div>
+        )
+    })
+    return (
+        <>
+        {/* <Grid templateColumns='repeat(4, auto)' gap={6}> */}
+            {renderList}
+        {/* </Grid> */}
+        </>
     );
-  }
+}
   
