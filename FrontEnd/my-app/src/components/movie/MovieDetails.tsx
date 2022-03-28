@@ -238,10 +238,11 @@ const MovieDetails = () => {
 
                   </Stack>
               {tandas.map((tanda: { chart_id: any; movie_title: any; sala_name: any; start_time: any; }) => {
-                  const {movie_title, sala_name, start_time} = tanda
+                  const {movie_title, sala_name, start_time, chart_id} = tanda
                   const fecha = new Date(start_time);
                   console.log(start_time)
-                  console.log(fecha)
+                  console.log(fecha.toUTCString());
+                  
                   return(
                    <div key={movieTitle}>
                      <Link to={`/movies/${movie_title}/${sala_name}/${start_time}`}> 
@@ -258,11 +259,7 @@ const MovieDetails = () => {
                       transform: 'translateY(2px)',
                       boxShadow: 'lg',
                     }}>
-                       {sala_name} : {fecha.getDate()+
-                        "/"+(fecha.getMonth()+1)+
-                        "/"+fecha.getFullYear()+
-                        " "+fecha.getHours()+
-                        ":"+fecha.getMinutes() }
+                       {sala_name} : {fecha.toUTCString() }
                   </Button>
                   </Link>
                   </div>

@@ -40,7 +40,7 @@ app.get("/tandas/:movieTitle", (req, res, next) => {
         });
 });
 
-app.get("/asientos/:sala_name/:movie_name/:start_name", (req, res, next) => { 
+app.get("/asientos/:sala_name/:movie_name/:start_time", (req, res, next) => { 
     console.log(req.params)
     MovieController.getInstance().getSeats(req.params)
         .then((data) => {       

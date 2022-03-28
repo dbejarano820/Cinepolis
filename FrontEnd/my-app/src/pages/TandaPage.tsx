@@ -12,7 +12,7 @@ const TandaPage = () => {
 
     return(  //display selected movie details ... detalles y tandas
     <div>
-    <SidebarWithHeader> s
+    <SidebarWithHeader> 
         <TandaDetails></TandaDetails>
      </SidebarWithHeader>
     </div>

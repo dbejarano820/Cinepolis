@@ -27,7 +27,7 @@ export class movie_data {
 
     public getSeats(info: any) {
         const statement = 'SELECT * FROM available_seats($1, $2, $3)';
-        const values = [info.sala, info.movie, info.time];
+        const values = [info.sala_name, info.movie_name, info.start_time];
         return this.db.query(statement, values);
     }
 
