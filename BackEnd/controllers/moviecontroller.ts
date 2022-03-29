@@ -76,4 +76,8 @@ export default class MovieController {
     public async update(movie_id : any, data : any): Promise<QueryResult<any>> {  
       return this.movie_repo.update(movie_id, data);
     }
+
+    public async visible(data : any): Promise<QueryResult<any>> {  
+      return this.movie_repo.visible(data);
+    }
 }

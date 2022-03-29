@@ -153,4 +153,16 @@ app.put("/update/:movie_id", (req, res, next) => {
       });
 });
 
+app.put("/visible", (req, res, next) => {          
+  MovieController.getInstance().visible(req.body)
+      .then((data) => {       
+          //data.rows brings the dataset array with all objects inside.   
+          res.json(data.rows);
+      })
+      .catch((err) => {
+          res.json(err)
+          return "";
+      });
+});
+
 export { app as movierouter }
