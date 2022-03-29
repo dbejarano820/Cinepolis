@@ -10,12 +10,6 @@ export const setMovies = (movies: any) => {
 };
 
 
-export const removeSetMovies = () => {
-    return {
-        type : ActionTypes.REMOVE_SET_MOVIES,
-    };
-};
-
 export const selectedMovie = (movie: any) => {
     return {
         type : ActionTypes.SELECTED_MOVIE,

@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
 
-body {
+bodyy {
     font-family: 'Roboto Mono', monospace;
     background-color:#212347 ;
     color: #fff;
@@ -17,7 +17,7 @@ body {
 
 }
 
-.container {
+.containerr {
     perspective: 1000px;
     margin-bottom: 10px;    
 }
@@ -53,16 +53,16 @@ body {
     background-color:#50d4d1;
 }
 
-.seat.occupied {
+.seat.reservado {
     background-color:#fff;
 }
 
-.seat:not(.occupied):hover {
+.seat:not(.reservado):hover {
     cursor: pointer;
     transform: scale(1.2);
 }
 
-.showcase .seat:not(.occupied):hover {
+.showcase .seat:not(.reservado):hover {
     cursor: default;
     transform: scale(1);
 }

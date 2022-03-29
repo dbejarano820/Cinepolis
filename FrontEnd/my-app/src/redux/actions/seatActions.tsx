@@ -7,6 +7,21 @@ export const setSeats = (seats: any) => {
     };
 };
 
+export const setSeatMap = (seats: any) => {
+    return {
+        type : ActionTypes.SET_SEAT_MAP,
+        payload : seats
+    };
+};
+
+
+export const setAmountSelectedSeats = (seats: any) => {
+    return {
+        type : ActionTypes.SET_AMOUNT_SELECTED_SEATS,
+        payload : seats
+    };
+};
+
 export const selectedSeat = (seat: any) => {
     return {
         type : ActionTypes.SELECTED_SEAT,
