@@ -10,18 +10,20 @@ import { useHistory } from 'react-router-dom';
 
 const FoodList = () => {
     
-    const foods = useSelector((state) => state);
+    const foods = useSelector((state : any) => state.allFoods);
+    const user = useSelector((state : any) => state.user);
     const dispatch = useDispatch();
     const history = useHistory();
 
     const fetchFoods = async () => {
+      console.log(foods)
         const response : any = await axios
         .get("http://localhost:5000/api/food/list")
         .catch((err) => {
             console.log("Err", err);
         });
         dispatch(setFoods(response.data))   //lo mandamos al store de redux, ahora cualquier componente puede acceder a allMovies
-    };
+      };
 
     useEffect(() => {
         if (foods && foods !== undefined) fetchFoods();
@@ -38,6 +40,7 @@ const FoodList = () => {
                 NO DEBE SALIR SI ES COMPRADOR */}
             <Flex direction="column" gap="20px" >
               <Heading>Lista de alimentos</Heading>
+              {user.type === "Admin" ? (
               <Center>
               <RedirectButton color="yellow.400" title="Añadir alimento" onClick={(e : any) => {
                     e.preventDefault();
@@ -45,6 +48,8 @@ const FoodList = () => {
                     history.push("/addFood");
                 }}/>
               </Center>
+              ) : (null)
+              }
               <FoodItems />  
             </Flex>
              

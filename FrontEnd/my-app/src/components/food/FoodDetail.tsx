@@ -28,6 +28,7 @@ import { useHistory } from 'react-router-dom';
 
 const FoodDetail = () => {
     const food = useSelector((state : any) => state.food);
+    const user = useSelector((state : any) => state.user);
     const {food_id, price, type, amount_available, image, description} = food;
     const {name} : any = useParams();
     const dispatch = useDispatch();
@@ -127,7 +128,9 @@ const FoodDetail = () => {
                 {/* ----------------------------------------
                     SOLO DEBE SALIR CUANDO ES USER COMPRADOR
                     ------------------------------------- */}
-            {/* <Button
+            {user.type === "Client" ? (
+            
+            <Button
                 rounded={'none'}
                 w={'full'}
                 mt={8}
@@ -141,14 +144,14 @@ const FoodDetail = () => {
                 boxShadow: 'lg',
                 }}>
                 Añadir al carrito
-            </Button> */}
-
-            <RedirectButton color="yellow.400" title="Editar" onClick={(e : any) => {
+            </Button> 
+            ) : (
+              <>
+              <RedirectButton color="yellow.400" title="Editar" onClick={(e : any) => {
                 e.preventDefault();
                 history.push("/editFood");
-            }}
-            ></RedirectButton>
-            <RedirectButton color="red.400" title="Eliminar" onClick={() => {
+              }}/>
+              <RedirectButton color="red.400" title="Eliminar" onClick={() => {
                 const data = {food_id : food_id};
                 axios.put("http://localhost:5000/api/food/delete", data)
                     .then((response) => {
@@ -157,8 +160,9 @@ const FoodDetail = () => {
                     .catch((err) => {
                         console.log("Err", err);
                     });
-            }}
-            ></RedirectButton>
+              }}/>
+              </>
+            )}    
             </Stack>
         </SimpleGrid>
         </Container>

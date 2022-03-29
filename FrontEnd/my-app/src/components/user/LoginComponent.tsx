@@ -53,7 +53,7 @@ export default function LoginComponent() {
                   history.push("/moviesAdmin");
                   break;
                 case "Client":
-                  history.push("/movies");
+                  history.push("/food");
                   break;
                 default:
                   alert("Usuario invalido");
