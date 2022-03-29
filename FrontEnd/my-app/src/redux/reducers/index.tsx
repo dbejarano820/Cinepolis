@@ -3,6 +3,7 @@ import { movieReducer, selectedMovieReducer } from "./movieReducer";
 import { foodReducer, selectedFoodReducer } from './foodReducer'
 import { tandaReducer, selectedTandaReducer } from "./tandaReducer";
 import { seatReducer, selectedSeatReducer } from "./seatReducer";
+import { cartReducer } from "./cartReducer";
 import { selectedAdminUserReducer, selectedUserReducer, UserReducer } from "./userReducer";
 
 const reducers = combineReducers({
@@ -20,6 +21,8 @@ const reducers = combineReducers({
 
     allFoods : foodReducer,
     food : selectedFoodReducer,
+
+    cart : cartReducer
     
 });
 
