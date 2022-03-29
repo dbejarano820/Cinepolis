@@ -50,5 +50,9 @@ export default class UserController {
   public async add(data : any): Promise<QueryResult<any>> {  
     return this.user_repo.add(data);
   }
+
+  public async update(user_id : any, data : any): Promise<QueryResult<any>> {  
+    return this.user_repo.update(user_id, data);
+  }
     
 }

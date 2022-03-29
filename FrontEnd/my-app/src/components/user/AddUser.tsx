@@ -26,13 +26,14 @@ import { removeSelectedAdminUser } from "../../redux/actions/userActions";
   
 const AddUser = () => {
   const user = useSelector((state : any) => state.adminUser);
-  const {user_id, name, lastname, password, birthday, vaccines, usertype_id, secondlastname} = user;
+  const {user_id, name, lastname, email, password, birthday, vaccines, usertype_id, secondlastname} = user;
   const dispatch = useDispatch();
   const history = useHistory();
 
   var data = {
     name : "DEFAULT",
     lastname : "DEFAULT", 
+    email : "123@gmail.com",
     password : "default123",
     year : "2022",
     month : "03",
@@ -46,6 +47,7 @@ const AddUser = () => {
     data = {
       name : name,
       lastname : lastname, 
+      email : email,
       password : password,
       year : birthday.slice(0,4),
       month : birthday.slice(5,7),
@@ -57,6 +59,7 @@ const AddUser = () => {
     data = {
       name : "DEFAULT",
       lastname : "DEFAULT", 
+      email : "123@gmail.com",
       password : "default123",
       year : "2022",
       month : "03",
@@ -70,6 +73,7 @@ const AddUser = () => {
     const userAdd = {
       name : data.name,
       lastname : data.lastname, 
+      email : data.email,
       password : data.password,
       birthday : ( data.year + "-" + 
                   (data.month.length < 2 ? "0"+data.month : data.month) + "-" +
@@ -80,22 +84,21 @@ const AddUser = () => {
       secondlastname : data.secondlastname,
     }
 
-    console.log(userAdd)
-
-    // axios.put("http://localhost:5000/api/users/add", userUpdate)
-    //     .then((response) => {
-    //         dispatch(removeSelectedAdminUser());
-    //         history.push("/adminUsers");
-    //     })
-    //     .catch((err) => {
-    //         console.log("Err", err);
-    //     }); 
+    axios.put("http://localhost:5000/api/users/add", userAdd)
+        .then((response) => {
+            dispatch(removeSelectedAdminUser());
+            history.push("/adminUsers");
+        })
+        .catch((err) => {
+            console.log("Err", err);
+        }); 
   } 
 
   const updateData = () => {
       const userUpdate = {
         name : data.name,
         lastname : data.lastname, 
+        email: data.email,
         password : data.password,
         birthday : ( data.year + "-" + 
                     (data.month.length < 2 ? "0"+data.month : data.month) + "-" +
@@ -106,15 +109,14 @@ const AddUser = () => {
         secondlastname : data.secondlastname,
       }
 
-      console.log(userUpdate)
-      // axios.put(`http://localhost:5000/api/users/update/${food_id}`, userUpdate)
-      //     .then((response) => {
-      //         dispatch(removeSelectedFood());
-      //         history.push("/food");
-      //     })
-      //     .catch((err) => {
-      //         console.log("Err", err);
-      //     }); 
+      axios.put(`http://localhost:5000/api/users/update/${user_id}`, userUpdate)
+          .then((response) => {
+              dispatch(removeSelectedAdminUser());
+              history.push("/adminUsers");
+          })
+          .catch((err) => {
+              console.log("Err", err);
+          }); 
   }
 
   const handleSubmit = () => {   
@@ -129,6 +131,10 @@ const AddUser = () => {
       }
       case "lastname": { 
         data.lastname = event.target.value
+        break; 
+      }
+      case "email": { 
+        data.email = event.target.value
         break; 
       }
       case "password": { 
@@ -183,6 +189,15 @@ const AddUser = () => {
                     onChange={updateValue}
                     borderColor="#E0E1E7"
                     defaultValue={Object.keys(user).length != 0 ? secondlastname : ""}
+                    />
+            </FormControl>
+
+            <FormControl id="email">
+            <FormLabel>Email</FormLabel>
+            <Input  type="text"
+                    onChange={updateValue}
+                    borderColor="#E0E1E7"
+                    defaultValue={Object.keys(user).length != 0 ? email : ""}
                     />
             </FormControl>
 
@@ -247,15 +262,21 @@ const AddUser = () => {
             </NumberInput>
             </FormControl>
 
-            <FormControl id="type">
-              <FormLabel>Tipo</FormLabel>
-              <Select onChange={updateValue} 
-                  borderColor="#E0E1E7"
-                  defaultValue={Object.keys(user).length !== 0 ? (usertype_id === 1 ? 'Client' : 'Admin') : ('Admin')}>
-                  <option value='Client'>Client</option>
-                  <option value='Admin'>Admin</option>
-              </Select>
-            </FormControl>
+            {
+              Object.keys(user).length != 0 ? null : (
+                <>
+                <FormControl id="type">
+                  <FormLabel>Tipo</FormLabel>
+                  <Select onChange={updateValue} 
+                      borderColor="#E0E1E7"
+                      defaultValue={Object.keys(user).length !== 0 ? (usertype_id === 1 ? 'Client' : 'Admin') : ('Admin')}>
+                      <option value='Client'>Client</option>
+                      <option value='Admin'>Admin</option>
+                  </Select>
+                </FormControl>
+                </>
+              )
+            }            
 
             <FormControl id="button" float="right">
             <Button

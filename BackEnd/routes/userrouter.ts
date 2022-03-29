@@ -83,4 +83,16 @@ app.put("/add", (req, res, next) => {
       });
 });
 
+app.put("/update/:user_id", (req, res, next) => {          
+  UserController.getInstance().update(req.params.user_id, req.body)
+      .then((data) => {       
+          //data.rows brings the dataset array with all objects inside.   
+          res.json(data.rows);
+      })
+      .catch((err) => {
+          res.json(err)
+          return "";
+      });
+});
+
 export { app as userrouter }
