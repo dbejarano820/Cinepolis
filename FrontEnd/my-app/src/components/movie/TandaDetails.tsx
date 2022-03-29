@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useEffect } from "react";
+import React, { Component, useEffect, useState} from "react";
 import './TandaDetails.css'
 import {useParams} from "react-router-dom";
 import axios from "axios";
@@ -37,7 +37,6 @@ import { render } from "@testing-library/react";
 
 const TandaDetails = () => {
 
-
     const tanda = useSelector((state: any) => state.tanda);
     const {price_children, price_general, price_elderly} = tanda;  // destructure object
     const seats_taken = useSelector((state: any) => state.allSeats.seats)
@@ -45,7 +44,7 @@ const TandaDetails = () => {
     const dispatch = useDispatch();
 
     let seats : {[name: string] : string } = {
-        "A1":'', "A2":'', "A3":'', "A4":'', "A5":'', "A6":'', "A7":'', "A8":'', "A9":'', "A10":'',
+        "A1":'reservado', "A2":'selected', "A3":'', "A4":'', "A5":'', "A6":'', "A7":'', "A8":'', "A9":'', "A10":'',
         "B1":'', "B2":'', "B3":'', "B4":'', "B5":'', "B6":'', "B7":'', "B8":'', "B9":'', "B10":'',
         "C1":'', "C2":'', "C3":'', "C4":'', "C5":'', "C6":'', "C7":'', "C8":'', "C9":'', "C10":'',
         "D1":'', "D2":'', "D3":'', "D4":'', "D5":'', "D6":'', "D7":'', "D8":'', "D9":'', "D10":'',
@@ -72,11 +71,13 @@ const TandaDetails = () => {
          })
     };
 
+    // const useForceUpdate = () => {
+    //     const [value, setValue] = useState(0); // integer state
+    //     console.log("FORCE UPDATE")
+    //     return () => setValue(value => value + 1); // update the state to force render
+    // };
+
     const onClickHandler = (e : any , seatName : any) => {
-
-        console.log("TEST")
-        console.log(seatName)
-
         let updatedSelectedSeats = selectedSeats;
         if (seats[seatName] !== 'reservado') {
             seats[seatName] === '' ? updatedSelectedSeats++ : updatedSelectedSeats--;
@@ -91,9 +92,8 @@ const TandaDetails = () => {
         console.log(updatedSelectedSeats)
         seats = updatedSeats
         selectedSeats = updatedSelectedSeats
-        console.log(selectedSeats)
-        console.log(seats["A1"])
-        
+        console.log(seats)
+    
     }
 
     const fetchTandaDetail = async() => {
@@ -123,8 +123,11 @@ const TandaDetails = () => {
            console.log(s + seats[s]);
         }
         )
+        
 
     };
+
+
 
      useEffect(() => {
         if (movie_title && movie_title !== "") fetchTandaDetail(); 
