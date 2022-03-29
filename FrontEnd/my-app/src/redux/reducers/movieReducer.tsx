@@ -9,7 +9,10 @@ export const movieReducer = (state=initialState, {type, payload} : any) => {
     switch(type) {
         case ActionTypes.SET_MOVIES:
             return {...state, movies:payload};
-
+        case ActionTypes.FETCH_MOVIES:
+            return {...state, movies:payload};
+        case ActionTypes.REMOVE_SET_MOVIES:
+            return {}
         default:
             return state;
     }

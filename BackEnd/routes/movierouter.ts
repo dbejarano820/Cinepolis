@@ -3,7 +3,7 @@ import MovieController from '../controllers/moviecontroller';
 
 const app = express.Router();
 
-app.get("/list", (req, res, next) => {              
+app.get("/list", (req, res, next) => {            
     MovieController.getInstance().listMovies()
         .then((data) => {       
             //data.rows brings the dataset array with all objects inside.   
@@ -15,8 +15,21 @@ app.get("/list", (req, res, next) => {
         });
 });
 
-app.get("/cartelera", (req, res, next) => { 
-    MovieController.getInstance().getListing()
+app.get("/:movieTitle", (req, res, next) => { 
+    MovieController.getInstance().getMovie(req.params["movieTitle"])
+        .then((data) => {       
+            //data.rows brings the dataset array with all objects inside.  
+            console.log(data.rows) 
+            res.json(data.rows[0]);
+        })
+        .catch((err) => {
+            res.json(err)
+            return "";
+        });
+});
+
+app.get("/tandas/:movieTitle", (req, res, next) => { 
+    MovieController.getInstance().getTandas(req.params["movieTitle"])
         .then((data) => {       
             //data.rows brings the dataset array with all objects inside.   
             res.json(data.rows);
@@ -27,8 +40,21 @@ app.get("/cartelera", (req, res, next) => {
         });
 });
 
-app.get("/asientos", (req, res, next) => { 
-    MovieController.getInstance().getSeats(req.body)
+app.get("/tanda/:chart_id", (req, res, next) => { 
+    MovieController.getInstance().getTanda(req.params["chart_id"])
+        .then((data) => {       
+            //data.rows brings the dataset array with all objects inside.   
+            res.json(data.rows[0]);
+        })
+        .catch((err) => {
+            res.json(err)
+            return "";
+        });
+});
+
+app.get("/asientos/:sala_name/:movie_name/:start_time", (req, res, next) => { 
+    console.log(req.params)
+    MovieController.getInstance().getSeats(req.params)
         .then((data) => {       
             //data.rows brings the dataset array with all objects inside.   
             res.json(data.rows);

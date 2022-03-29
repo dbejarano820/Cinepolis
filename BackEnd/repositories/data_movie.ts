@@ -13,17 +13,41 @@ export class movie_data {
 
     }
 
-    public list() {
+    public listSalas() {
         return this.db.query(`SELECT * FROM salas`);
     }
 
+    public listMovies() {
+        return this.db.query(`SELECT * FROM movies`);
+    }
+
     public getListing() {
-        return this.db.query(`SELECT current_cartelera()`);
+        return this.db.query(`SELECT * FROM current_cartelera()`);
     }
 
     public getSeats(info: any) {
-        const statement = 'SELECT available_seats($1, $2, $3)';
-        const values = [info.sala, info.movie, info.time];
+        const statement = 'SELECT * FROM available_seats($1, $2, $3)';
+        const values = [info.sala_name, info.movie_name, info.start_time];
+        return this.db.query(statement, values);
+    }
+
+    public getTandasForMovie(info: any) {
+        const statement = 'SELECT * FROM current_cartelera() WHERE movie_title = $1';
+        const values = [info];
+        return this.db.query(statement, values);
+    }
+
+    public getTanda(info: any) {
+        console.log(info)
+        const statement = 'SELECT * FROM chart WHERE chart_id = $1';
+        const values = [info];
+        return this.db.query(statement, values);
+    }
+
+
+    public getMovie(info: any) {
+        const statement = 'SELECT * FROM movies WHERE title = $1';
+        const values = [info];
         return this.db.query(statement, values);
     }
 

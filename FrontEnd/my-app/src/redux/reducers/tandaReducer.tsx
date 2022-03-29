@@ -9,7 +9,6 @@ export const tandaReducer = (state=initialState, {type, payload} : any) => {
     switch(type) {
         case ActionTypes.SET_TANDAS:
             return {...state, tandas:payload};
-
         default:
             return state;
     }

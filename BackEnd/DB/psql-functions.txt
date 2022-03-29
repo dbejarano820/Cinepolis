@@ -1,7 +1,7 @@
 
 //
 CREATE OR REPLACE FUNCTION current_cartelera()
-RETURNS TABLE(chart_id int, movie_title varchar, movie_image varchar, minimum_age int, start_time timestamp, sala_name varchar)
+RETURNS TABLE(chart_id int, movie_title varchar, movie_image varchar, minimum_age int, start_time timestamptz, sala_name varchar)
 LANGUAGE SQL
 AS $$
       SELECT chart_id, movies.title, movies.image, minimum_age, start_time, salas.name 
@@ -48,7 +48,7 @@ AS $$
 $$;
 
 ////
-CREATE OR REPLACE FUNCTION get_chart_id(_movie integer, _sala integer, _starttime timestamp)
+CREATE OR REPLACE FUNCTION get_chart_id(_movie integer, _sala integer, _starttime timestamptz)
 RETURNS INTEGER
 LANGUAGE SQL
 AS $$
@@ -105,7 +105,7 @@ END
 $$;
 
 ////
-CREATE OR REPLACE FUNCTION reserve_seat(_email varchar, _row char, _number integer, _type varchar, _movie varchar, _starttime timestamp, _salaname text) RETURNS VOID
+CREATE OR REPLACE FUNCTION reserve_seat(_email varchar, _row char, _number integer, _type varchar, _movie varchar, _starttime timestamptz, _salaname text) RETURNS VOID
 LANGUAGE plpgsql
 AS $$
 DECLARE
@@ -153,7 +153,7 @@ $$;
 
 ///
 CREATE OR REPLACE FUNCTION active_reservations(_user text)
-RETURNS TABLE(chart_id int, movie_title varchar, movie_image varchar, minimum_age int, start_time timestamp, sala_name varchar)
+RETURNS TABLE(chart_id int, movie_title varchar, movie_image varchar, minimum_age int, start_time timestamptz, sala_name varchar)
 LANGUAGE plpgsql
 AS $$
 DECLARE
@@ -177,7 +177,7 @@ $$;
 
 ///
 CREATE OR REPLACE FUNCTION all_reservations(_user text)
-RETURNS TABLE(chart_id int, movie_title varchar, movie_image varchar, minimum_age int, start_time timestamp, sala_name varchar)
+RETURNS TABLE(chart_id int, movie_title varchar, movie_image varchar, minimum_age int, start_time timestamptz, sala_name varchar)
 LANGUAGE plpgsql
 AS $$
 DECLARE
@@ -201,7 +201,7 @@ $$;
 
 
 ///
-CREATE OR REPLACE FUNCTION available_seats(_sala text, _movie text, _time timestamp)
+CREATE OR REPLACE FUNCTION available_seats(_sala text, _movie text, _time timestamptz)
 RETURNS TABLE(seat_row char, seat_number integer)
 LANGUAGE plpgsql
 AS $$
@@ -224,7 +224,7 @@ END
 $$;
 
 /////
-CREATE OR REPLACE FUNCTION add_chart(_sala text, _movie text, _starttime timestamp, _general numeric, _children numeric, _elderly numeric) RETURNS VOID
+CREATE OR REPLACE FUNCTION add_chart(_sala text, _movie text, _starttime timestamptz, _general numeric, _children numeric, _elderly numeric) RETURNS VOID
 LANGUAGE plpgsql
 AS $$
 DECLARE

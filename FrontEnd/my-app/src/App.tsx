@@ -1,9 +1,11 @@
 import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import React from "react";
-
 import SidebarWithHeader from "./components/sections/header";
 import MovieListing from "./components/movie/MovieListing";
 import MovieDetails from "./components/movie/MovieDetails";
+import MoviesPage from "./pages/MoviesPage";
+import TandaPage from "./pages/TandaPage";
+import MovieDetailsPage from "./pages/MovieDetailsPage";
 import FoodList from "./components/food/FoodList"
 
 import FoodDetail from "./components/food/FoodDetail" 
@@ -23,6 +25,9 @@ function App() {
        <Switch>
           <Route exact path="/" component={LoginComponent} />
           <Route exact path="/signUp" component={SignUpComponent} />
+          <Route exact path="/movies" component={MoviesPage} />
+          <Route exact path="/movies/:movieTitle" component={MovieDetailsPage} />
+          <Route exact path="/movies/:movie_title/:sala_name/:start_time/:chart_id" component={TandaPage} />
           {/* <Route exact path="/updatePassword/:token" component={ConfirmPassComponent} /> */}
           <Route exact path="/movie/:movieId" component={MovieDetails} />
           <Route exact path="/food" component={FoodList} />

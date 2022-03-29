@@ -17,8 +17,24 @@ export default class MovieController {
         return this.instance;
     }
 
+    public async listSalas(): Promise<QueryResult<any>> {
+        return this.movie_repo.listSalas();
+    }
+
     public async listMovies(): Promise<QueryResult<any>> {
-        return this.movie_repo.list();
+        return this.movie_repo.listMovies();
+    }
+
+    public async getTandas(info: any): Promise<QueryResult<any>> {
+        return this.movie_repo.getTandasForMovie(info);
+    }
+
+    public async getTanda(info: any): Promise<QueryResult<any>> {
+        return this.movie_repo.getTanda(info);
+    }
+
+    public async getMovie(info: any): Promise<QueryResult<any>> {
+        return this.movie_repo.getMovie(info);
     }
 
     public async getListing(): Promise<QueryResult<any>> {

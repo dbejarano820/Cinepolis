@@ -55,4 +55,10 @@ VALUES('Ready Player One', 'Tye Sheridan, Olivia Cooke, Ben Mendelsohn, T.J. Mil
 
 INSERT INTO chart(start_time, movie_id, sala_id, price_general, price_children, price_elderly)
 OVERRIDING SYSTEM VALUE
-VALUES('2022-03-17 15:00:00', 1, 1, 8, 6, 6);
+VALUES('2022-03-28 17:00:00', 2, 1, 8, 6, 6);
+
+
+
+INSERT INTO movies(title, actors, description, director, duration, minimum_age, genre, languages, year, image)
+VALUES('Batman', 'Robert Pattinson, Zoë Kravitz, Paul Dano, Jeffrey Wright, John Turturro, Peter Sarsgaard, Andy Serkis, Colin Farrell', 'The film sees Batman, who has been fighting crime in Gotham City for two years, uncover corruption while pursuing the Riddler (Dano), a serial killer who targets Gothams elite',
+'Matt Reeves', 180, 15, 'Action', 'English, Spanish', 2022,'https://upload.wikimedia.org/wikipedia/en/thumb/f/ff/The_Batman_%28film%29_poster.jpg/220px-The_Batman_%28film%29_poster.jpg');

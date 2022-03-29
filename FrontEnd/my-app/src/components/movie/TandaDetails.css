@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+
+body {
+    font-family: 'Roboto Mono', monospace;
+    background-color:#212347 ;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.movie-container {
+    margin: 40px 10px;
+
+}
+
+.container {
+    perspective: 1000px;
+    margin-bottom: 10px;    
+}
+
+
+.movie-container select {
+    border-radius: 5px;
+    border: 0;
+    background-color: #fff;
+    margin-left: 5px;
+    padding: 5px 15px 5px 15px;
+    font-size: 14px;
+}
+
+.seat {
+    background-color: rgba(19, 75, 75, 0.712);
+    height: 15px;
+    width: 15px;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    margin: 5px;
+}
+
+.seat:nth-of-type(2) {
+    margin-right: 20px;
+}
+
+.seat:nth-last-of-type(2) {
+    margin-left: 20px;
+}
+
+.seat.selected {
+    background-color:#50d4d1;
+}
+
+.seat.occupied {
+    background-color:#fff;
+}
+
+.seat:not(.occupied):hover {
+    cursor: pointer;
+    transform: scale(1.2);
+}
+
+.showcase .seat:not(.occupied):hover {
+    cursor: default;
+    transform: scale(1);
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.showcase {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba(0, 0, 0, 0.1);
+    padding:10px 20px;
+    color: #777;
+    list-style-type:none;
+    border-radius: 5px;
+}
+
+.showcase li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin:0 10px;
+}
+
+.showcase li small {
+    margin-left: 3px;
+}
+
+
+.screen {
+    background-color: #fff;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 60px;
+    width: 80%;
+    margin:auto;
+    margin-bottom: 20px;
+    transform: rotateX(-45deg);
+    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.7);
+}
+
+p.text span {
+    color:#50d4d1 ;
+    display: block;
+    margin: 0px;
+
+    
+}
+
+p.text {
+    display: flex;
+    justify-content: center;
+    margin:10px 0px;
+
+}

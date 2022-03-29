@@ -2,26 +2,61 @@
 import React, { useEffect } from "react";
 import {useParams} from "react-router-dom";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import { 
     selectedMovie,
     removeSelectedMovie,
+    removeSetMovies,
 } from "../../redux/actions/movieActions";
+import {
+    Box,
+    chakra,
+    Container,
+    Stack,
+    Text,
+    Image,
+    Flex,
+    VStack,
+    Button,
+    Heading,
+    SimpleGrid,
+    StackDivider,
+    useColorModeValue,
+    VisuallyHidden,
+    List,
+    ListItem,
+  } from '@chakra-ui/react';
+  import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
+  import { MdLiveTv, MdLocalShipping } from 'react-icons/md';
+import { removeSelectedTanda, removeSetTandas, setTandas } from "../../redux/actions/tandaActions";
+import { ActionTypes } from "../../redux/constants/action-types";
+import { Link } from "react-router-dom";
 
 const MovieDetails = () => {
-    const movieTitle : any = useParams();
-    const movie = useSelector((state : any) => state.movie);
-    const {image, title, minimumAge} = movie;  // destructure object
+    const movie = useSelector((state: any) => state.movie);
+    const tandas = useSelector((state: any) => state.allTandas.tandas)
+    const {title, actors, description, director, duration, minimum_age, genre, languages, year, image} = movie;  // destructure object
+    const {movieTitle} : any = useParams();
     const dispatch = useDispatch();
+
+    console.log(tandas)
 
     const fetchMovieDetail = async() => {
         const response : any = await axios
-        .get(`backend api/${movieTitle}`)
+        .get(`http://localhost:5000/api/movies/${movieTitle}`)
         .catch((err) => {
             console.log("Err: ", err);
         });
-        
         dispatch(selectedMovie(response.data));
+
+        const response2 : any = await axios
+        .get(`http://localhost:5000/api/movies/tandas/${movieTitle}`)
+        .catch((err) => {
+            console.log("Err: ", err);
+        });
+        console.log(response2.data)
+        dispatch(setTandas(response2.data));
+        
     };
 
     useEffect(() => {
@@ -29,16 +64,165 @@ const MovieDetails = () => {
         return() => {
             dispatch(removeSelectedMovie());
         }
-    }, [movieTitle])
+    }, [movieTitle]);
 
+        return (
 
+            <div>
+            {Object.keys(movie).length === 0 ? (
+                <div>...Loading</div> 
+            ) : (
+                
+            <Container maxW={'7xl'}>
+              <SimpleGrid
+                columns={{ base: 1, lg: 2 }}
+                spacing={{ base: 8, md: 10 }}
+                py={{ base: 18, md: 24 }}>
+                <Flex>
+                  <Image
+                    rounded={'md'}
+                    alt={'product image'}
+                    src={image}
+                    fit={'cover'}
+                    align={'center'}
+                    w={'100%'}
+                    h={{ base: '100%', sm: '400px', lg: '500px' }}
+                  />
+                </Flex>
+                <Stack spacing={{ base: 6, md: 10 }}>
+                  <Box as={'header'}>
+                    <Heading
+                      lineHeight={1.1}
+                      fontWeight={600}
+                      fontSize={{ base: '2xl', sm: '4xl', lg: '5xl' }}>
+                      {title}
+                    </Heading>
+                    <Text
+                      color={useColorModeValue('gray.900', 'gray.400')}
+                      fontWeight={300}
+                      fontSize={'2xl'}>
+                      {year}
+                    </Text>
+                  </Box>
+        
+                  <Stack
+                    spacing={{ base: 4, sm: 6 }}
+                    direction={'column'}
+                    divider={
+                      <StackDivider
+                        borderColor={useColorModeValue('gray.200', 'gray.600')}
+                      />
+                    }>
+                    <VStack spacing={{ base: 4, sm: 6 }}>
+                      <Text
+                        color={useColorModeValue('gray.500', 'gray.400')}
+                        fontSize={'2xl'}
+                        fontWeight={'300'}>
+                        {description}
+                      </Text>
+                      <Text
+                        fontSize={{ base: '16px', lg: '18px' }}
+                        color={useColorModeValue('yellow.500', 'yellow.300')}
+                        fontWeight={'500'}
+                        textTransform={'uppercase'}
+                        mb={'4'}>
+                        Actors:
+                      </Text>
+                      <Text fontSize={'lg'}>
+                        {actors}
+                      </Text>
+                    </VStack>
+                    <Box>
+                      <Text
+                        fontSize={{ base: '16px', lg: '18px' }}
+                        color={useColorModeValue('yellow.500', 'yellow.300')}
+                        fontWeight={'500'}
+                        textTransform={'uppercase'}
+                        mb={'4'}>
+                        Details
+                      </Text>
+        
+                      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
+                        <List spacing={2}>
+                        <ListItem>
+                          <Text as={'span'} fontWeight={'bold'}>
+                            Director:
+                          </Text>{' '}
+                          {director}
+                        </ListItem>
+                        <ListItem>
+                          <Text as={'span'} fontWeight={'bold'}>
+                            Minimum Age:
+                          </Text>{' '}
+                          {minimum_age}
+                        </ListItem>
+                        <ListItem>
+                          <Text as={'span'} fontWeight={'bold'}>
+                            Genre:
+                          </Text>{' '}
+                          {genre}
+                        </ListItem>
+                        </List>
+                        <List spacing={2}>
+                        <ListItem>
+                          <Text as={'span'} fontWeight={'bold'}>
+                            Duration:
+                          </Text>{' '}
+                          {duration} minutes
+                        </ListItem>
+                        <ListItem>
+                          <Text as={'span'} fontWeight={'bold'}>
+                            Languages:
+                          </Text>{' '}
+                          {languages}
+                        </ListItem>
+                        </List>
+                      </SimpleGrid>
+                    </Box>
+                  </Stack>
+              {tandas.map((tanda: { chart_id: any; movie_title: any; sala_name: any; start_time: any;}) => {
+                  const {movie_title, sala_name, start_time, chart_id} = tanda
+                  const fecha = new Date(start_time);
+                  console.log(start_time)
+                  console.log(fecha.toUTCString());
+                  
+                  return(
+                   <div key={movieTitle}>
+                     <Link to={`/movies/${movie_title}/${sala_name}/${start_time}/${chart_id}`}> 
+                  <Button
+                    rounded={'none'}
+                    w={'full'}
+                    mt={8}
+                    size={'lg'}
+                    py={'7'}
+                    bg={useColorModeValue('gray.900', 'gray.50')}
+                    color={useColorModeValue('white', 'gray.900')}
+                    textTransform={'uppercase'}
+                    _hover={{
+                      transform: 'translateY(2px)',
+                      boxShadow: 'lg',
+                    }}>
+                       {sala_name} : {fecha.toUTCString() }
+                  </Button>
+                  </Link>
+                  </div>
+                     );
+                  })}
+        
+                  <Stack direction="row" alignItems="center" justifyContent={'center'}>
+                    <MdLocalShipping />
+                    <Text>2-3 business days delivery</Text>
+                  </Stack>
+                </Stack>
+              </SimpleGrid>
+            </Container>
+            )}
+            </div>
+         )
+};
 
-
-    return(  //display selected movie details ... detalles y tandas
-    <div>
-        <h1>MovieDetails</h1>
-    </div>
-    );
+const mapStateToProps = (state : any) => {
+    return {movie : state};
 };
 
 export default MovieDetails;

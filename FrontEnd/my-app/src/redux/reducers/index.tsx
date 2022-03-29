@@ -2,6 +2,7 @@ import {combineReducers} from "redux";
 import { movieReducer, selectedMovieReducer } from "./movieReducer";
 import { foodReducer, selectedFoodReducer } from './foodReducer'
 import { tandaReducer, selectedTandaReducer } from "./tandaReducer";
+import { seatReducer, selectedSeatReducer } from "./seatReducer";
 import { selectedUserReducer } from "./userReducer";
 
 const reducers = combineReducers({
@@ -11,7 +12,9 @@ const reducers = combineReducers({
     movie: selectedMovieReducer,
 
     allTandas: tandaReducer,
-    tanda: selectedMovieReducer,
+    tanda: selectedTandaReducer,
+    allSeats : seatReducer,
+    seat : selectedSeatReducer,
 
     allFoods : foodReducer,
     food : selectedFoodReducer,
