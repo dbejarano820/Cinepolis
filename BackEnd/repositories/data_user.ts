@@ -34,4 +34,20 @@ export class user_data {
         return this.db.query(statement, values);*/
     }
 
+    public list() {
+      return this.db.query(`SELECT * FROM users WHERE deleted=FALSE`);
+    } 
+
+    public find(email : any) {
+      const statement = 'SELECT * FROM users where email=$1 AND deleted=FALSE';
+      const values = [email];
+      return this.db.query(statement, values);
+  } 
+
+  public delete(data : any) { 
+    const statement = 'UPDATE users SET deleted=TRUE WHERE user_id=$1';
+    const values = [data.user_id];
+    return this.db.query(statement, values);
+}
+
 }

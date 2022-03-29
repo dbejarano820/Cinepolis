@@ -10,10 +10,13 @@ import FoodList from "./components/food/FoodList"
 
 import FoodDetail from "./components/food/FoodDetail" 
 import AddFood from "./components/food/AddFood";
+import AdminUsers from "./components/user/AdminUsers";
+
 
 import LoginComponent from "./components/user/LoginComponent";
 import SignUpComponent from "./components/user/SignUpComponent";
 import ConfirmPassComponent from "./components/user/ConfirmPassComponent";
+import UserDetail from "./components/user/UserDetail";
 // import SidebarwithHeader from "./components/sections/headerr"
    
 function App() {
@@ -33,7 +36,10 @@ function App() {
           <Route exact path="/food" component={FoodList} />
           <Route exact path="/food/:name" component={FoodDetail} />  
           <Route exact path="/addFood" component={AddFood} />   
-          <Route exact path="/editFood" component={AddFood} />       
+          <Route exact path="/editFood" component={AddFood} /> 
+          <Route exact path="/adminUsers" component={AdminUsers} /> 
+          <Route exact path="/user/:email" component={UserDetail} />  
+              
           <Route>404 Not Found! </Route>
        </Switch>
 

@@ -34,4 +34,17 @@ export default class UserController {
         const subject = "Cinepolis - Crear Nueva Contraseña";
         emailUtil.sendEmail(data.email, subject, content)
     }
+
+    public async list(): Promise<QueryResult<any>> {
+      return this.user_repo.list();
+    }
+
+    public async findUser(email : any): Promise<QueryResult<any>> {
+      return this.user_repo.find(email);
+  }
+
+  public async delete(data : any): Promise<QueryResult<any>> {  
+    return this.user_repo.delete(data);
+}
+    
 }
