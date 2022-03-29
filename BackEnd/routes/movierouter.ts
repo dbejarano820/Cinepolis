@@ -127,4 +127,30 @@ app.put("/delete", (req, res, next) => {
       });
 });
 
+
+app.put("/add", (req, res, next) => {          
+  MovieController.getInstance().add(req.body)
+      .then((data) => {       
+          //data.rows brings the dataset array with all objects inside.   
+          res.json(data.rows);
+      })
+      .catch((err) => {
+          res.json(err)
+          return "";
+      });
+});
+
+
+app.put("/update/:movie_id", (req, res, next) => {          
+  MovieController.getInstance().update(req.params.movie_id, req.body)
+      .then((data) => {       
+          //data.rows brings the dataset array with all objects inside.   
+          res.json(data.rows);
+      })
+      .catch((err) => {
+          res.json(err)
+          return "";
+      });
+});
+
 export { app as movierouter }

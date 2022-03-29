@@ -13,8 +13,8 @@ import {
 
 const MovieComponent = () => {
     const movies = useSelector((state : RootStateOrAny) => state.allMovies.movies);
-    const renderList = movies.map((movie: { movie_id: any; title: any; image: any; director : any, year : any}) => {
-        const {movie_id, title, image, director, year} = movie
+    const renderList = movies.map((movie: { movie_id: any; title: any; image: any; director : any, genre : any, year : any}) => {
+        const {movie_id, title, image, director, genre, year} = movie
         
         return(
             //chakra ui
@@ -64,7 +64,7 @@ const MovieComponent = () => {
               </Box>
               <Stack pt={10} align={'center'}>
                 <Text color={'gray.500'} fontSize={'sm'} textTransform={'uppercase'}>
-                  {director}
+                  {genre}
                 </Text>
                 <Heading fontSize={'2xl'} fontFamily={'body'} fontWeight={500}>
                   {title}

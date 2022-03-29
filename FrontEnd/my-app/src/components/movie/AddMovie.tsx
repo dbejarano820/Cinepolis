@@ -21,129 +21,229 @@ import {
 import axios from "axios";
 import { removeSelectedFood } from "../../redux/actions/foodActions";
 import { useHistory } from "react-router-dom";
+import { removeSelectedMovie } from "../../redux/actions/movieActions";
   
 const AddMovie = () => {
     const movie = useSelector((state : any) => state.movie);
-    const {food_id, name, price, type, amount_available, image, description} = movie;
+    const {movie_id, title, actors, description, director, 
+          duration, minimum_age, genre, languages, year, image} = movie;
     const dispatch = useDispatch();
     const history = useHistory();
 
     var data = {
-        name: "Default combo",
-        price: 1000, 
-        type: "combo", 
-        amount_available: 10,
-        image: "https://images.pexels.com/photos/1619918/pexels-photo-1619918.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-        description: "Default description"
+        title : "default", 
+        actors : "default", 
+        description : "default",
+        director : "default", 
+        duration : 60, 
+        minimum_age : 23, 
+        genre : "default", 
+        languages : "default", 
+        year : 2023, 
+        image : "https://images.pexels.com/photos/1619918/pexels-photo-1619918.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
     }
 
-    // Object.keys(food).length !== 0 ? (
-    //     data = {
-    //         name: name,
-    //         price: price, 
-    //         type: type, 
-    //         amount_available: amount_available,
-    //         image: image,
-    //         description: description
-    //     }) : (
-    //     data = {
-    //         name: "Default combo",
-    //         price: 1000, 
-    //         type: "combo", 
-    //         amount_available: 10,
-    //         image: "https://images.pexels.com/photos/1619918/pexels-photo-1619918.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-    //         description: "Default description"
-    //     })
+    Object.keys(movie).length !== 0 ? (
+        data = {
+          title : title, 
+          actors : actors, 
+          description : description,
+          director : director, 
+          duration : duration, 
+          minimum_age : minimum_age, 
+          genre : genre, 
+          languages : languages, 
+          year : year, 
+          image : image,
+        }) : (
+        data = {
+          title : "default", 
+          actors : "default", 
+          description : "default",
+          director : "default", 
+          duration : 60, 
+          minimum_age : 23, 
+          genre : "default", 
+          languages : "default", 
+          year : 2023, 
+          image : "https://images.pexels.com/photos/1619918/pexels-photo-1619918.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+        })
 
-    // const sendData = () => {
-    //     // console.log(data) 
-    //     axios.put("http://localhost:5000/api/food/add", data)
-    //         .then((response) => {
-    //             dispatch(removeSelectedFood());
-    //             history.push("/food");
-    //         })
-    //         .catch((err) => {
-    //             console.log("Err", err);
-    //         }); 
-    // } 
+    const sendData = () => {
+        console.log(movie_id,data) 
+        axios.put("http://localhost:5000/api/movies/add", data)
+            .then((response) => {
+                dispatch(removeSelectedMovie());
+                history.push("/movies");
+            })
+            .catch((err) => {
+                console.log("Err", err);
+            }); 
+    } 
 
-    // const updateData = () => {
-    //     // console.log('DATA DEL UPDATE', food_id, data)
+    const updateData = () => {
+        console.log('DATA DEL UPDATE', movie_id, data)
 
-    //     axios.put(`http://localhost:5000/api/food/update/${food_id}`, data)
-    //         .then((response) => {
-    //             dispatch(removeSelectedFood());
-    //             history.push("/food");
-    //         })
-    //         .catch((err) => {
-    //             console.log("Err", err);
-    //         }); 
-    // }
+        axios.put(`http://localhost:5000/api/movies/update/${movie_id}`, data)
+            .then((response) => {
+                dispatch(removeSelectedMovie());
+                history.push("/movies");
+            })
+            .catch((err) => {
+                console.log("Err", err);
+            }); 
+    }
 
-    // const handleSubmit = (event : any) => {   
-    //     // console.log('You clicked submit.');
-    //     //sacar los valores de los input
-    //     sendData();
-    // }
+    const handleSubmit = (event : any) => {   
+        // console.log('You clicked submit.');
+        //sacar los valores de los input
+        sendData();
+    }
 
-    // const handleUpdate = (event : any) => {
-    //     // console.log('You clicked UPDATE.');
-    //     updateData();
-    // }
+    const handleUpdate = (event : any) => {
+        // console.log('You clicked UPDATE.');
+        updateData();
+    }
 
-    // const updateValue = (event : any) => { 
-    //     switch(event.target.id) { 
-    //         case "name": { 
-    //            data.name = event.target.value;
-    //            break; 
-    //         }
-    //         case "type": { 
-    //             data.type = event.target.value
-    //             break; 
-    //         }
-    //         case "image": { 
-    //             data.image = event.target.value
-    //             break; 
-    //         } 
-    //         case "description": { 
-    //             data.description = event.target.value
-    //             break; 
-    //         } 
-    //         default: { 
-    //            //statements; 
-    //            break; 
-    //         } 
-    //     }
-    //     // console.log(event.target.value);        
-    // }
+    const updateValue = (event : any) => { 
+        switch(event.target.id) { 
+            case "title": { 
+               data.title = event.target.value;
+               break; 
+            }
+            case "actors": { 
+                data.actors = event.target.value
+                break; 
+            }
+            case "description": { 
+              data.description = event.target.value
+              break; 
+            } 
+            case "director": { 
+              data.director = event.target.value
+              break; 
+            } 
+            case "genre": { 
+              data.genre = event.target.value
+              break; 
+            } 
+            case "languages": { 
+              data.languages = event.target.value
+              break; 
+            }
+            case "image": { 
+                data.image = event.target.value
+                break; 
+            } 
+            default: { 
+               //statements; 
+               break; 
+            } 
+        }
+        // console.log(event.target.value);        
+    }
     
     return(
         <>
-        <div>Add movie</div>
-        {/* <SidebarWithHeader>
-        <Heading>{Object.keys(food).length !== 0 ? "Editar alimento" : "Nuevo alimento"}</Heading>
+        <SidebarWithHeader>
+        <Heading>{Object.keys(movie).length !== 0 ? "Editar película" : "Nuevo película"}</Heading>
             <WrapItem >
             <Box bg="white" borderRadius="lg">
                 <Box m={8} color="#0B0E3F">
                 <VStack spacing={5}>
-                    <FormControl id="name">
-                    <FormLabel>Nombre</FormLabel>
+                    <FormControl id="title">
+                    <FormLabel>Título</FormLabel>
                     <Input  type="text"
                             onChange={updateValue}
                             borderColor="#E0E1E7"
-                            defaultValue={Object.keys(food).length != 0 ? name : ""}
+                            defaultValue={Object.keys(movie).length != 0 ? title : ""}
                             />
                     </FormControl>
 
-                    <FormControl id="price">
-                    <FormLabel>Precio</FormLabel>
+                    <FormControl id="actors">
+                    <FormLabel>Reparto</FormLabel>
+                    <Textarea onChange={updateValue} 
+                                borderColor="#E0E1E7" 
+                                defaultValue={Object.keys(movie).length !== 0 ? actors : ""}
+                                placeholder="Lista de actores"/>
+                    </FormControl>
+
+                    <FormControl id="description">
+                    <FormLabel>Descripción</FormLabel>
+                    <Textarea onChange={updateValue} 
+                                borderColor="#E0E1E7" 
+                                defaultValue={Object.keys(movie).length !== 0 ? description : ""}
+                                placeholder="Plot de la película"/>
+                    </FormControl>
+
+                    <FormControl id="director">
+                    <FormLabel>Dirigida por</FormLabel>
+                    <Input  type="text"
+                            onChange={updateValue}
+                            borderColor="#E0E1E7"
+                            defaultValue={Object.keys(movie).length != 0 ? director : ""}
+                            />
+                    </FormControl>
+
+                    <FormControl id="duration">
+                    <FormLabel>Duración en minutos</FormLabel>
                     <NumberInput onChange={(valueString) => {
-                                    data.price = parseInt(valueString)
-                                    // console.log(data.price)
+                                    data.duration = parseInt(valueString)
                                 }} 
                                 borderColor="#E0E1E7" 
-                                defaultValue={Object.keys(food).length !== 0 ? price : 3000} 
+                                defaultValue={Object.keys(movie).length !== 0 ? duration : 60} 
                                 min={1} 
+                                step={10}>
+                        <NumberInputField />
+                        <NumberInputStepper>
+                            <NumberIncrementStepper />
+                            <NumberDecrementStepper />
+                        </NumberInputStepper>
+                    </NumberInput>
+                    </FormControl>
+
+                    <FormControl id="minimum_age">
+                    <FormLabel>Edad mínima</FormLabel>
+                    <NumberInput onChange={(valueString) => {
+                                    data.minimum_age = parseInt(valueString)
+                                }} 
+                                borderColor="#E0E1E7" 
+                                defaultValue={Object.keys(movie).length !== 0 ? minimum_age : 0} 
+                                min={0} 
+                                step={10}>
+                        <NumberInputField />
+                        <NumberInputStepper>
+                            <NumberIncrementStepper />
+                            <NumberDecrementStepper />
+                        </NumberInputStepper>
+                    </NumberInput>
+                    </FormControl>
+
+                    <FormControl id="genre">
+                    <FormLabel>Género</FormLabel>
+                    <Input  type="text"
+                            onChange={updateValue}
+                            borderColor="#E0E1E7"
+                            defaultValue={Object.keys(movie).length != 0 ? genre : ""}
+                            />
+                    </FormControl>
+
+                    <FormControl id="languages">
+                    <FormLabel>Idiomas</FormLabel>
+                    <Textarea onChange={updateValue} 
+                                borderColor="#E0E1E7" 
+                                defaultValue={Object.keys(movie).length !== 0 ? languages : ""}
+                                placeholder="Idiomas disponibles"/>
+                    </FormControl>
+
+                    <FormControl id="year">
+                    <FormLabel>Año</FormLabel>
+                    <NumberInput onChange={(valueString) => {
+                                    data.year = parseInt(valueString)
+                                }} 
+                                borderColor="#E0E1E7" 
+                                defaultValue={Object.keys(movie).length !== 0 ? year : 2022} 
+                                min={1900} 
                                 step={100}>
                         <NumberInputField />
                         <NumberInputStepper>
@@ -153,63 +253,30 @@ const AddMovie = () => {
                     </NumberInput>
                     </FormControl>
 
-                    <FormControl id="type">
-                    <FormLabel>Tipo</FormLabel>
-                    <Select onChange={updateValue} 
-                        borderColor="#E0E1E7"
-                        defaultValue={Object.keys(food).length !== 0 ? type : 'snack'}>
-                        <option value='snack'>snack</option>
-                        <option value='bebida'>bebida</option>
-                        <option value='combo'>combo</option>
-                    </Select>
-                    </FormControl>
-
-                    <FormControl id="amount_available">
-                    <FormLabel>Cantidad disponible</FormLabel>
-                    <NumberInput onChange={(valueString) => {
-                                    data.amount_available = parseInt(valueString)
-                                    // console.log(data.amount_available)
-                                }} 
-                                borderColor="#E0E1E7" 
-                                defaultValue={Object.keys(food).length !== 0 ? amount_available : 3}
-                                min={1}>
-                        <NumberInputField />
-                        <NumberInputStepper>
-                            <NumberIncrementStepper />
-                            <NumberDecrementStepper />
-                        </NumberInputStepper>
-                    </NumberInput>
-                    </FormControl>
-
                     <FormControl id="image">
-                    <FormLabel>Link de la imagen</FormLabel>
-                    <Input type="text" 
+                    <FormLabel>Imagen</FormLabel>
+                    <Input  type="text"
                             onChange={updateValue}
-                            defaultValue={Object.keys(food).length !== 0 ? image : ""}/>
+                            borderColor="#E0E1E7"
+                            defaultValue={Object.keys(movie).length != 0 ? image : ""}
+                            />
                     </FormControl>
-                    
-                    <FormControl id="description">
-                    <FormLabel>Descripción</FormLabel>
-                    <Textarea onChange={updateValue} 
-                                borderColor="#E0E1E7" 
-                                defaultValue={Object.keys(food).length !== 0 ? description : ""}
-                                placeholder="Escriba detalles importantes del producto"/>
-                    </FormControl>
+
 
                     <FormControl id="button" float="right">
                     <Button
                         variant="solid"
                         bg="#0D74FF"
                         color="white"
-                        onClick={Object.keys(food).length !== 0 ? handleUpdate : handleSubmit}>
-                        {Object.keys(food).length !== 0 ? 'Guardar cambios' : 'Guardar'}
+                        onClick={Object.keys(movie).length !== 0 ? handleUpdate : handleSubmit}>
+                        {Object.keys(movie).length !== 0 ? 'Guardar cambios' : 'Guardar'}
                     </Button>
                     </FormControl>
                 </VStack>
                 </Box>
             </Box>
             </WrapItem>
-        </SidebarWithHeader> */}
+        </SidebarWithHeader>
         </>
     );
 };
