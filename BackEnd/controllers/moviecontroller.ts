@@ -64,4 +64,16 @@ export default class MovieController {
     public async addChart(info: any): Promise<QueryResult<any>> {
         return this.movie_repo.addChart(info);
     }    
+
+    public async delete(data : any): Promise<QueryResult<any>> {  
+      return this.movie_repo.delete(data);
+    }
+
+    public async add(data : any): Promise<QueryResult<any>> {  
+      return this.movie_repo.add(data);
+    }
+
+    public async update(movie_id : any, data : any): Promise<QueryResult<any>> {  
+      return this.movie_repo.update(movie_id, data);
+    }
 }

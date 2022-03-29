@@ -5,7 +5,6 @@ import { useSelector, RootStateOrAny } from "react-redux";
 import {
     Box,
     Center,
-    useColorModeValue,
     Heading,
     Text,
     Stack,
@@ -14,8 +13,9 @@ import {
 
 const MovieComponent = () => {
     const movies = useSelector((state : RootStateOrAny) => state.allMovies.movies);
-    const renderList = movies.map((movie: { movie_id: any; title: any; image: any; }) => {
-        const {movie_id, title, image} = movie
+    const renderList = movies.map((movie: { movie_id: any; title: any; image: any; director : any, genre : any, year : any}) => {
+        const {movie_id, title, image, director, genre, year} = movie
+        
         return(
             //chakra ui
             <div key={title}>
@@ -64,17 +64,14 @@ const MovieComponent = () => {
               </Box>
               <Stack pt={10} align={'center'}>
                 <Text color={'gray.500'} fontSize={'sm'} textTransform={'uppercase'}>
-                  Brand
+                  {genre}
                 </Text>
                 <Heading fontSize={'2xl'} fontFamily={'body'} fontWeight={500}>
                   {title}
                 </Heading>
                 <Stack direction={'row'} align={'center'}>
-                  <Text fontWeight={800} fontSize={'xl'}>
-                    $57
-                  </Text>
-                  <Text textDecoration={'line-through'} color={'gray.600'}>
-                    $199
+                  <Text fontWeight={800} fontSize={'xm'}>
+                    {year}
                   </Text>
                 </Stack>
               </Stack>

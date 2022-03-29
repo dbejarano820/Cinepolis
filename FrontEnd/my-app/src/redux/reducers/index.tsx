@@ -3,10 +3,12 @@ import { movieReducer, selectedMovieReducer } from "./movieReducer";
 import { foodReducer, selectedFoodReducer } from './foodReducer'
 import { tandaReducer, selectedTandaReducer } from "./tandaReducer";
 import { seatReducer, selectedSeatReducer } from "./seatReducer";
-import { selectedUserReducer } from "./userReducer";
 import { cartReducer } from "./cartReducer";
+import { selectedAdminUserReducer, selectedUserReducer, UserReducer } from "./userReducer";
 
 const reducers = combineReducers({
+    allUsers: UserReducer,
+    adminUser: selectedAdminUserReducer,
     user: selectedUserReducer,
 
     allMovies: movieReducer,

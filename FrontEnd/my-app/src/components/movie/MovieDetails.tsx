@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect } from "react";
-import {useParams} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import axios from "axios";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { 
@@ -30,15 +30,16 @@ import {
 import { removeSelectedTanda, setTandas } from "../../redux/actions/tandaActions";
 import { ActionTypes } from "../../redux/constants/action-types";
 import { Link } from "react-router-dom";
+import RedirectButton from "../food/ButtonRedirect";
 
 const MovieDetails = () => {
     const movie = useSelector((state: any) => state.movie);
     const tandas = useSelector((state: any) => state.allTandas.tandas)
-    const {title, actors, description, director, duration, minimum_age, genre, languages, year, image} = movie;  // destructure object
+    const user = useSelector((state : any) => state.user);
+    const {movie_id,title, actors, description, director, duration, minimum_age, genre, languages, year, image} = movie;  // destructure object
     const {movieTitle} : any = useParams();
     const dispatch = useDispatch();
-
-    console.log(tandas)
+    const history = useHistory();
 
     const fetchMovieDetail = async() => {
         const response : any = await axios
@@ -60,9 +61,9 @@ const MovieDetails = () => {
 
     useEffect(() => {
         if (movieTitle && movieTitle !== "") fetchMovieDetail(); 
-        return() => {
-            dispatch(removeSelectedMovie());
-        }
+        // return() => {
+        //     dispatch(removeSelectedMovie());
+        // }
     }, [movieTitle]);
 
         return (
@@ -179,39 +180,59 @@ const MovieDetails = () => {
                       </SimpleGrid>
                     </Box>
                   </Stack>
-              {tandas.map((tanda: { chart_id: any; movie_title: any; sala_name: any; start_time: any;}) => {
-                  const {movie_title, sala_name, start_time, chart_id} = tanda
-                  const fecha = new Date(start_time);
-                  console.log(start_time)
-                  console.log(fecha.toUTCString());
+
+            {/*-----------------------------
+              SE MUESTRA SOLO SI ES CLIENTE 
+              -----------------------------*/}
+            {user.type === "Client" ? (
+              tandas.map((tanda: { chart_id: any; movie_title: any; sala_name: any; start_time: any;}) => {
+                const {movie_title, sala_name, start_time, chart_id} = tanda
+                const fecha = new Date(start_time);
+                console.log(start_time)
+                console.log(fecha.toUTCString());
                   
-                  return(
-                   <div key={movieTitle}>
-                     <Link to={`/movies/${movie_title}/${sala_name}/${start_time}/${chart_id}`}> 
-                  <Button
-                    rounded={'none'}
-                    w={'full'}
-                    mt={8}
-                    size={'lg'}
-                    py={'7'}
-                    bg={useColorModeValue('gray.900', 'gray.50')}
-                    color={useColorModeValue('white', 'gray.900')}
-                    textTransform={'uppercase'}
-                    _hover={{
-                      transform: 'translateY(2px)',
-                      boxShadow: 'lg',
-                    }}>
-                       {sala_name} : {fecha.toUTCString() }
-                  </Button>
-                  </Link>
+                return(
+                  <div key={movieTitle}>
+                    <Link to={`/movies/${movie_title}/${sala_name}/${start_time}/${chart_id}`}> 
+                      <Button
+                        rounded={'none'}
+                        w={'full'}
+                        mt={8}
+                        size={'lg'}
+                        py={'7'}
+                        bg={useColorModeValue('gray.900', 'gray.50')}
+                        color={useColorModeValue('white', 'gray.900')}
+                        textTransform={'uppercase'}
+                        _hover={{
+                          transform: 'translateY(2px)',
+                          boxShadow: 'lg',
+                        }}>
+                          {sala_name} : {fecha.toUTCString() }
+                      </Button>
+                    </Link>
                   </div>
-                     );
-                  })}
-        
-                  <Stack direction="row" alignItems="center" justifyContent={'center'}>
-                    <MdLocalShipping />
-                    <Text>2-3 business days delivery</Text>
-                  </Stack>
+                );
+              })
+            ) : (
+              //botones de eliminar y editar
+              <>
+              <RedirectButton color="yellow.400" title="Editar" onClick={(e : any) => {
+                e.preventDefault();
+                history.push("/editMovie");
+              }}/>
+              <RedirectButton color="red.400" title="Eliminar" onClick={() => {
+                const data = {movie_id : movie_id};
+                axios.put("http://localhost:5000/api/movies/delete", data)
+                    .then((response) => {
+                        history.push("/movies");
+                    })
+                    .catch((err) => {
+                        console.log("Err", err);
+                    });
+              }}/>
+              </>
+            ) }
+
                 </Stack>
               </SimpleGrid>
             </Container>

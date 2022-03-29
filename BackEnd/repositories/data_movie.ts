@@ -18,7 +18,7 @@ export class movie_data {
     }
 
     public listMovies() {
-        return this.db.query(`SELECT * FROM movies`);
+        return this.db.query(`SELECT * FROM movies WHERE deleted=FALSE`);
     }
 
     public getListing() {
@@ -79,6 +79,31 @@ export class movie_data {
         const statement = 'SELECT add_chart($1, $2, $3, $4, $5, $6)';
         const values = [info.sala, info.movie, info.starttime, info.general, info.children, info.elderly];
         return this.db.query(statement, values);
-    }    
+    }  
+    
+    public delete(data : any) { 
+      const statement = 'UPDATE movies SET deleted=TRUE WHERE movie_id=$1';
+      const values = [data.movie_id]; 
+      return this.db.query(statement, values);
+    }
+
+    public add(data : any) { 
+      const statement = 'INSERT INTO movies'+
+                        '(title, actors, description, director, duration, minimum_age, genre, languages, year, image, deleted) '+
+                        'VALUES '+
+                        '($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, false)';
+      const values = [data.title, data.actors, data.description, 
+                      data.director, data.duration, data.minimum_age, data.genre, 
+                      data.languages, data.year, data.image];
+      return this.db.query(statement, values);
+  } 
+
+  public update(movie_id : any, data : any) { 
+    const statement = 'UPDATE movies SET title=$2, actors=$3, description=$4, director=$5, duration=$6, minimum_age=$7, genre=$8, languages=$9, year=$10, image=$11 WHERE movie_id=$1';
+    const values = [movie_id, data.title, data.actors, data.description, 
+                    data.director, data.duration, data.minimum_age, data.genre, 
+                    data.languages, data.year, data.image];
+    return this.db.query(statement, values);
+  }
 }
 
