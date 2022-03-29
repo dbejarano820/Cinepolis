@@ -50,7 +50,7 @@ export default function LoginComponent() {
           .then((response : any)=>{
              switch (response.data.type) {
                 case "Admin":
-                  history.push("/moviesAdmin");
+                  history.push("/movies");
                   break;
                 case "Client":
                   history.push("/food");

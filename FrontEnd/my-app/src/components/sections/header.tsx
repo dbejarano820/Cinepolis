@@ -37,17 +37,13 @@ import { useColorMode } from "@chakra-ui/color-mode";
 import { Heading, Spacer } from "@chakra-ui/layout";
 import { FaSun, FaMoon } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useSelector } from 'react-redux';
 
 interface LinkItemProps {
   name: string;
   icon: IconType;
   href : ReactText;
 }
-const LinkItems: Array<LinkItemProps> = [
-  { name: 'Peliculas', icon: FiHome, href:'/movies'},
-  { name: 'Comida', icon: FiTrendingUp , href:"/food"},
-  { name: 'Carrito de Compras', icon: FiCompass , href:"/"},
-];
 
 export default function SidebarWithHeader({
   children,
@@ -88,6 +84,18 @@ interface SidebarProps extends BoxProps {
 }
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
+  const user = useSelector((state : any) => state.user);
+
+  const LinkItems: Array<LinkItemProps> = [
+    { name: 'Peliculas', icon: FiHome, href:'/movies'},
+    { name: 'Comida', icon: FiTrendingUp , href:"/food"},
+    { name: 'Carrito de Compras', icon: FiCompass , href:"/"},
+  ];
+
+  if(user.type === 'Admin') {
+    LinkItems[2] = { name: 'Administrar', icon: FiCompass , href:"/adminUsers"}
+  }
+
   return (
     <Box
       transition="3s ease"
