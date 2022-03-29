@@ -48,6 +48,15 @@ export class user_data {
     const statement = 'UPDATE users SET deleted=TRUE WHERE user_id=$1';
     const values = [data.user_id];
     return this.db.query(statement, values);
-}
+  }
+
+  public add(data : any) { 
+    const statement = 'INSERT INTO users'+
+                      '(name, lastname, password, birthday, vaccines, usertype_id, secondlastname, deleted) '+
+                      'VALUES '+
+                      '($1, $2, $3, $4, $5, $6, $7, false)';
+    const values = [data.name, data.lastname, data.password, data.birthday, data.vaccines, data.usertype_id, data.secondlastname];
+    return this.db.query(statement, values);
+  }
 
 }

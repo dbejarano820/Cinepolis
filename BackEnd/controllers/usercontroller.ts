@@ -45,6 +45,10 @@ export default class UserController {
 
   public async delete(data : any): Promise<QueryResult<any>> {  
     return this.user_repo.delete(data);
-}
+  }
+
+  public async add(data : any): Promise<QueryResult<any>> {  
+    return this.user_repo.add(data);
+  }
     
 }

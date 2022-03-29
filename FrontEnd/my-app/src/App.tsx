@@ -17,6 +17,7 @@ import LoginComponent from "./components/user/LoginComponent";
 import SignUpComponent from "./components/user/SignUpComponent";
 import ConfirmPassComponent from "./components/user/ConfirmPassComponent";
 import UserDetail from "./components/user/UserDetail";
+import AddUser from "./components/user/AddUser";
 // import SidebarwithHeader from "./components/sections/headerr"
    
 function App() {
@@ -38,8 +39,10 @@ function App() {
           <Route exact path="/addFood" component={AddFood} />   
           <Route exact path="/editFood" component={AddFood} /> 
           <Route exact path="/adminUsers" component={AdminUsers} /> 
-          <Route exact path="/user/:email" component={UserDetail} />  
-              
+          <Route exact path="/user/:email" component={UserDetail} /> 
+          <Route exact path="/addUser" component={AddUser} /> 
+          <Route exact path="/editUser" component={AddUser} /> 
+
           <Route>404 Not Found! </Route>
        </Switch>
 

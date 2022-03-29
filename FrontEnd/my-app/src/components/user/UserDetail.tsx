@@ -44,9 +44,9 @@ const UserDetail = () => {
 
     useEffect(() => {
         if (email && email !== "") fetchUserDetail();
-        return () => {
-            dispatch(removeSelectedAdminUser())
-        }
+        // return () => {
+        //     dispatch(removeSelectedAdminUser())
+        // }
     }, [email]);
 
     return(
@@ -115,13 +115,19 @@ const UserDetail = () => {
                     </Text>{' '}
                     {vaccines}
                     </ListItem>
+                    <ListItem>
+                    <Text as={'span'} fontWeight={'bold'}>
+                        Contraseña:
+                    </Text>{' '}
+                    {password}
+                    </ListItem>
                 </List>
                 </Box>
             </Stack>
 
             <RedirectButton color="yellow.400" title="Editar" onClick={(e : any) => {
               e.preventDefault();
-              // history.push("/editFood");
+              history.push("/editUser");
             }}/>
             <RedirectButton color="red.400" title="Eliminar" onClick={() => {
               const data = {user_id : user_id};
