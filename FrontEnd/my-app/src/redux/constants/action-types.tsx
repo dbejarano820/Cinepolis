@@ -21,4 +21,6 @@ export const ActionTypes = {
 
     SET_USER : "SET_USER",
     REMOVE_USER : "REMOVE_USER",
+
+    SET_CART : "SET_CART",
 };

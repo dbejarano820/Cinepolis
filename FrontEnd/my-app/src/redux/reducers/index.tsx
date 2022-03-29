@@ -4,6 +4,7 @@ import { foodReducer, selectedFoodReducer } from './foodReducer'
 import { tandaReducer, selectedTandaReducer } from "./tandaReducer";
 import { seatReducer, selectedSeatReducer } from "./seatReducer";
 import { selectedUserReducer } from "./userReducer";
+import { cartReducer } from "./cartReducer";
 
 const reducers = combineReducers({
     user: selectedUserReducer,
@@ -18,6 +19,8 @@ const reducers = combineReducers({
 
     allFoods : foodReducer,
     food : selectedFoodReducer,
+
+    cart : cartReducer
     
 });
 
