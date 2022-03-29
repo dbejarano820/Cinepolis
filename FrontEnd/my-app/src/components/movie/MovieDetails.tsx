@@ -6,7 +6,6 @@ import { connect, useDispatch, useSelector } from "react-redux";
 import { 
     selectedMovie,
     removeSelectedMovie,
-    removeSetMovies,
 } from "../../redux/actions/movieActions";
 import {
     Box,
@@ -28,7 +27,7 @@ import {
   } from '@chakra-ui/react';
   import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
   import { MdLiveTv, MdLocalShipping } from 'react-icons/md';
-import { removeSelectedTanda, removeSetTandas, setTandas } from "../../redux/actions/tandaActions";
+import { removeSelectedTanda, setTandas } from "../../redux/actions/tandaActions";
 import { ActionTypes } from "../../redux/constants/action-types";
 import { Link } from "react-router-dom";
 

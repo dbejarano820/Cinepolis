@@ -7,12 +7,6 @@ export const setTandas = (tandas: any) => {
     };
 };
 
-export const removeSetTandas = () => {
-    return {
-        type : ActionTypes.REMOVE_SET_TANDAS,
-    };
-};
-
 export const selectedTanda = (tanda: any) => {
     return {
         type : ActionTypes.SELECTED_TANDA,
