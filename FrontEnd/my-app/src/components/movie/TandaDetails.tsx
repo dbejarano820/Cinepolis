@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect } from "react";
+import './TandaDetails.css'
 import {useParams} from "react-router-dom";
 import axios from "axios";
 import { connect, useDispatch, useSelector } from "react-redux";
@@ -24,6 +25,7 @@ import {
     VisuallyHidden,
     List,
     ListItem,
+    HStack,
   } from '@chakra-ui/react';
   import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
   import { MdLiveTv, MdLocalShipping } from 'react-icons/md';
@@ -31,6 +33,7 @@ import { removeSelectedTanda, selectedTanda, setTandas } from "../../redux/actio
 import { ActionTypes } from "../../redux/constants/action-types";
 import { Link } from "react-router-dom";
 import { selectedSeat, setSeats } from "../../redux/actions/seatActions";
+import { render } from "@testing-library/react";
 
 const TandaDetails = () => {
 
@@ -52,20 +55,46 @@ const TandaDetails = () => {
         "H1":'', "H2":'', "H3":'', "H4":'', "H5":'', "H6":'', "H7":'', "H8":'', "H9":'', "H10":'',
         "I1":'', "I2":'', "I3":'', "I4":'', "I5":'', "I6":'', "I7":'', "I8":'', "I9":'', "I10":'',
         "J1":'', "J2":'', "J3":'', "J4":'', "J5":'', "J6":'', "J7":'', "J8":'', "J9":'', "J10":'',
+    };
+    let selectedSeats : number = 0
 
+    const updateSeats = () => {
+        console.log(seats_taken)
+        seats_taken.map((seat: { seat_row: any; seat_number: any;}) => {
+            console.log(seat)
+            const {seat_row, seat_number} = seat;
+            const s = String(seat_row+seat_number);
+           // seats.
+           console.log(s)
+           seats[s] = 'reservado';
+           console.log(s + seats[s]);
+        
+         })
     };
 
-    // const updateSeats = () => {
-    //     seats_taken.map((seat: { row: any; number: any;}) => {
-    //         const {row, number} = seat;
-    //         const s = String(row+number);
+    const onClickHandler = (e : any , seatName : any) => {
 
-    //        // seats.
-    //        seats[s] = 'Reservado'
-    //         console.log(seats[s]);
+        console.log("TEST")
+        console.log(seatName)
+
+        let updatedSelectedSeats = selectedSeats;
+        if (seats[seatName] !== 'reservado') {
+            seats[seatName] === '' ? updatedSelectedSeats++ : updatedSelectedSeats--;
+        }
+
+        const updatedSeats : {[name: string] : string }  = seats
+
+        if(updatedSeats[seatName]==='reservado') {
+            return ;
+        }
+        updatedSeats[seatName] = seats[seatName] === 'selected' ? '':'selected';
+        console.log(updatedSelectedSeats)
+        seats = updatedSeats
+        selectedSeats = updatedSelectedSeats
+        console.log(selectedSeats)
+        console.log(seats["A1"])
         
-    //      }
-    // };
+    }
 
     const fetchTandaDetail = async() => {
         
@@ -83,6 +112,18 @@ const TandaDetails = () => {
         });
         dispatch(setSeats(response.data));
 
+        console.log(seats_taken)
+        seats_taken.map((seat: { seat_row: any; seat_number: any;}) => {
+            console.log(seat)
+            const {seat_row, seat_number} = seat;
+            const s = String(seat_row+seat_number);
+           // seats.
+           console.log(s)
+           seats[s] = 'reservado';
+           console.log(s + seats[s]);
+        }
+        )
+
     };
 
      useEffect(() => {
@@ -95,110 +136,169 @@ const TandaDetails = () => {
 
 
         return (
+           <div>
+               <Container> 
+                   <HStack> <Text> Children price: ${price_children}      General Price: ${price_general}       Elderly Price: ${price_elderly} </Text></HStack>
+                   <div className="bodyy">
 
-            <div> Children price: {price_children}   General Price: {price_general}    Elderly Price: {price_elderly}</div>
+                <ul className="showcase">
+                    <li>
+                        <div className="seat"></div>
+                        <small>N/A</small>
+                    </li>
+                    <li>
+                        <div className="seat selected"></div>
+                        <small>Selected</small>
+                    </li>
+                    <li>
+                        <div className="seat reservado"></div>
+                        <small>Occupied</small>
+                    </li>
+                </ul>
 
-    //         onst movies = useSelector((state : RootStateOrAny) => state.allMovies.movies);
-    // const renderList = movies.map((movie: { movie_id: any; title: any; image: any; }) => {
-    //     const {movie_id, title, image} = movie
-    //     return(
-    //         //chakra ui
-    //         <div key={title}>
-    //         <Link to={`/movies/${title}`}> 
-           
-                //    <div className="body">
+                <div className="containerr">
+                    <div className="screen"></div>
+                    <div className="row">
+                        <div className={"seat " + (seats.A1)} onClick={(e : any) => onClickHandler(e , 'A1')}></div>
+                        <div className={"seat " + (seats.A2)} onClick={(e : any) => onClickHandler(e , 'A2')}></div>
+                        <div className={"seat " + (seats.A3)} onClick={(e : any) => onClickHandler(e , 'A3')}></div>
+                        <div className={"seat " + (seats.A4)} onClick={(e : any) => onClickHandler(e , 'A4')}></div>
+                        <div className={"seat " + (seats.A5)} onClick={(e : any) => onClickHandler(e , 'A5')}></div>
+                        <div className={"seat " + (seats.A6)} onClick={(e : any) => onClickHandler(e , 'A6')}></div>
+                        <div className={"seat " + (seats.A7)} onClick={(e : any) => onClickHandler(e , 'A7')}></div>
+                        <div className={"seat " + (seats.A8)} onClick={(e : any) => onClickHandler(e , 'A8')}></div>
+                        <div className={"seat " + (seats.A9)} onClick={(e : any) => onClickHandler(e , 'A9')}></div>
+                        <div className={"seat " + (seats.A10)} onClick={(e : any) => onClickHandler(e , 'A10')}></div>
+                    </div>
 
-                // <ul className="showcase">
-                //     <li>
-                //         <div className="seat"></div>
-                //         <small>N/A</small>
-                //     </li>
-                //     <li>
-                //         <div className="seat selected"></div>
-                //         <small>Selected</small>
-                //     </li>
-                //     <li>
-                //         <div className="seat occupied"></div>
-                //         <small>Occupied</small>
-                //     </li>
-                // </ul>
+                    <div className="row">
+                        <div className={"seat " + (seats.B1)} onClick={(e : any) => onClickHandler(e , 'B1')}></div>
+                        <div className={"seat " + (seats.B2)} onClick={(e : any) => onClickHandler(e , 'B2')}></div>
+                        <div className={"seat " + (seats.B3)} onClick={(e : any) => onClickHandler(e , 'B3')}></div>
+                        <div className={"seat " + (seats.B4)} onClick={(e : any) => onClickHandler(e , 'B4')}></div>
+                        <div className={"seat " + (seats.B5)} onClick={(e : any) => onClickHandler(e , 'B5')}></div>
+                        <div className={"seat " + (seats.B6)} onClick={(e : any) => onClickHandler(e , 'B6')}></div>
+                        <div className={"seat " + (seats.B7)} onClick={(e : any) => onClickHandler(e , 'B7')}></div>
+                        <div className={"seat " + (seats.B8)} onClick={(e : any) => onClickHandler(e , 'B8')}></div>
+                        <div className={"seat " + (seats.B9)} onClick={(e : any) => onClickHandler(e , 'B9')}></div>
+                        <div className={"seat " + (seats.B10)} onClick={(e : any) => onClickHandler(e , 'B10')}></div>
+                    </div>
 
-                // <div className="container">
-                //     <div className="screen"></div>
-                //     <div className="row">
-                //         <div className={"seat " + (this.state.seats.a1)} onClick={(e) => this.onClickHandler(e , 'a1')}></div>
-                //         <div className={"seat " + (this.state.seats.a2)} onClick={(e) => this.onClickHandler(e , 'a2')}></div>
-                //         <div className={"seat " + (this.state.seats.a3)} onClick={(e) => this.onClickHandler(e , 'a3')}></div>
-                //         <div className={"seat " + (this.state.seats.a4)} onClick={(e) => this.onClickHandler(e , 'a4')}></div>
-                //         <div className={"seat " + (this.state.seats.a5)} onClick={(e) => this.onClickHandler(e , 'a5')}></div>
-                //         <div className={"seat " + (this.state.seats.a6)} onClick={(e) => this.onClickHandler(e , 'a6')}></div>
-                //         <div className={"seat " + (this.state.seats.a7)} onClick={(e) => this.onClickHandler(e , 'a7')}></div>
-                //         <div className={"seat " + (this.state.seats.a8)} onClick={(e) => this.onClickHandler(e , 'a8')}></div>
-                //     </div>
+                    <div className="row">
+                        <div className={"seat " + (seats.C1)} onClick={(e : any) => onClickHandler(e , 'C1')}></div>
+                        <div className={"seat " + (seats.C2)} onClick={(e : any) => onClickHandler(e , 'C2')}></div>
+                        <div className={"seat " + (seats.C3)} onClick={(e : any) => onClickHandler(e , 'C3')}></div>
+                        <div className={"seat " + (seats.C4)} onClick={(e : any) => onClickHandler(e , 'C4')}></div>
+                        <div className={"seat " + (seats.C5)} onClick={(e : any) => onClickHandler(e , 'C5')}></div>
+                        <div className={"seat " + (seats.C6)} onClick={(e : any) => onClickHandler(e , 'C6')}></div>
+                        <div className={"seat " + (seats.C7)} onClick={(e : any) => onClickHandler(e , 'C7')}></div>
+                        <div className={"seat " + (seats.C8)} onClick={(e : any) => onClickHandler(e , 'C8')}></div>
+                        <div className={"seat " + (seats.C9)} onClick={(e : any) => onClickHandler(e , 'C9')}></div>
+                        <div className={"seat " + (seats.C10)} onClick={(e : any) => onClickHandler(e , 'C10')}></div>
+                    </div>
 
-                //     <div className="row">
-                //         <div className={"seat " + (this.state.seats.b1)} onClick={(e) => this.onClickHandler(e , 'b1')}></div>
-                //         <div className={"seat " + (this.state.seats.b2)} onClick={(e) => this.onClickHandler(e , 'b2')}></div>
-                //         <div className={"seat " + (this.state.seats.b3)} onClick={(e) => this.onClickHandler(e , 'b3')}></div>
-                //         <div className={"seat " + (this.state.seats.b4)} onClick={(e) => this.onClickHandler(e , 'b4')}></div>
-                //         <div className={"seat " + (this.state.seats.b5)} onClick={(e) => this.onClickHandler(e , 'b5')}></div>
-                //         <div className={"seat " + (this.state.seats.b6)} onClick={(e) => this.onClickHandler(e , 'b6')}></div>
-                //         <div className={"seat " + (this.state.seats.b7)} onClick={(e) => this.onClickHandler(e , 'b7')}></div>
-                //         <div className={"seat " + (this.state.seats.b8)} onClick={(e) => this.onClickHandler(e , 'b8')}></div>
-                //     </div>
+                    <div className="row">
+                        <div className={"seat " + (seats.D1)} onClick={(e : any) => onClickHandler(e , 'D1')}></div>
+                        <div className={"seat " + (seats.D2)} onClick={(e : any) => onClickHandler(e , 'D2')}></div>
+                        <div className={"seat " + (seats.D3)} onClick={(e : any) => onClickHandler(e , 'D3')}></div>
+                        <div className={"seat " + (seats.D4)} onClick={(e : any) => onClickHandler(e , 'D4')}></div>
+                        <div className={"seat " + (seats.D5)} onClick={(e : any) => onClickHandler(e , 'D5')}></div>
+                        <div className={"seat " + (seats.D6)} onClick={(e : any) => onClickHandler(e , 'D6')}></div>
+                        <div className={"seat " + (seats.D7)} onClick={(e : any) => onClickHandler(e , 'D7')}></div>
+                        <div className={"seat " + (seats.D8)} onClick={(e : any) => onClickHandler(e , 'D8')}></div>
+                        <div className={"seat " + (seats.D9)} onClick={(e : any) => onClickHandler(e , 'D9')}></div>
+                        <div className={"seat " + (seats.D10)} onClick={(e : any) => onClickHandler(e , 'D10')}></div>
+                    </div>
 
-                //     <div className="row">
-                //         <div className={"seat " + (this.state.seats.c1)} onClick={(e) => this.onClickHandler(e , 'c1')}></div>
-                //         <div className={"seat " + (this.state.seats.c2)} onClick={(e) => this.onClickHandler(e , 'c2')}></div>
-                //         <div className={"seat " + (this.state.seats.c3)} onClick={(e) => this.onClickHandler(e , 'c3')}></div>
-                //         <div className={"seat " + (this.state.seats.c4)} onClick={(e) => this.onClickHandler(e , 'c4')}></div>
-                //         <div className={"seat " + (this.state.seats.c5)} onClick={(e) => this.onClickHandler(e , 'c5')}></div>
-                //         <div className={"seat " + (this.state.seats.c6)} onClick={(e) => this.onClickHandler(e , 'c6')}></div>
-                //         <div className={"seat " + (this.state.seats.c7)} onClick={(e) => this.onClickHandler(e , 'c7')}></div>
-                //         <div className={"seat " + (this.state.seats.c8)} onClick={(e) => this.onClickHandler(e , 'c8')}></div>
-                //     </div>
+                    <div className="row">
+                        <div className={"seat " + (seats.E1)} onClick={(e : any) => onClickHandler(e , 'E1')}></div>
+                        <div className={"seat " + (seats.E2)} onClick={(e : any) => onClickHandler(e , 'E2')}></div>
+                        <div className={"seat " + (seats.E3)} onClick={(e : any) => onClickHandler(e , 'E3')}></div>
+                        <div className={"seat " + (seats.E4)} onClick={(e : any) => onClickHandler(e , 'E4')}></div>
+                        <div className={"seat " + (seats.E5)} onClick={(e : any) => onClickHandler(e , 'E5')}></div>
+                        <div className={"seat " + (seats.E6)} onClick={(e : any) => onClickHandler(e , 'E6')}></div>
+                        <div className={"seat " + (seats.E7)} onClick={(e : any) => onClickHandler(e , 'E7')}></div>
+                        <div className={"seat " + (seats.E8)} onClick={(e : any) => onClickHandler(e , 'E8')}></div>
+                        <div className={"seat " + (seats.E9)} onClick={(e : any) => onClickHandler(e , 'E9')}></div>
+                        <div className={"seat " + (seats.E10)} onClick={(e : any) => onClickHandler(e , 'E10')}></div>
+                    </div>
 
-                //     <div className="row">
-                //         <div className={"seat " + (this.state.seats.d1)} onClick={(e) => this.onClickHandler(e , 'd1')}></div>
-                //         <div className={"seat " + (this.state.seats.d2)} onClick={(e) => this.onClickHandler(e , 'd2')}></div>
-                //         <div className={"seat " + (this.state.seats.d3)} onClick={(e) => this.onClickHandler(e , 'd3')}></div>
-                //         <div className={"seat " + (this.state.seats.d4)} onClick={(e) => this.onClickHandler(e , 'd4')}></div>
-                //         <div className={"seat " + (this.state.seats.d5)} onClick={(e) => this.onClickHandler(e , 'd5')}></div>
-                //         <div className={"seat " + (this.state.seats.d6)} onClick={(e) => this.onClickHandler(e , 'd6')}></div>
-                //         <div className={"seat " + (this.state.seats.d7)} onClick={(e) => this.onClickHandler(e , 'd7')}></div>
-                //         <div className={"seat " + (this.state.seats.d8)} onClick={(e) => this.onClickHandler(e , 'd8')}></div>
-                //     </div>
+                    <div className="row">
+                        <div className={"seat " + (seats.F1)} onClick={(e : any) => onClickHandler(e , 'F1')}></div>
+                        <div className={"seat " + (seats.F2)} onClick={(e : any) => onClickHandler(e , 'F2')}></div>
+                        <div className={"seat " + (seats.F3)} onClick={(e : any) => onClickHandler(e , 'F3')}></div>
+                        <div className={"seat " + (seats.F4)} onClick={(e : any) => onClickHandler(e , 'F4')}></div>
+                        <div className={"seat " + (seats.F5)} onClick={(e : any) => onClickHandler(e , 'F5')}></div>
+                        <div className={"seat " + (seats.F6)} onClick={(e : any) => onClickHandler(e , 'F6')}></div>
+                        <div className={"seat " + (seats.F7)} onClick={(e : any) => onClickHandler(e , 'F7')}></div>
+                        <div className={"seat " + (seats.F8)} onClick={(e : any) => onClickHandler(e , 'F8')}></div>
+                        <div className={"seat " + (seats.F9)} onClick={(e : any) => onClickHandler(e , 'F9')}></div>
+                        <div className={"seat " + (seats.F10)} onClick={(e : any) => onClickHandler(e , 'F10')}></div>
+                    </div>
 
-                //     <div className="row">
-                //         <div className={"seat " + (this.state.seats.e1)} onClick={(e) => this.onClickHandler(e , 'e1')}></div>
-                //         <div className={"seat " + (this.state.seats.e2)} onClick={(e) => this.onClickHandler(e , 'e2')}></div>
-                //         <div className={"seat " + (this.state.seats.e3)} onClick={(e) => this.onClickHandler(e , 'e3')}></div>
-                //         <div className={"seat " + (this.state.seats.e4)} onClick={(e) => this.onClickHandler(e , 'e4')}></div>
-                //         <div className={"seat " + (this.state.seats.e5)} onClick={(e) => this.onClickHandler(e , 'e5')}></div>
-                //         <div className={"seat " + (this.state.seats.e6)} onClick={(e) => this.onClickHandler(e , 'e6')}></div>
-                //         <div className={"seat " + (this.state.seats.e7)} onClick={(e) => this.onClickHandler(e , 'e7')}></div>
-                //         <div className={"seat " + (this.state.seats.e8)} onClick={(e) => this.onClickHandler(e , 'e8')}></div>
-                //     </div>
+                    <div className="row">
+                        <div className={"seat " + (seats.G1)} onClick={(e : any) => onClickHandler(e , 'G1')}></div>
+                        <div className={"seat " + (seats.G2)} onClick={(e : any) => onClickHandler(e , 'G2')}></div>
+                        <div className={"seat " + (seats.G3)} onClick={(e : any) => onClickHandler(e , 'G3')}></div>
+                        <div className={"seat " + (seats.G4)} onClick={(e : any) => onClickHandler(e , 'G4')}></div>
+                        <div className={"seat " + (seats.G5)} onClick={(e : any) => onClickHandler(e , 'G5')}></div>
+                        <div className={"seat " + (seats.G6)} onClick={(e : any) => onClickHandler(e , 'G6')}></div>
+                        <div className={"seat " + (seats.G7)} onClick={(e : any) => onClickHandler(e , 'G7')}></div>
+                        <div className={"seat " + (seats.G8)} onClick={(e : any) => onClickHandler(e , 'G8')}></div>
+                        <div className={"seat " + (seats.G9)} onClick={(e : any) => onClickHandler(e , 'G9')}></div>
+                        <div className={"seat " + (seats.G10)} onClick={(e : any) => onClickHandler(e , 'G10')}></div>
+                    </div>
 
-                //     <div className="row">
-                //         <div className={"seat " + (this.state.seats.f1)} onClick={(e) => this.onClickHandler(e , 'f1')}></div>
-                //         <div className={"seat " + (this.state.seats.f2)} onClick={(e) => this.onClickHandler(e , 'f2')}></div>
-                //         <div className={"seat " + (this.state.seats.f3)} onClick={(e) => this.onClickHandler(e , 'f3')}></div>
-                //         <div className={"seat " + (this.state.seats.f4)} onClick={(e) => this.onClickHandler(e , 'f4')}></div>
-                //         <div className={"seat " + (this.state.seats.f5)} onClick={(e) => this.onClickHandler(e , 'f5')}></div>
-                //         <div className={"seat " + (this.state.seats.f6)} onClick={(e) => this.onClickHandler(e , 'f6')}></div>
-                //         <div className={"seat " + (this.state.seats.f7)} onClick={(e) => this.onClickHandler(e , 'f7')}></div>
-                //         <div className={"seat " + (this.state.seats.f8)} onClick={(e) => this.onClickHandler(e , 'f8')}></div>
-                //     </div>
-                // </div>
+                    <div className="row">
+                        <div className={"seat " + (seats.H1)} onClick={(e : any) => onClickHandler(e , 'H1')}></div>
+                        <div className={"seat " + (seats.H2)} onClick={(e : any) => onClickHandler(e , 'H2')}></div>
+                        <div className={"seat " + (seats.H3)} onClick={(e : any) => onClickHandler(e , 'H3')}></div>
+                        <div className={"seat " + (seats.H4)} onClick={(e : any) => onClickHandler(e , 'H4')}></div>
+                        <div className={"seat " + (seats.H5)} onClick={(e : any) => onClickHandler(e , 'H5')}></div>
+                        <div className={"seat " + (seats.H6)} onClick={(e : any) => onClickHandler(e , 'H6')}></div>
+                        <div className={"seat " + (seats.H7)} onClick={(e : any) => onClickHandler(e , 'H7')}></div>
+                        <div className={"seat " + (seats.H8)} onClick={(e : any) => onClickHandler(e , 'H8')}></div>
+                        <div className={"seat " + (seats.H9)} onClick={(e : any) => onClickHandler(e , 'H9')}></div>
+                        <div className={"seat " + (seats.H10)} onClick={(e : any) => onClickHandler(e , 'H10')}></div>
+                    </div>
 
-                // <p className="text">You have selected 
-                //     <span>{this.state.selectedSeats}</span>
-                //     Seats for the price of
-                //     <span>{this.state.totalPrice}</span>
-                //     {'\u20B9'}
-                //  </p>
-                //  </div>
+                    <div className="row">
+                        <div className={"seat " + (seats.I1)} onClick={(e : any) => onClickHandler(e , 'I1')}></div>
+                        <div className={"seat " + (seats.I2)} onClick={(e : any) => onClickHandler(e , 'I2')}></div>
+                        <div className={"seat " + (seats.I3)} onClick={(e : any) => onClickHandler(e , 'I3')}></div>
+                        <div className={"seat " + (seats.I4)} onClick={(e : any) => onClickHandler(e , 'I4')}></div>
+                        <div className={"seat " + (seats.I5)} onClick={(e : any) => onClickHandler(e , 'I5')}></div>
+                        <div className={"seat " + (seats.I6)} onClick={(e : any) => onClickHandler(e , 'I6')}></div>
+                        <div className={"seat " + (seats.I7)} onClick={(e : any) => onClickHandler(e , 'I7')}></div>
+                        <div className={"seat " + (seats.I8)} onClick={(e : any) => onClickHandler(e , 'I8')}></div>
+                        <div className={"seat " + (seats.I9)} onClick={(e : any) => onClickHandler(e , 'I9')}></div>
+                        <div className={"seat " + (seats.I10)} onClick={(e : any) => onClickHandler(e , 'I10')}></div>
+                    </div>
+
+                    <div className="row">
+                        <div className={"seat " + (seats.J1)} onClick={(e : any) => onClickHandler(e , 'J1')}></div>
+                        <div className={"seat " + (seats.J2)} onClick={(e : any) => onClickHandler(e , 'J2')}></div>
+                        <div className={"seat " + (seats.J3)} onClick={(e : any) => onClickHandler(e , 'J3')}></div>
+                        <div className={"seat " + (seats.J4)} onClick={(e : any) => onClickHandler(e , 'J4')}></div>
+                        <div className={"seat " + (seats.J5)} onClick={(e : any) => onClickHandler(e , 'J5')}></div>
+                        <div className={"seat " + (seats.J6)} onClick={(e : any) => onClickHandler(e , 'J6')}></div>
+                        <div className={"seat " + (seats.J7)} onClick={(e : any) => onClickHandler(e , 'J7')}></div>
+                        <div className={"seat " + (seats.J8)} onClick={(e : any) => onClickHandler(e , 'J8')}></div>
+                        <div className={"seat " + (seats.J9)} onClick={(e : any) => onClickHandler(e , 'J9')}></div>
+                        <div className={"seat " + (seats.J10)} onClick={(e : any) => onClickHandler(e , 'J10')}></div>
+                    </div>
+                </div>
+
+                
+                </div>
+
+                <p className="text">You have selected 
+                    <span>{selectedSeats}</span>
+                    Seats for the price of
+                 </p>
+                 </Container>
+                 </div>
+      
          )
 };
 

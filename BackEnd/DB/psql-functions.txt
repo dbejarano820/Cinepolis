@@ -66,6 +66,7 @@ BEGIN
       SELECT get_user_id(_email) INTO _userid;
 
       INSERT INTO reservations(user_id, active, created_on)
+      OVERRIDING SYSTEM VALUE
       VALUES (_userid, true, now());
 END
 $$;
@@ -127,6 +128,7 @@ BEGIN
       SELECT get_chart_id(_movieid, _salaid, _starttime) INTO _chartid;
 
       INSERT INTO seats_reserved(seat_id, chart_id, reservation_id, type)
+      OVERRIDING SYSTEM VALUE
       VALUES (_seatid, _chartid, _reservationid, _type);
 END
 $$;
@@ -147,13 +149,14 @@ BEGIN
       SELECT get_food_id(_food) INTO _foodid;
 
       INSERT INTO food_reserved(food_id, reservation_id)
+      OVERRIDING SYSTEM VALUE
       VALUES (_foodid, _reservationid);
 END
 $$;
 
 ///
 CREATE OR REPLACE FUNCTION active_reservations(_user text)
-RETURNS TABLE(chart_id int, movie_title varchar, movie_image varchar, minimum_age int, start_time timestamptz, sala_name varchar)
+RETURNS TABLE(created_on timestamptz, seat_row char, seat_number integer, sala_name varchar, movie_title varchar, start_time timestamptz, food_name varchar)
 LANGUAGE plpgsql
 AS $$
 DECLARE
@@ -166,7 +169,7 @@ BEGIN
       FROM reservations
       INNER JOIN seats_reserved ON seats_reserved.reservation_id = reservations.reservation_id
       INNER JOIN seats ON seats.seat_id = seats_reserved.seat_id
-      INNER JOIN sala ON salas.sala_id = seats.sala_id
+      INNER JOIN salas ON salas.sala_id = seats.sala_id
       INNER JOIN chart ON chart.chart_id = seats_reserved.chart_id
       INNER JOIN movies ON movies.movie_id = chart.movie_id
       INNER JOIN food_reserved ON food_reserved.reservation_id = reservations.reservation_id
@@ -177,7 +180,7 @@ $$;
 
 ///
 CREATE OR REPLACE FUNCTION all_reservations(_user text)
-RETURNS TABLE(chart_id int, movie_title varchar, movie_image varchar, minimum_age int, start_time timestamptz, sala_name varchar)
+RETURNS TABLE(created_on timestamptz, seat_row char, seat_number integer, sala_name varchar, movie_title varchar, start_time timestamptz, food_name varchar)
 LANGUAGE plpgsql
 AS $$
 DECLARE
@@ -190,7 +193,7 @@ BEGIN
       FROM reservations
       INNER JOIN seats_reserved ON seats_reserved.reservation_id = reservations.reservation_id
       INNER JOIN seats ON seats.seat_id = seats_reserved.seat_id
-      INNER JOIN sala ON salas.sala_id = seats.sala_id
+      INNER JOIN salas ON salas.sala_id = seats.sala_id
       INNER JOIN chart ON chart.chart_id = seats_reserved.chart_id
       INNER JOIN movies ON movies.movie_id = chart.movie_id
       INNER JOIN food_reserved ON food_reserved.reservation_id = reservations.reservation_id
@@ -218,7 +221,7 @@ BEGIN
       RETURN QUERY
       SELECT seats.row, seats.number
       FROM seats_reserved
-      INNER JOIN chart ON seats_reserved.chart_id = _chartid
+      INNER JOIN chart ON seats_reserved.chart_id = _chartid AND seats_reserved.chart_id = chart.chart_id
       INNER JOIN seats ON seats.seat_id = seats_reserved.seat_id;
 END
 $$;
@@ -236,6 +239,7 @@ BEGIN
       SELECT get_sala_id(_sala) INTO _salaid;
 
       INSERT INTO chart(start_time, price_general, price_children, price_elderly, sala_id, movie_id)
+      OVERRIDING SYSTEM VALUE
       VALUES (_starttime, _general, _children, _elderly, _salaid, _movieid);
 END
 $$;
