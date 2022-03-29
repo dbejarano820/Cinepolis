@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { Component, useEffect, useState} from "react";
+import useForceUpdate from 'use-force-update';
 import './TandaDetails.css'
 import {useParams} from "react-router-dom";
 import axios from "axios";
@@ -26,59 +27,43 @@ import {
     List,
     ListItem,
     HStack,
+    NumberInput,
+    NumberInputField,
+    NumberInputStepper,
+    NumberIncrementStepper,
+    NumberDecrementStepper,
   } from '@chakra-ui/react';
   import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
   import { MdLiveTv, MdLocalShipping } from 'react-icons/md';
 import { removeSelectedTanda, selectedTanda, setTandas } from "../../redux/actions/tandaActions";
 import { ActionTypes } from "../../redux/constants/action-types";
 import { Link } from "react-router-dom";
-import { selectedSeat, setSeats } from "../../redux/actions/seatActions";
+import { selectedSeat, setAmountSelectedSeats, setSeatMap, setSeats } from "../../redux/actions/seatActions";
 import { render } from "@testing-library/react";
 
 const TandaDetails = () => {
 
     const tanda = useSelector((state: any) => state.tanda);
     const {price_children, price_general, price_elderly} = tanda;  // destructure object
-    const seats_taken = useSelector((state: any) => state.allSeats.seats)
+    let seats_taken = useSelector((state: any) => state.allSeats.seats)
+    let seats = useSelector((state: any) => state.allSeats.seat_map)
+    console.log(seats)
     const {movie_title, sala_name, start_time, chart_id} : any = useParams();
+    const [rerender, setRerender] = useState(false);
     const dispatch = useDispatch();
 
-    let seats : {[name: string] : string } = {
-        "A1":'reservado', "A2":'selected', "A3":'', "A4":'', "A5":'', "A6":'', "A7":'', "A8":'', "A9":'', "A10":'',
-        "B1":'', "B2":'', "B3":'', "B4":'', "B5":'', "B6":'', "B7":'', "B8":'', "B9":'', "B10":'',
-        "C1":'', "C2":'', "C3":'', "C4":'', "C5":'', "C6":'', "C7":'', "C8":'', "C9":'', "C10":'',
-        "D1":'', "D2":'', "D3":'', "D4":'', "D5":'', "D6":'', "D7":'', "D8":'', "D9":'', "D10":'',
-        "E1":'', "E2":'', "E3":'', "E4":'', "E5":'', "E6":'', "E7":'', "E8":'', "E9":'', "E10":'',
-        "F1":'', "F2":'', "F3":'', "F4":'', "F5":'', "F6":'', "F7":'', "F8":'', "F9":'', "F10":'',
-        "G1":'', "G2":'', "G3":'', "G4":'', "G5":'', "G6":'', "G7":'', "G8":'', "G9":'', "G10":'',
-        "H1":'', "H2":'', "H3":'', "H4":'', "H5":'', "H6":'', "H7":'', "H8":'', "H9":'', "H10":'',
-        "I1":'', "I2":'', "I3":'', "I4":'', "I5":'', "I6":'', "I7":'', "I8":'', "I9":'', "I10":'',
-        "J1":'', "J2":'', "J3":'', "J4":'', "J5":'', "J6":'', "J7":'', "J8":'', "J9":'', "J10":'',
-    };
-    let selectedSeats : number = 0
+    let generalAmount = 0
+    let childrenAmount = 0
+    let elderlyAmount = 0
+    let moneyAmount = 0
 
-    const updateSeats = () => {
-        console.log(seats_taken)
-        seats_taken.map((seat: { seat_row: any; seat_number: any;}) => {
-            console.log(seat)
-            const {seat_row, seat_number} = seat;
-            const s = String(seat_row+seat_number);
-           // seats.
-           console.log(s)
-           seats[s] = 'reservado';
-           console.log(s + seats[s]);
-        
-         })
-    };
+  
+   let selectedSeats = useSelector((state: any) => state.allSeats.amount_selected_seats)
 
-    // const useForceUpdate = () => {
-    //     const [value, setValue] = useState(0); // integer state
-    //     console.log("FORCE UPDATE")
-    //     return () => setValue(value => value + 1); // update the state to force render
-    // };
+
 
     const onClickHandler = (e : any , seatName : any) => {
-        let updatedSelectedSeats = selectedSeats;
+       let updatedSelectedSeats = selectedSeats;
         if (seats[seatName] !== 'reservado') {
             seats[seatName] === '' ? updatedSelectedSeats++ : updatedSelectedSeats--;
         }
@@ -89,10 +74,11 @@ const TandaDetails = () => {
             return ;
         }
         updatedSeats[seatName] = seats[seatName] === 'selected' ? '':'selected';
-        console.log(updatedSelectedSeats)
         seats = updatedSeats
-        selectedSeats = updatedSelectedSeats
-        console.log(seats)
+        dispatch(setAmountSelectedSeats(updatedSelectedSeats))
+        console.log(selectedSeats)
+        console.log("RERENDER")
+        setRerender(!rerender); 
     
     }
 
@@ -110,22 +96,48 @@ const TandaDetails = () => {
         .catch((err) => {
             console.log("Err: ", err);
         });
-        dispatch(setSeats(response.data));
 
-        console.log(seats_taken)
-        seats_taken.map((seat: { seat_row: any; seat_number: any;}) => {
-            console.log(seat)
+        console.log("responde data seats")
+        console.log(response.data)
+        dispatch(setSeats(response.data));
+        const seats_taken_tmp = response.data
+        
+        console.log("SEATS TAKEN")
+        console.log(seats_taken_tmp)
+        seats_taken_tmp.map((seat: { seat_row: any; seat_number: any;}) => {
             const {seat_row, seat_number} = seat;
             const s = String(seat_row+seat_number);
-           // seats.
-           console.log(s)
            seats[s] = 'reservado';
-           console.log(s + seats[s]);
         }
         )
+        console.log("SEATS")
+        console.log(seats)
+        dispatch(setSeatMap(seats));
+        setRerender(!rerender); 
         
 
     };
+
+    const typeCounter = (e: any, value: any, type: any) => {
+
+        console.log("TYPE")
+        console.log(type)
+        if (type === 'General'){
+            generalAmount = value;
+        }
+        else if ( type === 'Children'){
+            childrenAmount = value;
+        }
+        else{
+            elderlyAmount = value;
+        }
+
+        console.log('General amount')
+        console.log(generalAmount)
+        console.log('Children amount')
+        console.log(childrenAmount)
+
+    }
 
 
 
@@ -141,7 +153,7 @@ const TandaDetails = () => {
         return (
            <div>
                <Container> 
-                   <HStack> <Text> Children price: ${price_children}      General Price: ${price_general}       Elderly Price: ${price_elderly} </Text></HStack>
+                   
                    <div className="bodyy">
 
                 <ul className="showcase">
@@ -291,14 +303,43 @@ const TandaDetails = () => {
                         <div className={"seat " + (seats.J10)} onClick={(e : any) => onClickHandler(e , 'J10')}></div>
                     </div>
                 </div>
-
-                
                 </div>
-
-                <p className="text">You have selected 
-                    <span>{selectedSeats}</span>
-                    Seats for the price of
-                 </p>
+               
+                <Button>Add to Cart</Button>
+                 <VStack
+                   spacing={4}
+                   align='stretch'>  
+                   <Box> Cantitdad de Asientos elegidos : {selectedSeats}</Box>
+                   <Box>Children price: ${price_children}   
+                        <NumberInput size='sm' maxW={20} defaultValue={0} min={0} max={selectedSeats} onChange={(e : any, value: any) => typeCounter(e , value, 'Children')}>
+                            <NumberInputField />
+                            <NumberInputStepper>
+                            <NumberIncrementStepper />
+                            <NumberDecrementStepper />
+                            </NumberInputStepper>
+                            </NumberInput>
+                    </Box>   
+                   <Box>General Price: ${price_general}  
+                   
+                   <NumberInput size='sm' maxW={20} defaultValue={0} min={0} max={selectedSeats} onChange={(e : any, value: any) => typeCounter(e , value, 'General')}>
+                            <NumberInputField />
+                            <NumberInputStepper>
+                            <NumberIncrementStepper />
+                            <NumberDecrementStepper />
+                            </NumberInputStepper>
+                            </NumberInput>
+                    </Box>    
+                   <Box> Elderly Price: ${price_elderly} 
+                   <NumberInput size='sm' maxW={20} defaultValue={0} min={0} max={selectedSeats} onChange={(e : any, value: any) => typeCounter(e , value, 'Elderly')}>
+                            <NumberInputField />
+                            <NumberInputStepper>
+                            <NumberIncrementStepper />
+                            <NumberDecrementStepper />
+                            </NumberInputStepper>
+                            </NumberInput>
+                   </Box>
+                   </VStack>
+               
                  </Container>
                  </div>
       
