@@ -115,6 +115,16 @@ app.put("/addCartelera", (req, res, next) => {
         });
 });
 
-
+app.put("/delete", (req, res, next) => {          
+  MovieController.getInstance().delete(req.body)
+      .then((data) => {       
+          //data.rows brings the dataset array with all objects inside.   
+          res.json(data.rows);
+      })
+      .catch((err) => {
+          res.json(err)
+          return "";
+      });
+});
 
 export { app as movierouter }

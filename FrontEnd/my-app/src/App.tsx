@@ -18,6 +18,7 @@ import SignUpComponent from "./components/user/SignUpComponent";
 import ConfirmPassComponent from "./components/user/ConfirmPassComponent";
 import UserDetail from "./components/user/UserDetail";
 import AddUser from "./components/user/AddUser";
+import AddMovie from "./components/movie/AddMovie";
 // import SidebarwithHeader from "./components/sections/headerr"
    
 function App() {
@@ -42,6 +43,8 @@ function App() {
           <Route exact path="/user/:email" component={UserDetail} /> 
           <Route exact path="/addUser" component={AddUser} /> 
           <Route exact path="/editUser" component={AddUser} /> 
+          <Route exact path="/addMovie" component={AddMovie} /> 
+          <Route exact path="/editMovie" component={AddMovie} /> 
 
           <Route>404 Not Found! </Route>
        </Switch>

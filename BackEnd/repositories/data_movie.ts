@@ -18,7 +18,7 @@ export class movie_data {
     }
 
     public listMovies() {
-        return this.db.query(`SELECT * FROM movies`);
+        return this.db.query(`SELECT * FROM movies WHERE deleted=FALSE`);
     }
 
     public getListing() {
@@ -79,6 +79,12 @@ export class movie_data {
         const statement = 'SELECT add_chart($1, $2, $3, $4, $5, $6)';
         const values = [info.sala, info.movie, info.starttime, info.general, info.children, info.elderly];
         return this.db.query(statement, values);
-    }    
+    }  
+    
+    public delete(data : any) { 
+      const statement = 'UPDATE movies SET deleted=TRUE WHERE movie_id=$1';
+      const values = [data.movie_id]; 
+      return this.db.query(statement, values);
+    }
 }
 
