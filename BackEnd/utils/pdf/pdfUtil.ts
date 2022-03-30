@@ -5,12 +5,13 @@ export default class PdfUtil {
 
 
     public createPdf(pBody : any) : void {
-        const { products, totalAmount } = pBody;
+        const { products } = pBody;
         const bill = new jsPDF();
         let ticketKeys : any = [];
         const ticketValues : any = [];
         let foodKeys : any = [];
         const foodValues : any = [];
+        let totalAmount = 0;
         products.forEach((product : any) => {
             if(product.type === "Ticket"){
                 ticketKeys = Object.keys(product);
@@ -20,6 +21,7 @@ export default class PdfUtil {
                 foodKeys = Object.keys(product);
                 foodValues.push(Object.values(product));
             }
+            totalAmount += product.price;
         });
         bill.text("Facturacion de Cinepolis - Detalle:", 10, 10);
         if(ticketKeys.length !== 0){

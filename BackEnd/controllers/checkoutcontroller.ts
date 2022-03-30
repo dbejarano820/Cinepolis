@@ -21,7 +21,7 @@ export default class CheckoutController {
     }
 
     public async checkoutProducts(info : any): Promise<QueryResult<any>> {
-        return this.checkout_repo.payment();
+        return this.checkout_repo.payment(info);
     }
 
     public sendBill(info : any): void {

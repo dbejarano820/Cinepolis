@@ -9,7 +9,11 @@ export class checkout_data {
         this.db = new ConnectionPool().db;
     }
 
-    public payment() {
+    public payment(info : any) {
+        console.log("Info Payment query");
+        
+        console.log(info);
+        
         return this.db.query(`SELECT * FROM reservations;`);
     } 
 }
