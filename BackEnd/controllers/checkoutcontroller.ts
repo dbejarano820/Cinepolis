@@ -20,8 +20,8 @@ export default class CheckoutController {
         return this.instance;
     }
 
-    public async checkoutProducts(info : any): Promise<QueryResult<any>> {
-        return this.checkout_repo.payment(info);
+    public async checkoutProducts(info : any){
+        return await this.checkout_repo.payment(info);
     }
 
     public sendBill(info : any): void {
