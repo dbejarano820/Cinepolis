@@ -36,7 +36,7 @@ const MovieDetails = () => {
     const movie = useSelector((state: any) => state.movie);
     const tandas = useSelector((state: any) => state.allTandas.tandas)
     const user = useSelector((state : any) => state.user);
-    const {movie_id,title, actors, description, director, duration, minimum_age, genre, languages, year, image} = movie;  // destructure object
+    const {movie_id,title, actors, description, director, duration, minimum_age, genre, languages, year, image, visible} = movie;  // destructure object
     const {movieTitle} : any = useParams();
     const dispatch = useDispatch();
     const history = useHistory();
@@ -146,6 +146,12 @@ const MovieDetails = () => {
                         <List spacing={2}>
                         <ListItem>
                           <Text as={'span'} fontWeight={'bold'}>
+                            Estado:
+                          </Text>{' '}
+                          {visible ? "Disponible" : "No disponible"}
+                        </ListItem>
+                        <ListItem>
+                          <Text as={'span'} fontWeight={'bold'}>
                             Director:
                           </Text>{' '}
                           {director}
@@ -216,6 +222,19 @@ const MovieDetails = () => {
             ) : (
               //botones de eliminar y editar
               <>
+              <RedirectButton color="blue.400" title={visible ? "Deshabilitar" : "Habilitar"} onClick={() => {
+                const data = {
+                  movie_id : movie_id,
+                  visible : !visible
+                };
+                axios.put("http://localhost:5000/api/movies/visible", data)
+                    .then((response) => {
+                        history.push("/movies");
+                    })
+                    .catch((err) => {
+                        console.log("Err", err);
+                    });
+              }}/>
               <RedirectButton color="yellow.400" title="Editar" onClick={(e : any) => {
                 e.preventDefault();
                 history.push("/editMovie");

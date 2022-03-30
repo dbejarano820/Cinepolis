@@ -105,5 +105,11 @@ export class movie_data {
                     data.languages, data.year, data.image];
     return this.db.query(statement, values);
   }
+
+  public visible(data : any) { 
+    const statement = 'UPDATE movies SET visible=$2 WHERE movie_id=$1';
+    const values = [data.movie_id, data.visible]; 
+    return this.db.query(statement, values);
+  }
 }
 

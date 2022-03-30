@@ -107,8 +107,8 @@ const UserDetail = () => {
                     <Text as={'span'} fontWeight={'bold'}>
                         Cumpleaños:
                     </Text>{' '}
-                    {birthday}
-                    </ListItem>
+                    {birthday.slice(0,4)+"-"+birthday.slice(5,7)+"-"+birthday.slice(8,10)}
+                    </ListItem> 
                     <ListItem>
                     <Text as={'span'} fontWeight={'bold'}>
                         Dosis de vacuna:
