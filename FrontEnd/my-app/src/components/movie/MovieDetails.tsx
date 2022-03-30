@@ -66,6 +66,13 @@ const MovieDetails = () => {
         // }
     }, [movieTitle]);
 
+    const currentDate = new Date()
+    const userBday = new Date(user.birthday)
+    const time_difference = currentDate.getTime() - userBday.getTime()
+    const days_difference = time_difference / (1000 * 60 * 60 * 24)
+    const userAge = days_difference / 365
+
+    console.log(userAge)
         return (
 
             <div>
@@ -186,6 +193,7 @@ const MovieDetails = () => {
               SE MUESTRA SOLO SI ES CLIENTE 
               -----------------------------*/}
             {user.type === "Client" ? (
+              {userAge > minimum_age ? ( () => {   //validar edad ... valdiar cantidad vacunas
               tandas.map((tanda: { chart_id: any; movie_title: any; sala_name: any; start_time: any;}) => {
                 const {movie_title, sala_name, start_time, chart_id} = tanda
                 const fecha = new Date(start_time);
@@ -210,9 +218,12 @@ const MovieDetails = () => {
                       </Button>
                     </Link>
                   </div>
-                );
+                );    
+              })}
               })
-            ) : (
+              : ("Usuario es muy joven"  ))
+            
+             : (
               //BOTONES PARA ADMIN
               <>
               <RedirectButton color="blue.400" title={visible ? "Deshabilitar" : "Habilitar"} onClick={() => {
