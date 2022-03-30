@@ -137,14 +137,11 @@ const TandaDetails = () => {
 
     const addSeatsToCart = () => {
 
-        console.log(items)
-
         if ( (generalAmount + childrenAmount + elderlyAmount) !== selectedSeats)
             return;
         
         for (var key in seats){
             if(seats[key] === 'selected'){
-                console.log(key.length)
                 let _row = key.substring(0,1);
                 let _num 
                 if(key.length === 3)
@@ -152,11 +149,28 @@ const TandaDetails = () => {
                 else    
                     _num = key.substring(1)
 
-                
+                let _price, _style 
+
+                if(generalAmount !== 0){
+                    generalAmount--
+                    _price = price_general
+                    _style = 'General'
+                } else if (childrenAmount !== 0){
+                    childrenAmount--
+                    _price = price_children
+                    _style = 'Children'
+                } else if(elderlyAmount !== 0){
+                    elderlyAmount--
+                    _price = price_elderly
+                    _style = 'Elderly'
+                }
+
                 const tmp = {
                     type : "Ticket",
                     row : _row,
                     num : _num,
+                    price: _price,
+                    style: _style,
                     sala : sala_name,
                     movie : movie_title,
                     time : start_time,
@@ -167,8 +181,7 @@ const TandaDetails = () => {
             }
 
         }
-      //  history.push("/cart")
-        console.log(items)
+        history.push("/checkout")
     }
 
 
