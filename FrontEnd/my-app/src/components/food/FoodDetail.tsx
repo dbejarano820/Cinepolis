@@ -20,15 +20,23 @@ import {
     VisuallyHidden,
     List,
     ListItem,
+    NumberInput,
+    NumberInputField,
+    NumberInputStepper,
+    NumberIncrementStepper,
+    NumberDecrementStepper,
   } from '@chakra-ui/react';
 import SidebarWithHeader from "../sections/header";
 import RedirectButton from "./ButtonRedirect";
 import { useHistory } from 'react-router-dom';
+import { setCart } from "../../redux/actions/cartActions";
 
 const FoodDetail = () => {
     const food = useSelector((state : any) => state.food);
     const user = useSelector((state : any) => state.user);
+    let items = useSelector((state: any) => state.cart.items)
     const {food_id, price, type, amount_available, image, description} = food;
+    let amount_buy = 0
     const {name} : any = useParams();
     const dispatch = useDispatch();
     const history = useHistory();
@@ -41,6 +49,28 @@ const FoodDetail = () => {
         });
         dispatch(selectedFood(response.data))
     }
+
+    const amountDesired = (e: any, value: any) => {
+        amount_buy = value;
+    }
+
+    const addFoodToCart = () => {
+
+        while( amount_buy != 0 ) {
+            const tmp = {
+                type : "Food",
+                food_name : name,
+                price : price,
+                style: type,
+            }
+            items.push(tmp);
+            amount_buy--;
+        }
+
+        dispatch(setCart(items))
+        history.push("/checkout")
+    }
+
 
     useEffect(() => {
         if (name && name !== "") fetchProductDetail();
@@ -126,7 +156,15 @@ const FoodDetail = () => {
                     SOLO DEBE SALIR CUANDO ES USER COMPRADOR
                     ------------------------------------- */}
             {user.type === "Client" ? (
-            
+            <Box>
+            <NumberInput size='sm' maxW={20} defaultValue={0} min={0} max={amount_available} onChange={(e:any, value:any)=>amountDesired(e, value)}>
+            <NumberInputField />
+            <NumberInputStepper>
+            <NumberIncrementStepper />
+            <NumberDecrementStepper />
+            </NumberInputStepper>
+            </NumberInput>
+                
             <Button
                 rounded={'none'}
                 w={'full'}
@@ -137,9 +175,12 @@ const FoodDetail = () => {
                 _hover={{
                 transform: 'translateY(2px)',
                 boxShadow: 'lg',
-                }}>
+                }}
+                onClick ={()=> addFoodToCart()}
+                >
                 Añadir al carrito
             </Button> 
+            </Box>
             ) : (
               <>
               <RedirectButton color="yellow.400" title="Editar" onClick={(e : any) => {
