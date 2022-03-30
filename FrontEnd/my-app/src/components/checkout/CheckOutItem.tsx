@@ -20,10 +20,11 @@ export default function CheckOutItems(props : any) {
     let key_counter = 0; //just to put a key on Flex html tag
 
     const getHeading = (product : any) => {
-        if(product.type === "ticket"){
-            return product.movie + " " + product.sala + "-" + product.row
+        if(product.type === "Ticket"){
+
+        return  <><div> {product.movie + " -> " + product.sala + "-" + product.row + product.num} </div> <br/> <div>{new Date(product.time).toUTCString()}</div></> 
         }
-        return product.name 
+        return product.food_name 
     }
 
     const renderList = props.products.map((product : any) => {
@@ -31,10 +32,10 @@ export default function CheckOutItems(props : any) {
         /* {type: "ticket", movie: "Batman", sala:"A", row:1, category: "General", price: 4},
                         {type: "food", name: "Popcorn", category: "Snack", price: 4}, */
 
-        if(product.type === "ticket"){
-            const { type, movie, sala, row, category, price } = product;
+        if(product.type === "Ticket"){
+            const { type, row, num, price, movie, sala, time, style } = product;
         } else {
-            const { type, name, category, price } = product;
+            const { type, food_name, price, style} = product;
         }
         
         
@@ -80,7 +81,7 @@ export default function CheckOutItems(props : any) {
                     </Heading>
                     <Stack direction={'row'} align={'center'}>
                         <Text fontWeight={800} fontSize={'xl'}>
-                        ${product.price}
+                        {product.style} -  ${product.price}
                         </Text>
                     </Stack>
                     </Stack>

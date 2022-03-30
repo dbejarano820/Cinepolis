@@ -6,9 +6,6 @@ import { Box, Button, Stack, Center, Flex, Heading, Spacer } from '@chakra-ui/re
 import { useHistory } from 'react-router-dom';
 import CheckOutItems from "../components/checkout/CheckOutItem";
 
-import "jspdf/dist/polyfills.es.js";
-import { jsPDF } from "jspdf";
-
 
 const Checkout = () => {
     
@@ -20,12 +17,13 @@ const Checkout = () => {
     //Instead of redux data, I'm gonna use harcode data
     //All products have the same reservation id
     //row, sala_name, movie_name
-    const products = [
-        {type: "ticket",  movie: "Batman", sala:"A", row:1, category: "General", price: 4},
-        {type: "ticket",  movie: "Batman", sala:"A", row:2, category: "General", price: 4},
-        {type: "ticket",  movie: "Batman", sala:"A", row:3, category: "General", price: 4},
-        {type: "food", name: "Popcorn", category: "Snack", price: 4},
-    ];
+    let products = useSelector((state: any) => state.cart.items)
+    // const products = [
+    //     {type: "ticket",  movie: "Batman", sala:"A", row:1, category: "General", price: 4},
+    //     {type: "ticket",  movie: "Batman", sala:"A", row:2, category: "General", price: 4},
+    //     {type: "ticket",  movie: "Batman", sala:"A", row:3, category: "General", price: 4},
+    //     {type: "food", name: "Popcorn", category: "Snack", price: 4},
+    // ];
 
     const handleSubmit = () => {
         console.log("Test Submit Checkout page");

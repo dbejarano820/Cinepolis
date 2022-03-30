@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { Component, useEffect, useState} from "react";
 import './TandaDetails.css'
-import {useParams} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import axios from "axios";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { 
@@ -39,14 +39,18 @@ import { ActionTypes } from "../../redux/constants/action-types";
 import { Link } from "react-router-dom";
 import { selectedSeat, setAmountSelectedSeats, setSeatMap, setSeats } from "../../redux/actions/seatActions";
 import { render } from "@testing-library/react";
+import { setCart } from "../../redux/actions/cartActions";
 
 const TandaDetails = () => {
 
     const tanda = useSelector((state: any) => state.tanda);
+    const history = useHistory();
+    console.log("TANDA")
+    console.log(tanda)
     const {price_children, price_general, price_elderly} = tanda;  // destructure object
     let seats_taken = useSelector((state: any) => state.allSeats.seats)
     let seats = useSelector((state: any) => state.allSeats.seat_map)
-    console.log(seats)
+    let items = useSelector((state: any) => state.cart.items)
     const {movie_title, sala_name, start_time, chart_id} : any = useParams();
     const [rerender, setRerender] = useState(false);
     const dispatch = useDispatch();
@@ -54,11 +58,8 @@ const TandaDetails = () => {
     let generalAmount = 0
     let childrenAmount = 0
     let elderlyAmount = 0
-    let moneyAmount = 0
-
   
    let selectedSeats = useSelector((state: any) => state.allSeats.amount_selected_seats)
-
 
 
     const onClickHandler = (e : any , seatName : any) => {
@@ -118,9 +119,6 @@ const TandaDetails = () => {
     };
 
     const typeCounter = (e: any, value: any, type: any) => {
-
-        console.log("TYPE")
-        console.log(type)
         if (type === 'General'){
             generalAmount = value;
         }
@@ -130,12 +128,55 @@ const TandaDetails = () => {
         else{
             elderlyAmount = value;
         }
+    }
 
-        console.log('General amount')
-        console.log(generalAmount)
-        console.log('Children amount')
-        console.log(childrenAmount)
+    const addSeatsToCart = () => {
 
+        if ( (generalAmount + childrenAmount + elderlyAmount) !== selectedSeats)
+            return;
+        
+        for (var key in seats){
+            if(seats[key] === 'selected'){
+                let _row = key.substring(0,1);
+                let _num 
+                if(key.length === 3)
+                    _num = key.substring(1,3)
+                else    
+                    _num = key.substring(1)
+
+                let _price, _style 
+
+                if(generalAmount !== 0){
+                    generalAmount--
+                    _price = price_general
+                    _style = 'General'
+                } else if (childrenAmount !== 0){
+                    childrenAmount--
+                    _price = price_children
+                    _style = 'Children'
+                } else if(elderlyAmount !== 0){
+                    elderlyAmount--
+                    _price = price_elderly
+                    _style = 'Elderly'
+                }
+
+                const tmp = {
+                    type : "Ticket",
+                    row : _row,
+                    num : _num,
+                    price: _price,
+                    style: _style,
+                    sala : sala_name,
+                    movie : movie_title,
+                    time : start_time,
+                }
+
+                items.push(tmp);
+                dispatch(setCart(items))
+            }
+
+        }
+        history.push("/checkout")
     }
 
 
@@ -304,7 +345,7 @@ const TandaDetails = () => {
                 </div>
                 </div>
                
-                <Button>Add to Cart</Button>
+                <Button onClick ={()=> addSeatsToCart()}>Add to Cart</Button>
                  <VStack
                    spacing={4}
                    align='stretch'>  
