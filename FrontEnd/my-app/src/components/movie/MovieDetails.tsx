@@ -20,7 +20,7 @@ import {
     Heading,
     SimpleGrid,
     StackDivider,
-    useColorModeValue,
+
     VisuallyHidden,
     List,
     ListItem,
@@ -97,7 +97,6 @@ const MovieDetails = () => {
                       {title}
                     </Heading>
                     <Text
-                      color={useColorModeValue('gray.900', 'gray.400')}
                       fontWeight={300}
                       fontSize={'2xl'}>
                       {year}
@@ -109,19 +108,16 @@ const MovieDetails = () => {
                     direction={'column'}
                     divider={
                       <StackDivider
-                        borderColor={useColorModeValue('gray.200', 'gray.600')}
                       />
                     }>
                     <VStack spacing={{ base: 4, sm: 6 }}>
                       <Text
-                        color={useColorModeValue('gray.500', 'gray.400')}
                         fontSize={'2xl'}
                         fontWeight={'300'}>
                         {description}
                       </Text>
                       <Text
                         fontSize={{ base: '16px', lg: '18px' }}
-                        color={useColorModeValue('yellow.500', 'yellow.300')}
                         fontWeight={'500'}
                         textTransform={'uppercase'}
                         mb={'4'}>
@@ -134,7 +130,6 @@ const MovieDetails = () => {
                     <Box>
                       <Text
                         fontSize={{ base: '16px', lg: '18px' }}
-                        color={useColorModeValue('yellow.500', 'yellow.300')}
                         fontWeight={'500'}
                         textTransform={'uppercase'}
                         mb={'4'}>
@@ -194,8 +189,6 @@ const MovieDetails = () => {
                     mt={8}
                     size={'lg'}
                     py={'7'}
-                    bg={useColorModeValue('gray.900', 'gray.50')}
-                    color={useColorModeValue('white', 'gray.900')}
                     textTransform={'uppercase'}
                     _hover={{
                       transform: 'translateY(2px)',

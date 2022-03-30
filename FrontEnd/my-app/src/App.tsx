@@ -14,6 +14,7 @@ import AddFood from "./components/food/AddFood";
 import LoginComponent from "./components/user/LoginComponent";
 import SignUpComponent from "./components/user/SignUpComponent";
 import ConfirmPassComponent from "./components/user/ConfirmPassComponent";
+import Checkout from "./pages/CheckoutPage";
 // import SidebarwithHeader from "./components/sections/headerr"
    
 function App() {
@@ -33,7 +34,8 @@ function App() {
           <Route exact path="/food" component={FoodList} />
           <Route exact path="/food/:name" component={FoodDetail} />  
           <Route exact path="/addFood" component={AddFood} />   
-          <Route exact path="/editFood" component={AddFood} />       
+          <Route exact path="/editFood" component={AddFood} />
+          <Route exact path="/checkout" component={Checkout} />
           <Route>404 Not Found! </Route>
        </Switch>
 
