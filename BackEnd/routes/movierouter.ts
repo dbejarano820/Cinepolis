@@ -103,7 +103,7 @@ app.put("/reservarComida", (req, res, next) => {
         });
 });
 
-app.put("/addCartelera", (req, res, next) => { 
+app.put("/addChart", (req, res, next) => { 
     MovieController.getInstance().addChart(req.body)
         .then((data) => {       
             //data.rows brings the dataset array with all objects inside.   

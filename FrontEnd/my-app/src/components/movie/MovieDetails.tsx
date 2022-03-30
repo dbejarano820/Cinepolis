@@ -213,7 +213,7 @@ const MovieDetails = () => {
                 );
               })
             ) : (
-              //botones de eliminar y editar
+              //BOTONES PARA ADMIN
               <>
               <RedirectButton color="blue.400" title={visible ? "Deshabilitar" : "Habilitar"} onClick={() => {
                 const data = {
@@ -227,6 +227,10 @@ const MovieDetails = () => {
                     .catch((err) => {
                         console.log("Err", err);
                     });
+              }}/>
+              <RedirectButton color="blue.800" title="Agregar tanda" onClick={(e : any) => {
+                e.preventDefault();
+                history.push("/addTanda");
               }}/>
               <RedirectButton color="yellow.400" title="Editar" onClick={(e : any) => {
                 e.preventDefault();

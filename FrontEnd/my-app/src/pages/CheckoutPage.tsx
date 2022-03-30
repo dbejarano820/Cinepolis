@@ -6,8 +6,8 @@ import { Box, Button, Stack, Center, Flex, Heading, Spacer } from '@chakra-ui/re
 import { useHistory } from 'react-router-dom';
 import CheckOutItems from "../components/checkout/CheckOutItem";
 
-import "jspdf/dist/polyfills.es.js";
-import { jsPDF } from "jspdf";
+// import "jspdf/dist/polyfills.es.js";
+// import { jsPDF } from "jspdf";
 
 
 const Checkout = () => {

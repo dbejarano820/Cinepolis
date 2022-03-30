@@ -76,8 +76,11 @@ export class movie_data {
     }
 
     public addChart(info: any) {
-        const statement = 'SELECT add_chart($1, $2, $3, $4, $5, $6)';
-        const values = [info.sala, info.movie, info.starttime, info.general, info.children, info.elderly];
+      console.log(info)
+        const statement = 'INSERT INTO chart (start_time, price_general, price_children, price_elderly, sala_id, movie_id)' +
+                          'OVERRIDING SYSTEM VALUE VALUES' +
+                          '($1, $2, $3, $4, $5, $6)';
+        const values = [info.date, 8, 6, 6, info.sala_id, info.movie_id];
         return this.db.query(statement, values);
     }  
     

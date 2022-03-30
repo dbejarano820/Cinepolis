@@ -20,6 +20,7 @@ import UserDetail from "./components/user/UserDetail";
 import AddUser from "./components/user/AddUser";
 import AddMovie from "./components/movie/AddMovie";
 import Checkout from "./pages/CheckoutPage";
+import AddTanda from "./components/movie/AddTanda";
 // import SidebarwithHeader from "./components/sections/headerr"
    
 function App() {
@@ -47,6 +48,7 @@ function App() {
           <Route exact path="/addMovie" component={AddMovie} /> 
           <Route exact path="/editMovie" component={AddMovie} /> 
           <Route exact path="/checkout" component={Checkout} />
+          <Route exact path="/addTanda" component={AddTanda} /> 
           <Route>404 Not Found! </Route>
        </Switch>
 
