@@ -33,6 +33,7 @@ import { Link } from "react-router-dom";
 import RedirectButton from "../food/ButtonRedirect";
 
 const MovieDetails = () => {
+    const MINIMUM_VACCINES_REQUIRED = 2;
     const movie = useSelector((state: any) => state.movie);
     const tandas = useSelector((state: any) => state.allTandas.tandas)
     const user = useSelector((state : any) => state.user);
@@ -66,11 +67,12 @@ const MovieDetails = () => {
         // }
     }, [movieTitle]);
 
-    const currentDate = new Date()
-    const userBday = new Date(user.birthday)
-    const time_difference = currentDate.getTime() - userBday.getTime()
-    const days_difference = time_difference / (1000 * 60 * 60 * 24)
-    const userAge = days_difference / 365
+    const currentDate = new Date();
+    const userBday = new Date(user.birthday);
+    const time_difference = currentDate.getTime() - userBday.getTime();
+    const days_difference = time_difference / (1000 * 60 * 60 * 24);
+    const userAge = days_difference / 365;
+    const user_vaccines = user.vaccines;
 
     console.log(userAge)
         return (
@@ -193,35 +195,34 @@ const MovieDetails = () => {
               SE MUESTRA SOLO SI ES CLIENTE 
               -----------------------------*/}
             {user.type === "Client" ? (
-              {userAge > minimum_age ? ( () => {   //validar edad ... valdiar cantidad vacunas
-              tandas.map((tanda: { chart_id: any; movie_title: any; sala_name: any; start_time: any;}) => {
-                const {movie_title, sala_name, start_time, chart_id} = tanda
-                const fecha = new Date(start_time);
-                console.log(start_time)
-                console.log(fecha.toUTCString());
-                  
-                return(
-                  <div key={movieTitle}>
-                    <Link to={`/movies/${movie_title}/${sala_name}/${start_time}/${chart_id}`}> 
-                      <Button
-                        rounded={'none'}
-                        w={'full'}
-                        mt={8}
-                        size={'lg'}
-                        py={'7'}
-                        textTransform={'uppercase'}
-                        _hover={{
-                          transform: 'translateY(2px)',
-                          boxShadow: 'lg',
-                        }}>
-                          {sala_name} : {fecha.toUTCString() }
-                      </Button>
-                    </Link>
-                  </div>
-                );    
-              })}
-              })
-              : ("Usuario es muy joven"  ))
+              (userAge > minimum_age) && (user_vaccines >= MINIMUM_VACCINES_REQUIRED) ? (
+                tandas.map((tanda: { chart_id: any; movie_title: any; sala_name: any; start_time: any;}) => {
+                  const {movie_title, sala_name, start_time, chart_id} = tanda
+                  const fecha = new Date(start_time);
+                  console.log(start_time)
+                  console.log(fecha.toUTCString());
+                    
+                  return(
+                    <div key={movieTitle}>
+                      <Link to={`/movies/${movie_title}/${sala_name}/${start_time}/${chart_id}`}> 
+                        <Button
+                          rounded={'none'}
+                          w={'full'}
+                          mt={8}
+                          size={'lg'}
+                          py={'7'}
+                          textTransform={'uppercase'}
+                          _hover={{
+                            transform: 'translateY(2px)',
+                            boxShadow: 'lg',
+                          }}>
+                            {sala_name} : {fecha.toUTCString() }
+                        </Button>
+                      </Link>
+                    </div>
+                  );    
+                })
+              ) : ("<p>Usuario es muy joven</p>"))
             
              : (
               //BOTONES PARA ADMIN
