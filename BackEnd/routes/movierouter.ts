@@ -19,7 +19,7 @@ app.get("/:movieTitle", (req, res, next) => {
     MovieController.getInstance().getMovie(req.params["movieTitle"])
         .then((data) => {       
             //data.rows brings the dataset array with all objects inside.  
-            console.log(data.rows) 
+            //console.log(data.rows) 
             res.json(data.rows[0]);
         })
         .catch((err) => {
@@ -53,7 +53,7 @@ app.get("/tanda/:chart_id", (req, res, next) => {
 });
 
 app.get("/asientos/:sala_name/:movie_name/:start_time", (req, res, next) => { 
-    console.log(req.params)
+    //console.log(req.params)
     MovieController.getInstance().getSeats(req.params)
         .then((data) => {       
             //data.rows brings the dataset array with all objects inside.   
@@ -155,6 +155,18 @@ app.put("/update/:movie_id", (req, res, next) => {
 
 app.put("/visible", (req, res, next) => {          
   MovieController.getInstance().visible(req.body)
+      .then((data) => {       
+          //data.rows brings the dataset array with all objects inside.   
+          res.json(data.rows);
+      })
+      .catch((err) => {
+          res.json(err)
+          return "";
+      });
+});
+
+app.get("/chart/:sala_id/:starttime", (req, res, next) => { 
+  MovieController.getInstance().isAvailable(req.params.sala_id, req.params.starttime)
       .then((data) => {       
           //data.rows brings the dataset array with all objects inside.   
           res.json(data.rows);

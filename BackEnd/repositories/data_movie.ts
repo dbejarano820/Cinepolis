@@ -77,10 +77,10 @@ export class movie_data {
 
     public addChart(info: any) {
       console.log(info)
-        const statement = 'INSERT INTO chart (start_time, price_general, price_children, price_elderly, sala_id, movie_id)' +
+        const statement = 'INSERT INTO chart (start_time, price_general, price_children, price_elderly, sala_id, movie_id, end_time)' +
                           'OVERRIDING SYSTEM VALUE VALUES' +
-                          '($1, $2, $3, $4, $5, $6)';
-        const values = [info.date, 8, 6, 6, info.sala_id, info.movie_id];
+                          '($1, $2, $3, $4, $5, $6, $7)';
+        const values = [info.starttime, 8, 6, 6, info.sala_id, info.movie_id, info.endtime];
         return this.db.query(statement, values);
     }  
     
@@ -112,6 +112,12 @@ export class movie_data {
   public visible(data : any) { 
     const statement = 'UPDATE movies SET visible=$2 WHERE movie_id=$1';
     const values = [data.movie_id, data.visible]; 
+    return this.db.query(statement, values);
+  }
+
+  public isAvailable(sala_id : any, tandatime : any) { 
+    const statement = 'SELECT * FROM chart WHERE sala_id=$2 AND start_time <= $1 AND end_time > $1';
+    const values = [tandatime, sala_id]; 
     return this.db.query(statement, values);
   }
 }

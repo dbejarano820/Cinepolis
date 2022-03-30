@@ -27,13 +27,13 @@ import { removeSelectedMovie } from "../../redux/actions/movieActions";
 const AddTanda = () => {
     const movie = useSelector((state : any) => state.movie);
     const tandas = useSelector((state: any) => state.allTandas.tandas)
-    const {movie_id, title} = movie;
+    const {movie_id, title, duration} = movie;
     const dispatch = useDispatch();
     const history = useHistory();
 
     var data = {
-        title : title,
-        year : "2022",
+        duration : duration,
+        year : 2022,
         month : 1,
         day : 1,
         hour : 23,
@@ -41,31 +41,56 @@ const AddTanda = () => {
         sala_id : 1
     }
 
-    const handleSubmit = (event : any) => {  
-        let month = data.month < 10 ? "0"+data.month : ""+data.month;
-        let day = data.day < 10 ? "0"+data.day : ""+data.day;
-        let hour = data.hour < 10 ? "0"+data.hour : ""+data.hour;
-        let minutes = data.minutes < 10 ? "0"+data.minutes : ""+data.minutes;
+    const handleSubmit = async (event : any) => { 
+        let _starttime = new Date(data.year, data.month-1, data.day, data.hour, data.minutes, 0, 0);
+        let _endtime = new Date(_starttime.getTime() + duration*60000);
+
+        let year1 = ""+_starttime.getFullYear();
+        let month1 = ""+((_starttime.getMonth()+1) < 10 ? "0"+(_starttime.getMonth()+1) : ""+(_starttime.getMonth()+1));
+        let day1 = ""+(_starttime.getDate() < 10 ? "0"+_starttime.getDate() : ""+_starttime.getDate());
+        let hour1 = ""+(_starttime.getHours() < 10 ? "0"+_starttime.getHours() : ""+_starttime.getHours());
+        let minutes1 = ""+(_starttime.getMinutes() < 10 ? "0"+_starttime.getMinutes() : ""+_starttime.getMinutes()); 
+
+        let year2 = ""+_endtime.getFullYear();
+        let month2 = ""+((_endtime.getMonth()+1) < 10 ? "0"+(_endtime.getMonth()+1) : ""+(_endtime.getMonth()+1));
+        let day2 = ""+(_endtime.getDate() < 10 ? "0"+_endtime.getDate() : ""+_endtime.getDate());
+        let hour2 = ""+(_endtime.getHours() < 10 ? "0"+_endtime.getHours() : ""+_endtime.getHours());
+        let minutes2 = ""+(_endtime.getMinutes() < 10 ? "0"+_endtime.getMinutes() : ""+_endtime.getMinutes()); 
+
         var info = {
           sala_id: data.sala_id, 
           movie_id : movie_id,
-          date : data.year+"-"+month+"-"+day+" "+hour+":"+minutes
+          starttime : year1+"-"+month1+"-"+day1+" "+hour1+":"+minutes1,
+          endtime : year2+"-"+month2+"-"+day2+" "+hour2+":"+minutes2,
         }
 
-        /* - traer todas las tandas de la sala de ese dia
-            - revisar la duracion de la más cercana antes de esa hora
-            - revisar si la mas cercana despues de esa hora+duracion choca
-            - se agrega*/
+        /* - traer todas las tandas de la sala de ese dia cuya starttime sea igual o menor
+              al starttime de la tanda y endtime sea mayor o igual
+        
+              -si no hay nada, quiere decir que la tanda está disponible*/
+        const response : any = await axios
+          .get(`http://localhost:5000/api/movies/chart/${info.sala_id}/${info.starttime}`)
+          .catch((err) => {
+              console.log("Err", err);
+          });
 
+          if(response.data.length === 0) {
             //añade la tanda
-        axios.put("http://localhost:5000/api/movies/addChart", info)
+            axios.put("http://localhost:5000/api/movies/addChart", info)
             .then((response) => {
+                alert("La tanda fue añadida");
                 dispatch(removeSelectedMovie());
                 history.push("/movies");
             })
             .catch((err) => {
                 console.log("Err", err);
             }); 
+          }
+          else {
+            alert("La sala está ocupada a esa hora");
+          }
+
+            
     }
     
     return(
@@ -97,7 +122,7 @@ const AddTanda = () => {
                 <FormControl id="date">
                   <FormLabel>Fecha</FormLabel>
                     <Flex direction="row" gap="10px">
-                      <NumberInput onChange={(valueString) => {data.year = valueString}} 
+                      <NumberInput onChange={(valueString) => {data.year = parseInt(valueString)}} 
                                   borderColor="#E0E1E7"
                                   defaultValue={2022}
                                   min={1900} max={2100}>

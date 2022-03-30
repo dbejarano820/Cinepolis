@@ -80,4 +80,10 @@ export default class MovieController {
     public async visible(data : any): Promise<QueryResult<any>> {  
       return this.movie_repo.visible(data);
     }
+
+    public async isAvailable(sala_id : any, starttime: any): Promise<QueryResult<any>> {
+      return this.movie_repo.isAvailable(sala_id, starttime);
+    }
+
+    
 }
