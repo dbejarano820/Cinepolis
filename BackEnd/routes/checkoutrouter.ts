@@ -1,19 +1,16 @@
 import * as express from 'express';
+import { StatusCodes } from 'http-status-codes';
 import CheckoutController from '../controllers/checkoutcontroller';
 
 const app = express.Router();
 
 app.post("/pay", (req, res, next) => {           
     const body = req.body;
-    console.log("Checkout pay route has body:");
-    console.log(body);
     const controller = CheckoutController.getInstance();
     controller.checkoutProducts(body)
-        .then((data) => {       
-            //data.rows brings the dataset array with all objects inside.
+        .then(() => {       
             controller.sendBill(body);
-            res.json(data.rows);
-
+            res.json(StatusCodes.ACCEPTED);
         })
         .catch((err) => {
             res.json(err)
