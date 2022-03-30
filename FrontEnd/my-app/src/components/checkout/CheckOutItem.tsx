@@ -17,10 +17,12 @@ import { DeleteIcon } from "@chakra-ui/icons";
 import { Grid, GridItem } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { removeSelectedFood } from "../../redux/actions/foodActions";
+import { setCart } from "../../redux/actions/cartActions";
 
 export default function CheckOutItems(props: any) {
   let key_counter = -1; //just to put a key on Flex html tag
   const [rerender, setRerender] = useState(false);
+  const dispatch = useDispatch();
   const getHeading = (product: any) => {
     if (product.type === "Ticket") {
       return (
@@ -44,6 +46,7 @@ export default function CheckOutItems(props: any) {
   const handleDelete = (product : any)=>{
         const index = props.products.indexOf(product);
         props.products.splice(index, 1);
+        dispatch(setCart(props.products))
         setRerender(!rerender);
     }
 
