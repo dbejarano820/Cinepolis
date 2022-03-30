@@ -1,6 +1,6 @@
 import { createStore } from "redux";
 import reducers from "./reducers"
-import storage from 'redux-persist/lib/storage';
+//import storage from 'redux-persist/lib/storage';
 import { combineReducers } from 'redux';
 import {
     persistReducer,
@@ -13,12 +13,12 @@ import {
     persistStore,
 } from 'redux-persist';
 
-const persistConfig = {
+/* const persistConfig = {
     key: 'root', 
-    storage,
+    //storage,
 };
 
-const persistedReducers = persistReducer(persistConfig, reducers);
+const persistedReducers = persistReducer(persistConfig, reducers); */
 
 const store = createStore(
     reducers, {}, 

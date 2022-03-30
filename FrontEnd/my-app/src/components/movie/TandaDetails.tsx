@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { Component, useEffect, useState} from "react";
-import useForceUpdate from 'use-force-update';
 import './TandaDetails.css'
 import {useParams} from "react-router-dom";
 import axios from "axios";
