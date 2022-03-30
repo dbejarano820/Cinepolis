@@ -58,12 +58,8 @@ const TandaDetails = () => {
     let generalAmount = 0
     let childrenAmount = 0
     let elderlyAmount = 0
-
-
-
   
    let selectedSeats = useSelector((state: any) => state.allSeats.amount_selected_seats)
-
 
 
     const onClickHandler = (e : any , seatName : any) => {

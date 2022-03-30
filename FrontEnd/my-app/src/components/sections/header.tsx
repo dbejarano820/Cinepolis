@@ -89,7 +89,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   const LinkItems: Array<LinkItemProps> = [
     { name: 'Peliculas', icon: FiHome, href:'/movies'},
     { name: 'Comida', icon: FiTrendingUp , href:"/food"},
-    { name: 'Carrito de Compras', icon: FiCompass , href:"/"},
+    { name: 'Carrito de Compras', icon: FiCompass , href:"/checkout"},
   ];
 
   if(user.type === 'Admin') {

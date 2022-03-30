@@ -24,7 +24,7 @@ export default function CheckOutItems(props : any) {
 
         return  <><div> {product.movie + " -> " + product.sala + "-" + product.row + product.num} </div> <br/> <div>{new Date(product.time).toUTCString()}</div></> 
         }
-        return product.name 
+        return product.food_name 
     }
 
     const renderList = props.products.map((product : any) => {
@@ -35,7 +35,7 @@ export default function CheckOutItems(props : any) {
         if(product.type === "Ticket"){
             const { type, row, num, price, movie, sala, time, style } = product;
         } else {
-            const { type, name, category, price } = product;
+            const { type, food_name, price, style} = product;
         }
         
         
