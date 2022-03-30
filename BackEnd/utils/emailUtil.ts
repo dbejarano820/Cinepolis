@@ -1,7 +1,7 @@
 import * as nodemailer from "nodemailer";
 import * as Mail from "nodemailer/lib/mailer";
 import * as handlebars from "handlebars";
-import * as path from 'path';;
+import * as path from 'path';
 import * as fs from "fs";
 import PdfUtil from "./pdf/pdfUtil";
 
@@ -42,8 +42,8 @@ export default class EmailUtil {
             html: "<h3>Adjuntamos el pdf de tu compra, no olvides presentarlo antes de la pelicula</h3>",
             attachments: [
                 {
-                    filename: "Factura_Compras",
-                    path: "/pdf/test.pdf"
+                    filename: "Factura_Compras.pdf",
+                    path: path.resolve("factura.pdf")
                 }
             ]
         });
