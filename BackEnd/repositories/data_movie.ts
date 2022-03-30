@@ -80,7 +80,7 @@ export class movie_data {
         const statement = 'INSERT INTO chart (start_time, price_general, price_children, price_elderly, sala_id, movie_id, end_time)' +
                           'OVERRIDING SYSTEM VALUE VALUES' +
                           '($1, $2, $3, $4, $5, $6, $7)';
-        const values = [info.starttime, 8, 6, 6, info.sala_id, info.movie_id, info.endtime];
+        const values = [info.starttime, info.general, info.children, info.elderly, info.sala_id, info.movie_id, info.endtime];
         return this.db.query(statement, values);
     }  
     

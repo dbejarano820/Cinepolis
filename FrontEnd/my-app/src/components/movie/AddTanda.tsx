@@ -38,7 +38,10 @@ const AddTanda = () => {
         day : 1,
         hour : 23,
         minutes : 59,
-        sala_id : 1
+        sala_id : 1,
+        children : 1,
+        general : 1, 
+        elderly : 1
     }
 
     const handleSubmit = async (event : any) => { 
@@ -60,6 +63,9 @@ const AddTanda = () => {
         var info = {
           sala_id: data.sala_id, 
           movie_id : movie_id,
+          children : data.children,
+          general : data.general,
+          elderly : data.elderly,
           starttime : year1+"-"+month1+"-"+day1+" "+hour1+":"+minutes1,
           endtime : year2+"-"+month2+"-"+day2+" "+hour2+":"+minutes2,
         }
@@ -183,6 +189,53 @@ const AddTanda = () => {
                     </Flex>
                   </FormControl>
 
+                  <FormControl id="children">
+                  <FormLabel>Precio Entrada Niños</FormLabel>
+                  <NumberInput onChange={(valueString) => {
+                                  data.children = parseInt(valueString)
+                              }} 
+                              borderColor="#E0E1E7" 
+                              defaultValue={1000} 
+                              min={1} max={20000}>
+                      <NumberInputField />
+                      <NumberInputStepper>
+                          <NumberIncrementStepper />
+                          <NumberDecrementStepper />
+                      </NumberInputStepper>
+                  </NumberInput>
+                </FormControl>
+
+                <FormControl id="general">
+                  <FormLabel>Precio Entrada General</FormLabel>
+                  <NumberInput onChange={(valueString) => {
+                                  data.general = parseInt(valueString)
+                              }} 
+                              borderColor="#E0E1E7" 
+                              defaultValue={1500} 
+                              min={1} max={20000}>
+                      <NumberInputField />
+                      <NumberInputStepper>
+                          <NumberIncrementStepper />
+                          <NumberDecrementStepper />
+                      </NumberInputStepper>
+                  </NumberInput>
+                </FormControl>
+
+                <FormControl id="elderly">
+                  <FormLabel>Precio Entrada Edad Avanzada</FormLabel>
+                  <NumberInput onChange={(valueString) => {
+                                  data.elderly = parseInt(valueString)
+                              }} 
+                              borderColor="#E0E1E7" 
+                              defaultValue={1000} 
+                              min={1} max={20000}>
+                      <NumberInputField />
+                      <NumberInputStepper>
+                          <NumberIncrementStepper />
+                          <NumberDecrementStepper />
+                      </NumberInputStepper>
+                  </NumberInput>
+                </FormControl>
 
                     <FormControl id="button" float="right">
                     <Button
