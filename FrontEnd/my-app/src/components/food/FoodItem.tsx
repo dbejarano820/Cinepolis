@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
     Box,
     Center,
-    useColorModeValue,
     Heading,
     Text,
     Stack,
@@ -34,7 +33,6 @@ export default function FoodItems() {
                     p={6}
                     maxW={'330px'}
                     w={'full'}
-                    bg={useColorModeValue('white', 'gray.800')}
                     boxShadow={'2xl'}
                     rounded={'lg'}
                     pos={'relative'}

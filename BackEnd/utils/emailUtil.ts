@@ -3,6 +3,7 @@ import * as Mail from "nodemailer/lib/mailer";
 import * as handlebars from "handlebars";
 import * as path from 'path';;
 import * as fs from "fs";
+import PdfUtil from "./pdf/pdfUtil";
 
 export default class EmailUtil {
     fromEmail: string;
@@ -29,5 +30,23 @@ export default class EmailUtil {
             subject: subject,
             html: compiledTemplate(content)
         });
+    }
+
+    async sendBilling(pBody : any){
+        const pdfcontroller = new PdfUtil();
+        pdfcontroller.createPdf(pBody);
+        return await this.transporter.sendMail({
+            from: this.fromEmail,
+            to: pBody.toAddress,
+            subject: "Factura Cinepolis",
+            html: "<h3>Adjuntamos el pdf de tu compra, no olvides presentarlo antes de la pelicula</h3>",
+            attachments: [
+                {
+                    filename: "Factura_Compras",
+                    path: "/pdf/test.pdf"
+                }
+            ]
+        });
+        
     }
 }

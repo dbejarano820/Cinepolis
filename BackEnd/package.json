@@ -19,6 +19,7 @@
     "handlebars": "^4.7.7",
     "http-status-codes": "^2.2.0",
     "jsonwebtoken": "^8.5.1",
+    "jspdf": "^2.5.1",
     "mongoose": "^6.0.10",
     "nodemailer": "^6.7.3",
     "path": "^0.12.7",
