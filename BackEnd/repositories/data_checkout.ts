@@ -13,7 +13,9 @@ export class checkout_data {
         await this.db.query("select create_reservation($1);", [info.toAddress]);
         let statement = "";
         let values : any = {};
-        await info.products.forEach(async (product : any) => {
+        let product : any = {};
+        for (let index = 0; index < info.products.length; index++) {
+            product = info.products[0];
             if(product.type === "Ticket"){
                 statement = "select reserve_seat($1, $2, $3, $4, $5, $6, $7);";
                 values = [info.toAddress, product.row, product.num, product.type,
@@ -24,7 +26,7 @@ export class checkout_data {
                 values = [info.toAddress, product.food_name];
             }
             await this.db.query(statement, values);
-        });
+        }
         await this.db.query("select deactive_reservation($1);", [info.toAddress]);
     } 
 }
