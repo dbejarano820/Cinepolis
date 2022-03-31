@@ -11,7 +11,7 @@ export class user_data {
     }
 
     public login(info: any) {
-        const statement =   `SELECT ut.name AS type, u.email, u.name, u.lastname, u.secondlastname, u.vaccines
+        const statement =   `SELECT ut.name AS type, u.email, u.name, u.lastname, u.secondlastname, u.vaccines, u.birthday
                                 FROM public.user_type AS ut
                                 INNER JOIN public.users AS u ON u.usertype_id = ut.usertype_id
                             WHERE u.email = $1 AND u.password = $2`;
