@@ -16,7 +16,6 @@ import {
     Heading,
     SimpleGrid,
     StackDivider,
-    useColorModeValue,
     VisuallyHidden,
     List,
     ListItem,
@@ -80,7 +79,6 @@ const UserDetail = () => {
                 {name + " " + lastname}
                 </Heading>
                 <Text
-                color={useColorModeValue('gray.900', 'gray.400')}
                 fontWeight={300}
                 fontSize={'2xl'}>
                 {usertype_id === 1 ? 'Cliente' : 'Administrador'}
@@ -91,9 +89,7 @@ const UserDetail = () => {
                 spacing={{ base: 4, sm: 6 }}
                 direction={'column'}
                 divider={
-                <StackDivider
-                    borderColor={useColorModeValue('gray.200', 'gray.600')}
-                />
+                <StackDivider/>
                 }>
                 <Box>
                 <List spacing={2}>

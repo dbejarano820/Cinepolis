@@ -28,7 +28,6 @@ const MovieComponent = () => {
                 p={6}
                 maxW={'330px'}
                 w={'full'}
-                //bg={useColorModeValue('white', 'gray.800')}
                 boxShadow={'2xl'}
                 rounded={'lg'}
                 pos={'relative'}

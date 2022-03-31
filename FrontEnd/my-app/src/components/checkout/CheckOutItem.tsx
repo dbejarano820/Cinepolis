@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
   Center,
-  useColorModeValue,
   Heading,
   Text,
   Stack,
