@@ -8,6 +8,7 @@ export default class UserController {
 
     private static instance: UserController;
     private user_repo: user_data;
+    public DEFAULT_PASSWORD = "cinepoli_pass";
 
     private constructor() {
         this.user_repo = new user_data();
@@ -28,10 +29,10 @@ export default class UserController {
         return this.user_repo.register(data);
     }
 
-    public sendEmail(data : any, linkPath : string){
+    public sendEmail(data : any){
         const emailUtil = new EmailUtil();
-        const content = {link : linkPath};
-        const subject = "Cinepolis - Crear Nueva Contraseña";
+        const content = {pass : this.DEFAULT_PASSWORD};
+        const subject = "Cinepolis - Contraseña";
         emailUtil.sendEmail(data.email, subject, content)
     }
 

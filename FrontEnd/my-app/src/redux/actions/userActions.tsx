@@ -23,6 +23,11 @@ export const selectedAdminUser = (user: any) => {
   };
 };
 
+export const removeUser = () => {
+  return {
+      type : ActionTypes.REMOVE_USER
+  };
+};
 
 export const removeSelectedAdminUser = () => {
   return {

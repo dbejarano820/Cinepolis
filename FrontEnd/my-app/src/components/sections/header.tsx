@@ -36,8 +36,10 @@ import { ReactText } from 'react';
 import { useColorMode } from "@chakra-ui/color-mode";
 import { Heading, Spacer } from "@chakra-ui/layout";
 import { FaSun, FaMoon } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { Link, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { selectedUserReducer } from '../../redux/reducers/userReducer'
+import { removeUser } from '../../redux/actions/userActions';
 
 interface LinkItemProps {
   name: string;
@@ -161,8 +163,15 @@ interface MobileProps extends FlexProps {
   onOpen: () => void;
 }
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const { colorMode, toggleColorMode } = useColorMode(); 
   const isDark = colorMode === "dark";
+  const handleSignOut = () => {
+    dispatch(removeUser());
+    history.push("/")
+  }
+
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -203,7 +212,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                 <Avatar
                   size={'sm'}
                   src={
-                    'https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
+                    'https://i.ibb.co/qWjNdGN/User-Avatar-2.png'
                   }
                 />
                 <VStack
@@ -227,7 +236,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
               <MenuItem>Perfil</MenuItem>
               <MenuItem>Reservaciones</MenuItem>
               <MenuDivider />
-              <MenuItem   onClick={()=>{console.log("sign me outtt")}}  >Sign out</MenuItem>
+              <MenuItem onClick={handleSignOut} >Sign out</MenuItem>
             </MenuList>
           </Menu>
         </Flex>

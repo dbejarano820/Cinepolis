@@ -36,6 +36,10 @@ export default function LoginComponent() {
     handleLogin();
   }
 
+  const handleRegister = () => {
+    history.push("/signUp");
+  }
+
   const handleLogin = async () => {
     //check if user exists on database, then user type and re route to corresponding user type home page
     //this should be in a controller that calls a provider, but whtvs
@@ -47,7 +51,8 @@ export default function LoginComponent() {
       axios
           .post("http://localhost:5000/api/users/login", body)
           .then((response : any)=>{
-             switch (response.data.type) {
+            if(!response.data.deleted) {
+              switch (response.data.type) {
                 case "Admin":
                   history.push("/movies");
                   break;
@@ -57,7 +62,9 @@ export default function LoginComponent() {
                 default:
                   alert("Usuario invalido");
                   break;
-             }
+              }
+            }
+             
              dispatch(setUser(response.data)); //Con esto podran acceder al usuario que inicio la sesion
           })
           .catch((err)=>{
@@ -94,20 +101,23 @@ export default function LoginComponent() {
               <Input value={pass} onChange={handlePassInput} type="password" />
             </FormControl>
             <Stack spacing={10}>
-              <Stack
-                direction={{ base: 'column', sm: 'row' }}
-                align={'start'}
-                justify={'space-between'}>
-                <Checkbox>Recuérdame</Checkbox>
-              </Stack>
               <Button
-              onClick={handleSubmit}
+                onClick={handleSubmit}
                 bg={'blue.400'}
                 color={'white'}
                 _hover={{
                   bg: 'blue.500',
                 }}>
                 Iniciar Sesión
+              </Button>
+              <Button
+                onClick={handleRegister}
+                bg={'blue.400'}
+                color={'white'}
+                _hover={{
+                  bg: 'blue.500',
+                }}>
+                Registrarme
               </Button>
             </Stack>
           </Stack>

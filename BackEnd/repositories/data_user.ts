@@ -1,5 +1,6 @@
 import { Pool } from 'pg';
 import ConnectionPool from '../config/db';
+import DEFAULT_PASSWORD from '../controllers/usercontroller'
 
 export class user_data {
 
@@ -19,19 +20,14 @@ export class user_data {
     }
 
     public register(info: any) {
-        const statement = `SELECT 1`;
-        return this.db.query(statement);
-
-
-        /*const statement =   `INSERT INTO public.users (name, lastname, secondlastname, email, 
-                                                        password, birthday, vaccines, 
-                                                        created_on, usertype_id)
-                            OVERRIDING SYSTEM VALUE
-                            VALUES ($1, $2, $3, $4, $5, 
-                                    $6, $7, $8, $9);`;
         const values = [info.name, info.lastname, info.secondlastname, info.email, 
-            "dummy_init_pass", info.birthday, info.vaccines, '2022-10-05 14:01:10-08', 1];
-        return this.db.query(statement, values);*/
+                        'cinepolis_pass', info.birthday, info.vaccines, info.idcard_number]       
+        const statement =   `INSERT INTO users 
+                              (usertype_id, name, lastname, secondlastname, email, created_on, 
+                              password, birthday, vaccines, idcard_number, deleted)
+                            OVERRIDING SYSTEM VALUE
+                            VALUES(1, $1, $2, $3, $4, now(), $5, $6, $7, $8, FALSE);`;  //usertype_id is 1 bc Client is id = 1.
+        return this.db.query(statement, values);
     }
 
     public list() {

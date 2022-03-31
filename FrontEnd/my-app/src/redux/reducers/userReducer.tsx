@@ -35,5 +35,3 @@ export const selectedAdminUserReducer = (state = {}, {type, payload} : any) => {
           return state;
   }
 }
-
-
