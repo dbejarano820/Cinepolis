@@ -21,7 +21,7 @@ export default class PdfUtil {
                 foodKeys = Object.keys(product);
                 foodValues.push(Object.values(product));
             }
-            totalAmount += product.price;
+            totalAmount += parseInt(product.price);
         });
         bill.text("Facturacion de Cinepolis - Detalle:", 10, 10);
         if(ticketKeys.length !== 0){

@@ -56,8 +56,6 @@ export class user_data {
   }
 
   public update(user_id : any, data : any) { 
-    // console.log('REPO')
-    // console.log(user_id, data)
     const statement = 'UPDATE users SET name=$2, lastname=$3, email=$4, password=$5, birthday=$6, vaccines=$7, secondlastname=$8 WHERE user_id=$1';
     const values = [user_id, data.name, data.lastname, data.email, data.password, data.birthday, data.vaccines, data.secondlastname];
     return this.db.query(statement, values);

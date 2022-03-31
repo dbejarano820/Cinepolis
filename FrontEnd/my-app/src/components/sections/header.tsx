@@ -165,6 +165,7 @@ interface MobileProps extends FlexProps {
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const user = useSelector((state : any) => state.user);
   const { colorMode, toggleColorMode } = useColorMode(); 
   const isDark = colorMode === "dark";
   const handleSignOut = () => {
@@ -220,9 +221,9 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                   alignItems="flex-start"
                   spacing="1px"
                   ml="2">
-                  <Text fontSize="sm">Daniel Bejarano</Text>
+                  <Text fontSize="sm">{user.name}</Text>
                   <Text fontSize="xs" color="gray.600">
-                    Cliente
+                    {user.type}
                   </Text>
                 </VStack>
                 <Box display={{ base: 'none', md: 'flex' }}>

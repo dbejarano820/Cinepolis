@@ -38,7 +38,6 @@ export class movie_data {
     }
 
     public getTanda(info: any) {
-        console.log(info)
         const statement = 'SELECT * FROM chart WHERE chart_id = $1';
         const values = [info];
         return this.db.query(statement, values);
@@ -76,7 +75,6 @@ export class movie_data {
     }
 
     public addChart(info: any) {
-      console.log(info)
         const statement = 'INSERT INTO chart (start_time, price_general, price_children, price_elderly, sala_id, movie_id, end_time)' +
                           'OVERRIDING SYSTEM VALUE VALUES' +
                           '($1, $2, $3, $4, $5, $6, $7)';

@@ -10,12 +10,10 @@ export class checkout_data {
     }
 
     public async payment(info : any) {
-        console.log("Info Payment query");
-        console.log(info);
         await this.db.query("select create_reservation($1);", [info.toAddress]);
         let statement = "";
         let values : any = {};
-        info.products.forEach(async (product : any) => {
+        await info.products.forEach(async (product : any) => {
             if(product.type === "Ticket"){
                 statement = "select reserve_seat($1, $2, $3, $4, $5, $6, $7);";
                 values = [info.toAddress, product.row, product.num, product.type,
@@ -27,7 +25,6 @@ export class checkout_data {
             }
             await this.db.query(statement, values);
         });
-        
         await this.db.query("select deactive_reservation($1);", [info.toAddress]);
     } 
 }

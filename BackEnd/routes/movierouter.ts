@@ -18,8 +18,6 @@ app.get("/list", (req, res, next) => {
 app.get("/:movieTitle", (req, res, next) => { 
     MovieController.getInstance().getMovie(req.params["movieTitle"])
         .then((data) => {       
-            //data.rows brings the dataset array with all objects inside.  
-            //console.log(data.rows) 
             res.json(data.rows[0]);
         })
         .catch((err) => {
@@ -53,7 +51,6 @@ app.get("/tanda/:chart_id", (req, res, next) => {
 });
 
 app.get("/asientos/:sala_name/:movie_name/:start_time", (req, res, next) => { 
-    //console.log(req.params)
     MovieController.getInstance().getSeats(req.params)
         .then((data) => {       
             //data.rows brings the dataset array with all objects inside.   
