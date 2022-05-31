@@ -3,6 +3,7 @@ import path = require('path');
 import { QueryResult } from 'pg';
 import { user_data } from '../repositories/data_user';
 import EmailUtil from '../utils/emailUtil';
+var crypto = require("crypto");
 
 export default class UserController {
 
@@ -12,6 +13,7 @@ export default class UserController {
 
     private constructor() {
         this.user_repo = new user_data();
+        this.DEFAULT_PASSWORD = crypto.randomBytes(20).toString('hex');
     }
 
     public static getInstance(): UserController {
