@@ -8,7 +8,7 @@ export default class UserController {
 
     private static instance: UserController;
     private user_repo: user_data;
-    public DEFAULT_PASSWORD = "cinepoli_pass";
+    public DEFAULT_PASSWORD = "cinepolis_pass";
 
     private constructor() {
         this.user_repo = new user_data();
