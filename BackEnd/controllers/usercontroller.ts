@@ -9,11 +9,9 @@ export default class UserController {
 
     private static instance: UserController;
     private user_repo: user_data;
-    public DEFAULT_PASSWORD = "cinepolis_pass";
 
     private constructor() {
         this.user_repo = new user_data();
-        this.DEFAULT_PASSWORD = crypto.randomBytes(20).toString('hex');
     }
 
     public static getInstance(): UserController {
@@ -21,6 +19,10 @@ export default class UserController {
             this.instance = new UserController();
         }
         return this.instance;
+    }
+
+    public genPassword() : String {
+      return crypto.randomBytes(20).toString('hex');
     }
 
     public async login(data : any): Promise<QueryResult<any>> {
@@ -33,7 +35,7 @@ export default class UserController {
 
     public sendEmail(data : any){
         const emailUtil = new EmailUtil();
-        const content = {pass : this.DEFAULT_PASSWORD};
+        const content = {pass : this.genPassword()};
         const subject = "Cinepolis - Contraseña";
         emailUtil.sendEmail(data.email, subject, content)
     }
