@@ -8,7 +8,7 @@ export default class ConnectionPool {
     public constructor() {
         this.db = new pg.Pool({
             user:'postgres', // default postgres
-            host:'94.74.72.199',
+            host:'cinepolis-db.ccmto6bttogz.us-east-1.rds.amazonaws.com',
             database:'cinepolis_db', 
             password:'postgres', 
             port:5432 //default port
