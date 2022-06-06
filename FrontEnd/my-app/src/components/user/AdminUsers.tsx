@@ -16,7 +16,7 @@ const AdminUsers = () => {
 
   const fetchUsers = async () => {
     const response : any = await axios
-    .get("http://localhost:5000/api/users/list")
+    .get("http://172.30.232.105:5000/api/users/list")
     .catch((err) => {
         console.log("Err", err);
     });

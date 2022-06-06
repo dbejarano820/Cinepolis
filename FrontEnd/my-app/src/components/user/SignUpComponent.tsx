@@ -68,7 +68,7 @@ import { useHistory } from 'react-router-dom';
           birthday,
           idcard_number
         };
-        axios.post("http://localhost:5000/api/users/signUp", body)
+        axios.post("http://172.30.232.105:5000/api/users/signUp", body)
         .then(() => {
           alert("Usuario registrado, por favor inicie sesion");
           history.push("/"); })

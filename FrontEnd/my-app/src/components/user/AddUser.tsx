@@ -84,7 +84,7 @@ const AddUser = () => {
       secondlastname : data.secondlastname,
     }
 
-    axios.put("http://localhost:5000/api/users/add", userAdd)
+    axios.put("http://172.30.232.105:5000/api/users/add", userAdd)
         .then((response) => {
             dispatch(removeSelectedAdminUser());
             history.push("/adminUsers");
@@ -109,7 +109,7 @@ const AddUser = () => {
         secondlastname : data.secondlastname,
       }
 
-      axios.put(`http://localhost:5000/api/users/update/${user_id}`, userUpdate)
+      axios.put(`http://172.30.232.105:5000/api/users/update/${user_id}`, userUpdate)
           .then((response) => {
               dispatch(removeSelectedAdminUser());
               history.push("/adminUsers");

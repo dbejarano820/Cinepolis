@@ -44,14 +44,14 @@ const MovieDetails = () => {
 
     const fetchMovieDetail = async() => {
         const response : any = await axios
-        .get(`http://localhost:5000/api/movies/${movieTitle}`)
+        .get(`http://172.30.232.105:5000/api/movies/${movieTitle}`)
         .catch((err) => {
             console.log("Err: ", err);
         });
         dispatch(selectedMovie(response.data));
 
         const response2 : any = await axios
-        .get(`http://localhost:5000/api/movies/tandas/${movieTitle}`)
+        .get(`http://172.30.232.105:5000/api/movies/tandas/${movieTitle}`)
         .catch((err) => {
             console.log("Err: ", err);
         });
@@ -74,7 +74,7 @@ const MovieDetails = () => {
     const userAge = days_difference / 365;
     const user_vaccines = user.vaccines;
 
-    console.log(userAge)
+    console.log(user)
         return (
 
             <div>
@@ -232,7 +232,7 @@ const MovieDetails = () => {
                   movie_id : movie_id,
                   visible : !visible
                 };
-                axios.put("http://localhost:5000/api/movies/visible", data)
+                axios.put("http://172.30.232.105:5000/api/movies/visible", data)
                     .then((response) => {
                         history.push("/movies");
                     })
@@ -250,7 +250,7 @@ const MovieDetails = () => {
               }}/>
               <RedirectButton color="red.400" title="Eliminar" onClick={() => {
                 const data = {movie_id : movie_id};
-                axios.put("http://localhost:5000/api/movies/delete", data)
+                axios.put("http://172.30.232.105:5000/api/movies/delete", data)
                     .then((response) => {
                         history.push("/movies");
                     })

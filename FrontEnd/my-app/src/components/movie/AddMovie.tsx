@@ -71,7 +71,7 @@ const AddMovie = () => {
 
     const sendData = () => {
         console.log(movie_id,data) 
-        axios.put("http://localhost:5000/api/movies/add", data)
+        axios.put("http://172.30.232.105:5000/api/movies/add", data)
             .then((response) => {
                 dispatch(removeSelectedMovie());
                 history.push("/movies");
@@ -84,7 +84,7 @@ const AddMovie = () => {
     const updateData = () => {
         console.log('DATA DEL UPDATE', movie_id, data)
 
-        axios.put(`http://localhost:5000/api/movies/update/${movie_id}`, data)
+        axios.put(`http://172.30.232.105:5000/api/movies/update/${movie_id}`, data)
             .then((response) => {
                 dispatch(removeSelectedMovie());
                 history.push("/movies");

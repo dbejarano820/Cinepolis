@@ -18,7 +18,7 @@ const FoodList = () => {
     const fetchFoods = async () => {
       console.log(foods)
         const response : any = await axios
-        .get("http://localhost:5000/api/food/list")
+        .get("http://172.30.232.105:5000/api/food/list")
         .catch((err) => {
             console.log("Err", err);
         });

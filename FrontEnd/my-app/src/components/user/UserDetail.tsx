@@ -34,7 +34,7 @@ const UserDetail = () => {
 
     const fetchUserDetail = async () => {
         const response : any = await axios
-        .get(`http://localhost:5000/api/users/${email}`)
+        .get(`http://172.30.232.105:5000/api/users/${email}`)
         .catch((err) => {
             console.log("Err", err);
         });
@@ -127,7 +127,7 @@ const UserDetail = () => {
             }}/>
             <RedirectButton color="red.400" title="Eliminar" onClick={() => {
               const data = {user_id : user_id};
-              axios.put("http://localhost:5000/api/users/delete", data)
+              axios.put("http://172.30.232.105:5000/api/users/delete", data)
                   .then((response) => {
                       history.push("/adminUsers");
                   })

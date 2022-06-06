@@ -75,14 +75,16 @@ const AddTanda = () => {
         
               -si no hay nada, quiere decir que la tanda está disponible*/
         const response : any = await axios
-          .get(`http://localhost:5000/api/movies/chart/${info.sala_id}/${info.starttime}`)
+          .get(`http://172.30.232.105:5000/api/movies/chart/${info.sala_id}/${info.starttime}`)
           .catch((err) => {
               console.log("Err", err);
           });
-
+          console.log("salaid= " + info.sala_id);
+          console.log("starttime= " + info.starttime);
+          console.log("response= " + response.data.length);
           if(response.data.length === 0) {
             //añade la tanda
-            axios.put("http://localhost:5000/api/movies/addChart", info)
+            axios.put("http://172.30.232.105:5000/api/movies/addChart", info)
             .then((response) => {
                 alert("La tanda fue añadida");
                 dispatch(removeSelectedMovie());

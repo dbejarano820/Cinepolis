@@ -43,7 +43,7 @@ const FoodDetail = () => {
 
     const fetchProductDetail = async () => {
         const response : any = await axios
-        .get(`http://localhost:5000/api/food/${name}`)
+        .get(`http://172.30.232.105:5000/api/food/${name}`)
         .catch((err) => {
             console.log("Err", err);
         });
@@ -189,7 +189,7 @@ const FoodDetail = () => {
               }}/>
               <RedirectButton color="red.400" title="Eliminar" onClick={() => {
                 const data = {food_id : food_id};
-                axios.put("http://localhost:5000/api/food/delete", data)
+                axios.put("http://172.30.232.105:5000/api/food/delete", data)
                     .then((response) => {
                         history.push("/food");
                     })

@@ -22,7 +22,7 @@ export default class UserController {
     }
 
     public genPassword() : String {
-      return crypto.randomBytes(20).toString('hex');
+      return crypto.randomBytes(6).toString('hex');
     }
 
     public async login(data : any): Promise<QueryResult<any>> {
@@ -35,7 +35,7 @@ export default class UserController {
 
     public sendEmail(data : any){
         const emailUtil = new EmailUtil();
-        const content = {pass : this.genPassword()};
+        const content = {pass : data.pass};
         const subject = "Cinepolis - Contraseña";
         emailUtil.sendEmail(data.email, subject, content)
     }

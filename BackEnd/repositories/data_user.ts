@@ -1,6 +1,6 @@
 import { Pool } from 'pg';
 import ConnectionPool from '../config/db';
-import DEFAULT_PASSWORD from '../controllers/usercontroller'
+import UserController from '../controllers/usercontroller';
 
 export class user_data {
 
@@ -11,6 +11,7 @@ export class user_data {
     }
 
     public login(info: any) {
+        console.log(info);
         const statement =   `SELECT ut.name AS type, u.email, u.name, u.lastname, u.secondlastname, u.vaccines, u.birthday
                                 FROM public.user_type AS ut
                                 INNER JOIN public.users AS u ON u.usertype_id = ut.usertype_id
@@ -20,8 +21,10 @@ export class user_data {
     }
 
     public register(info: any) {
+        console.log(info);
+      
         const values = [info.name, info.lastname, info.secondlastname, info.email, 
-                        'cinepolis_pass', info.birthday, info.vaccines, info.idcard_number]       
+                        info.pass, info.birthday, info.vaccines, info.idcard_number]       
         const statement =   `INSERT INTO users 
                               (usertype_id, name, lastname, secondlastname, email, created_on, 
                               password, birthday, vaccines, idcard_number, deleted)
@@ -29,6 +32,14 @@ export class user_data {
                             VALUES(1, $1, $2, $3, $4, now(), $5, $6, $7, $8, FALSE);`;  //usertype_id is 1 bc Client is id = 1.
         return this.db.query(statement, values);
     }
+
+/*
+INSERT INTO users 
+  (usertype_id, name, lastname, secondlastname, email, created_on, 
+  password, birthday, vaccines, idcard_number, deleted)
+OVERRIDING SYSTEM VALUE
+VALUES(1,'test', 'test', 'test', 'aguilarluisdi@gmail.com', now(), 'test', now(), 3, '123456', FALSE);
+*/
 
     public list() {
       return this.db.query(`SELECT * FROM users WHERE deleted=FALSE`);

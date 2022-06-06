@@ -15,7 +15,7 @@ export class checkout_data {
         let values : any = {};
         let product : any = {};
         for (let index = 0; index < info.products.length; index++) {
-            product = info.products[0];
+            product = info.products[index];
             if(product.type === "Ticket"){
                 statement = "select reserve_seat($1, $2, $3, $4, $5, $6, $7);";
                 values = [info.toAddress, product.row, product.num, product.type,

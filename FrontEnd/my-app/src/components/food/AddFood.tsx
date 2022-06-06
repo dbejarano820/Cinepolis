@@ -57,7 +57,7 @@ const AddFood = () => {
 
     const sendData = () => {
         // console.log(data) 
-        axios.put("http://localhost:5000/api/food/add", data)
+        axios.put("http://172.30.232.105:5000/api/food/add", data)
             .then((response) => {
                 dispatch(removeSelectedFood());
                 history.push("/food");
@@ -70,7 +70,7 @@ const AddFood = () => {
     const updateData = () => {
         // console.log('DATA DEL UPDATE', food_id, data)
 
-        axios.put(`http://localhost:5000/api/food/update/${food_id}`, data)
+        axios.put(`http://172.30.232.105:5000/api/food/update/${food_id}`, data)
             .then((response) => {
                 dispatch(removeSelectedFood());
                 history.push("/food");

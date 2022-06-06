@@ -18,7 +18,7 @@ export class movie_data {
     }
 
     public listMovies() {
-        return this.db.query(`SELECT * FROM movies WHERE deleted=FALSE`);
+        return this.db.query(`SELECT * FROM movies`);
     }
 
     public getListing() {
@@ -120,3 +120,8 @@ export class movie_data {
   }
 }
 
+/*
+SELECT * FROM chart WHERE sala_id=1 AND start_time <= '2022-06-07 22:30' AND end_time > '2022-06-07 22:30'
+
+7 22:30
+*/

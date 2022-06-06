@@ -37,7 +37,7 @@ const Checkout = () => {
         console.log(products);
         
         axios
-          .post("http://localhost:5000/api/checkout/pay", body)
+          .post("http://172.30.232.105:5000/api/checkout/pay", body)
           .then((response : any)=>{
             console.log("Response checkout");
             console.log(response);

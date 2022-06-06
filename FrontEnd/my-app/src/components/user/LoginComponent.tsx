@@ -49,7 +49,7 @@ export default function LoginComponent() {
         pass
       } 
       axios
-          .post("http://localhost:5000/api/users/login", body)
+          .post("http://172.30.232.105:5000/api/users/login", body)
           .then((response : any)=>{
             if(!response.data.deleted) {
               switch (response.data.type) {

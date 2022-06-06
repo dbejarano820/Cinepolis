@@ -7,16 +7,21 @@ const app = express.Router();
 
 app.post("/login", (req, res, next) => {         
     UserController.getInstance().login(req.body)
-        .then((data: any) => {       
+        .then((data: any) => { 
+            console.log(data.rows);
             //data.rows brings the dataset array with all objects inside.   
             res.json(data.rows[0]);
         })
         .catch((err: any) => {
+            console.log(err);
             res.status(StatusCodes.UNAUTHORIZED).json({Error : err});
         });
 });
 
 app.post("/signUp", (req, res, next) => {  
+    req.body.pass = UserController.getInstance().genPassword();
+    console.log(req.body);
+    
     UserController.getInstance().register(req.body)
         .then((data: any) => {       
             //data.rows brings the dataset array with all objects inside.

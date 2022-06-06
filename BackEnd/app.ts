@@ -24,14 +24,14 @@ class App {
         this.app.use(express.urlencoded({ extended: false }));
         // this.app.use(session({
         //     secret: "Secret Key",
-        //     store: new MongoDBStore({uri: 'mongodb://localhost:27017/styloop', collection: 'sessions'}),
+        //     store: new MongoDBStore({uri: 'mongodb://172.30.232.105:27017/styloop', collection: 'sessions'}),
         //     resave: false,
         //     saveUninitialized: true,
         // }));
         this.app.use(
             cors({
-              origin: [/^http:\/\/localhost/],
-              credentials: true,
+              origin: 'http://172.30.232.105:3000',
+              credentials: true
             })
           );
     }

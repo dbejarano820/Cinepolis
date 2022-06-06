@@ -84,14 +84,14 @@ const TandaDetails = () => {
     const fetchTandaDetail = async() => {
         
         const response1 : any = await axios
-        .get(`http://localhost:5000/api/movies/tanda/${chart_id}`)
+        .get(`http://172.30.232.105:5000/api/movies/tanda/${chart_id}`)
         .catch((err) => {
             console.log("Err: ", err);
         });
         dispatch(selectedTanda(response1.data));
 
         const response : any = await axios
-        .get(`http://localhost:5000/api/movies/asientos/${sala_name}/${movie_title}/${start_time}`)
+        .get(`http://172.30.232.105:5000/api/movies/asientos/${sala_name}/${movie_title}/${start_time}`)
         .catch((err) => {
             console.log("Err: ", err);
         });
@@ -171,7 +171,8 @@ const TandaDetails = () => {
                 }
 
                 items.push(tmp);
-                dispatch(setCart(items))
+                dispatch(setAmountSelectedSeats(0));
+                dispatch(setCart(items));
             }
 
         }
@@ -348,7 +349,7 @@ const TandaDetails = () => {
                  <VStack
                    spacing={4}
                    align='stretch'>  
-                   <Box> Cantitdad de Asientos elegidos : {selectedSeats}</Box>
+                   <Box> Cantidad de Asientos elegidos : {selectedSeats}</Box>
                    <Box>Children price: ${price_children}   
                         <NumberInput size='sm' maxW={20} defaultValue={0} min={0} max={selectedSeats} onChange={(e : any, value: any) => typeCounter(e , value, 'Children')}>
                             <NumberInputField />

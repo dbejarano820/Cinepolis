@@ -16,7 +16,7 @@ export default class EmailUtil {
             secure: true,
             auth: {
                 user: "testing.tec.aguilarluisdi@gmail.com",
-                pass: "2018147110"
+                pass: "cqugsujausjmwskr"
             }
         });
         this.fromEmail = "testing.tec.aguilarluisdi@gmail.com";
